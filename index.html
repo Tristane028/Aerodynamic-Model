@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avian-ambition lift rig — FUI concept</title>
+<title>Avian Ambition</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;600&family=JetBrains+Mono:wght@400;600;700;800&display=swap">
 <style>
 :root{--bg:#060a22;--cyan:#7fdcff;--gold:#ffe6a3;--mint:#8ff0c0;--pink:#ff94c8;--text:#cfe6ff;--bright:#f0f2ff;--label:#a9b0dc;--line:rgba(160,170,255,.5);--hair:rgba(160,170,255,.22)}
@@ -40,7 +40,7 @@ h2 .num{color:var(--label)}
 
 .viewer{position:relative;flex:1;min-height:0;background:linear-gradient(var(--gold),var(--gold)) 0 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 0 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 100%/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 22px;background-repeat:no-repeat}
 .stage{position:absolute;inset:8px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
-.stage.split{grid-template-columns:minmax(0,40fr) minmax(0,60fr)}
+.stage.split{grid-template-columns:minmax(0,33fr) minmax(0,67fr)}
 .pane{position:relative;min-width:0;min-height:0;overflow:hidden}
 .pane.bp{background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(rgba(190,225,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.22) 1px,transparent 1px);background-size:12px 12px,12px 12px,60px 60px,60px 60px;border:1px solid rgba(190,225,255,.45)}
 #rig{position:absolute;inset:0;width:100%;height:100%;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.08em}
@@ -49,7 +49,6 @@ h2 .num{color:var(--label)}
 [hidden]{display:none!important}
 .ov{position:absolute;margin:0;color:var(--bright);pointer-events:none}
 .ov.tl{top:10px;left:12px;max-width:calc(100% - 24px);display:grid;gap:2px}.ov.tr{top:10px;right:12px;color:var(--gold)}
-.ov.sub{top:28px;left:12px;display:grid;gap:2px;color:var(--text);font-size:10px}
 .ctrl{position:absolute;left:8px;right:8px;bottom:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
 #fly{position:absolute;left:8px;bottom:8px}
 .btn{min-height:32px;padding:0 9px;font-size:10px;border:1px solid var(--cyan);border-radius:999px;background:rgba(6,10,34,.7);color:var(--cyan);cursor:pointer}
@@ -57,12 +56,16 @@ h2 .num{color:var(--label)}
 .btn.main{border-color:var(--gold);color:var(--gold)}
 .tag{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);padding:1px 8px;background:var(--bg);white-space:nowrap;color:var(--gold)}
 
-.models{display:grid;gap:6px}
-.model{display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:4px 10px;border:1px solid var(--hair);border-radius:10px 3px 10px 3px;background:rgba(120,140,255,.08);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif;font-size:14px}
-.model:hover,.model:focus-visible{border-color:var(--cyan);outline:none}
-.model .id{color:var(--gold);min-width:22px}
-.model .chip{margin-left:auto;font-size:10px;color:var(--label);white-space:nowrap}
-.model[aria-pressed="true"]{border-color:var(--gold);background:rgba(255,230,163,.12);color:var(--bright);box-shadow:0 0 12px rgba(255,230,163,.25)}
+.cells{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.cell{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 20px rgba(127,220,255,.12);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif}
+.cell:hover,.cell:focus-visible{border-color:var(--cyan);outline:none}
+.cell[aria-pressed="true"]{border-color:var(--gold);background:rgba(255,230,163,.1);box-shadow:inset 0 0 20px rgba(255,230,163,.14),0 0 14px rgba(255,230,163,.3)}
+.cover{display:block;width:84px;height:84px;border:1px solid rgba(190,225,255,.45);background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.16) 1px,transparent 1px);background-size:12px 12px}
+.cover canvas,.cover svg{display:block;width:100%;height:100%}
+.meta{display:grid;gap:3px;min-width:0}
+.meta .id{color:var(--gold)}
+.meta .nm{font-size:15px;line-height:1.2;color:var(--bright)}
+.meta .chip{font-size:10px;color:var(--label)}
 .detail{flex:1;min-height:0;overflow:auto;display:grid;gap:8px;align-content:start}
 .detail h3{margin:0;font-size:18px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
 .detail p{margin:0}
@@ -70,15 +73,16 @@ h2 .num{color:var(--label)}
 .kv dt{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--label)}
 .kv dd{margin:0;text-align:right;color:var(--bright)}
 
-footer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-footer p{margin:0;padding:8px 14px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;font-size:13px}
-footer b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.14em;color:var(--cyan)}
-footer .risk{border-color:var(--pink)}footer .risk b{color:var(--pink)}
-footer .out{border-style:dashed}footer .out b{color:var(--label)}
+.strip{display:grid;gap:8px}
+.strip p{margin:0;padding:8px 14px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;font-size:13px}
+.strip b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.14em;color:var(--cyan)}
+.strip .risk{border-color:var(--pink)}.strip .risk b{color:var(--pink)}
+.strip .out{border-style:dashed}.strip .out b{color:var(--label)}
 
 @media (max-width:999px),(max-height:599px){
   body{height:auto;min-height:100vh;overflow:auto}
-  main,footer{grid-template-columns:1fr}
+  main{grid-template-columns:1fr}
+  .cells{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
   .tilt-l,.tilt-r{transform:none}
   .viewer{flex:none;height:560px}
   .detail{overflow:visible}
@@ -155,9 +159,8 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 <button class="btn main mono" id="fly" type="button">Hold</button>
 </div>
 <div class="pane bp" id="pBp" hidden>
-<canvas id="bp" aria-label="Rotating blueprint of the selected thruster with component labels. Drag to rotate."></canvas>
+<canvas id="bp" aria-label="Rotating blueprint of the selected thruster with component labels. Drag to rotate, scroll to zoom."></canvas>
 <p class="ov tl mono" id="bpTitle"></p>
-<p class="ov sub mono" id="bpDims"></p>
 <p class="ov tr mono" id="bpView"></p>
 <div class="ctrl" id="bpCtrl">
 <button class="btn main mono" id="spin" type="button">Pause</button>
@@ -165,6 +168,8 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 <button class="btn mono" type="button" data-yaw="90">Right</button>
 <button class="btn mono" type="button" data-yaw="180">Back</button>
 <button class="btn mono" type="button" data-yaw="270">Left</button>
+<button class="btn mono" type="button" data-zoom="0.8" aria-label="Zoom out">−</button>
+<button class="btn mono" type="button" data-zoom="1.25" aria-label="Zoom in">+</button>
 </div>
 </div>
 </div>
@@ -173,31 +178,28 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 </div>
 
 <div class="col tilt-r">
-<section class="panel">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster models<span class="ruler"></span><span class="num">Click to open</span></h2>
-<div class="models" id="models">
-<button class="model" type="button" data-id="rig" aria-pressed="true"><span class="mono id">00</span>Rig overview<span class="mono chip">4 × 350 N</span></button>
-<button class="model" type="button" data-id="p1" aria-pressed="false"><span class="mono id">P1</span>Electric ducted fan<span class="mono chip">Prototype pick</span></button>
-<button class="model" type="button" data-id="p2" aria-pressed="false"><span class="mono id">P2</span>Micro turbojet<span class="mono chip">Free flight</span></button>
-<button class="model" type="button" data-id="p3" aria-pressed="false"><span class="mono id">P3</span>Cold-gas nozzle<span class="mono chip">Burst only</span></button>
-<button class="model" type="button" data-id="p4" aria-pressed="false"><span class="mono id">P4</span>Peroxide rocket<span class="mono chip">Hazardous fuel</span></button>
-<button class="model" type="button" data-id="p5" aria-pressed="false"><span class="mono id">P5</span>Water jet<span class="mono chip">Tethered</span></button>
-</div>
-</section>
 <section class="panel gold detail" aria-live="polite">
 <h3 id="dName"></h3>
 <p id="dDesc"></p>
 <dl class="kv" id="dKv"></dl>
 <p id="dNote" style="color:var(--label)"></p>
 </section>
-</div>
-</main>
-
-<footer>
+<div class="strip">
 <p><b>[ TEST SEQUENCE ] </b>01 thrust stand · 02 dummy lift · 03 pilot on a safety line</p>
 <p class="risk"><b>[ RISK ] </b>Uneven thrust flips the pilot. A dead-man switch must cut all four.</p>
 <p class="out"><b>[ RULED OUT ] </b>Open propellers · petrol-driven ducted fans</p>
-</footer>
+</div>
+</div>
+</main>
+
+<nav class="cells" id="cells" aria-label="Thruster models">
+<button class="cell" type="button" data-id="rig" aria-pressed="true"><span class="cover"><svg viewBox="40 20 220 340" aria-hidden="true"><g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><circle cx="150" cy="48" r="16"/><polygon points="126,72 174,72 164,172 136,172"/><polyline points="126,78 78,166" fill="none"/><polyline points="174,78 222,166" fill="none"/><polyline points="142,172 124,288" fill="none"/><polyline points="158,172 176,288" fill="none"/></g><g fill="rgba(255,230,163,0.2)" stroke="#ffe6a3" stroke-width="3"><rect x="66" y="166" width="24" height="30" rx="4"/><rect x="210" y="166" width="24" height="30" rx="4"/><rect x="112" y="288" width="24" height="26" rx="4"/><rect x="164" y="288" width="24" height="26" rx="4"/></g></svg></span><span class="meta"><span class="mono id">00</span><span class="nm">Rig overview</span><span class="mono chip">4 × 350 N</span></span></button>
+<button class="cell" type="button" data-id="p1" aria-pressed="false"><span class="cover"><canvas data-thumb="p1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P1</span><span class="nm">Electric ducted fan</span><span class="mono chip">Prototype pick</span></span></button>
+<button class="cell" type="button" data-id="p2" aria-pressed="false"><span class="cover"><canvas data-thumb="p2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P2</span><span class="nm">Micro turbojet</span><span class="mono chip">Free flight</span></span></button>
+<button class="cell" type="button" data-id="p3" aria-pressed="false"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold-gas nozzle</span><span class="mono chip">Burst only</span></span></button>
+<button class="cell" type="button" data-id="p4" aria-pressed="false"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide rocket</span><span class="mono chip">Hazardous fuel</span></span></button>
+<button class="cell" type="button" data-id="p5" aria-pressed="false"><span class="cover"><canvas data-thumb="p5" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P5</span><span class="nm">Water jet</span><span class="mono chip">Tethered</span></span></button>
+</nav>
 
 <script>
 /* ---------- wireframe geometry (y is up, exhaust points down) ---------- */
@@ -270,7 +272,7 @@ const MODELS = {
     labels: [['Inlet lip', [0, 0.66, 0]], ['Fan rotor', [0, 0.38, 0]], ['Motor', [0, 0.1, 0]], ['Stator vanes', [0.32, -0.2, 0]], ['Duct', [0.5, -0.42, 0]], ['Tail cone', [0, -0.5, 0]], ['Airflow', [0, -0.9, 0]]],
     pack: ['Battery', 82, 64], pw: 13, gh: 26,
     glyph: '<rect x="-14" y="0" width="28" height="26" rx="3"/><ellipse cx="0" cy="6" rx="11" ry="3"/><line x1="0" y1="6" x2="0" y2="20"/>',
-    id: 'P1', name: 'Electric ducted fan',
+    id: 'P1', rad: 0.56, size: 'Ø 120 × 150 mm', name: 'Electric ducted fan',
     desc: 'An electric motor spins a fan inside a duct. A cluster of two or three per limb reaches 350 N.',
     kv: [['Energy', 'Battery or cable'], ['Endurance', 'About 1 min'], ['Exhaust', 'Cool air']],
     note: 'Drawback: batteries can barely lift themselves.',
@@ -284,10 +286,10 @@ const MODELS = {
     ]
   },
   p2: {
-    labels: [['Intake', [0, 0.92, 0]], ['Compressor', [0, 0.66, 0]], ['Combustion chamber', [0.4, 0.15, 0]], ['Turbine', [0, -0.37, 0]], ['Exhaust cone', [0, -0.75, 0]], ['Nozzle', [0.24, -0.88, 0]], ['Hot exhaust', [0, -1.2, 0]]],
+    labels: [['Intake', [0, 0.92, 0]], ['Compressor', [0, 0.66, 0]], ['Combustor', [0.4, 0.15, 0]], ['Turbine', [0, -0.37, 0]], ['Exhaust cone', [0, -0.75, 0]], ['Nozzle', [0.24, -0.88, 0]], ['Hot exhaust', [0, -1.2, 0]]],
     pack: ['Fuel tank', 82, 64], pw: 6, gh: 34,
     glyph: '<polygon points="-10,0 10,0 10,22 6,34 -6,34 -10,22"/><line x1="-10" y1="7" x2="10" y2="7"/><line x1="-10" y1="14" x2="10" y2="14"/>',
-    id: 'P2', name: 'Micro turbojet',
+    id: 'P2', rad: 0.42, size: 'Ø 150 × 350 mm', name: 'Micro turbojet',
     desc: 'A small jet engine compresses air, burns kerosene and expels hot gas. One engine per limb is enough.',
     kv: [['Energy', 'Kerosene'], ['Endurance', 'Minutes'], ['Exhaust', 'Several hundred °C']],
     note: 'Drawback: hot, loud, slow throttle, expensive.',
@@ -306,7 +308,7 @@ const MODELS = {
     labels: [['Gas tank', [0, 0.62, 0]], ['Valve', [0, 0.24, 0]], ['Throat', [0, -0.1, 0]], ['Nozzle bell', [0.2, -0.5, 0]], ['Cold gas jet', [0, -1.0, 0]]],
     pack: ['Air tank', 82, 64], pw: 11, gh: 30,
     glyph: '<rect x="-4" y="0" width="8" height="8"/><polygon points="-3,8 3,8 11,30 -11,30"/>',
-    id: 'P3', name: 'Cold-gas nozzle',
+    id: 'P3', rad: 0.8, size: 'Tank Ø 180 × 600 mm', name: 'Cold-gas nozzle',
     desc: 'Compressed air or nitrogen from a tank is released through a nozzle. Just a valve, with no moving parts at the limb.',
     kv: [['Energy', 'Compressed gas'], ['Endurance', 'Seconds'], ['Exhaust', 'Cold gas']],
     note: 'Drawback: a tank empties almost at once.',
@@ -321,10 +323,10 @@ const MODELS = {
     ]
   },
   p4: {
-    labels: [['Feed line', [0, 0.85, 0]], ['Catalyst screens', [0, 0.42, 0]], ['Chamber', [0.3, 0.2, 0]], ['Throat', [0, -0.05, 0]], ['Bell nozzle', [0.36, -0.55, 0]], ['Steam jet', [0, -1.15, 0]]],
+    labels: [['Feed line', [0, 0.85, 0]], ['Catalyst bed', [0, 0.42, 0]], ['Chamber', [0.3, 0.2, 0]], ['Throat', [0, -0.05, 0]], ['Bell nozzle', [0.36, -0.55, 0]], ['Steam jet', [0, -1.15, 0]]],
     pack: ['H2O2 tank', 82, 64], pw: 13, gh: 32,
     glyph: '<rect x="-7" y="0" width="14" height="12"/><polygon points="-3,12 3,12 13,32 -13,32"/>',
-    id: 'P4', name: 'Peroxide rocket',
+    id: 'P4', rad: 0.46, size: 'Ø 90 × 200 mm', name: 'Peroxide rocket',
     desc: 'Hydrogen peroxide decomposes over a catalyst into steam and oxygen. The classic 1960s rocket belt design.',
     kv: [['Energy', 'Peroxide'], ['Endurance', '20 to 30 s'], ['Exhaust', 'Superheated steam']],
     note: 'Drawback: concentrated peroxide is dangerous to handle.',
@@ -341,7 +343,7 @@ const MODELS = {
     labels: [['Supply hose', [-0.49, 0.76, 0]], ['Collar', [0, 0.17, 0]], ['Nozzle', [0.11, -0.15, 0]], ['Water jet', [0, -0.75, 0]]],
     pack: ['Manifold', 116, 32], pw: 4, gh: 26, straight: true,
     glyph: '<polygon points="-8,0 8,0 4,26 -4,26"/><line x1="-10" y1="3" x2="10" y2="3"/>',
-    id: 'P5', name: 'Water jet',
+    id: 'P5', rad: 0.75, size: 'Hose Ø 100 mm', name: 'Water jet',
     desc: 'A pump on the ground or water sends water up a hose to the nozzles. Proven and cheap.',
     kv: [['Energy', 'Remote pump'], ['Endurance', 'Pump fuel'], ['Exhaust', 'Water']],
     note: 'Drawback: not air, and a heavy hose ties you down.',
@@ -356,7 +358,7 @@ const MODELS = {
 };
 const RIG = {
   name: 'Rig overview',
-  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each. Pick a model to equip it and open its labelled blueprint.',
+  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each. Pick a model below to equip it and open its labelled blueprint.',
   kv: [['Layout', '2 hand · 2 foot'], ['Peak load', '1.4 g'], ['Status', 'Concept']],
   note: 'All figures are concept estimates, not test data.',
   pw: 10, gh: 30, jet: '#7fdcff',
@@ -369,14 +371,14 @@ const cv = $('bp'), ctx = cv.getContext('2d');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MOUNTS = [[78, 166], [222, 166], [124, 288], [176, 288]];
 const GROUND = 362, RISE = 52, PX_PER_M = 171, PERIOD = 7000;
-let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, plumes = [];
+let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, zoom = 1, plumes = [];
 
 function fillDetail(d) {
   $('dName').textContent = d.name;
   $('dDesc').textContent = d.desc;
   $('dNote').textContent = d.note;
   const kv = $('dKv'); kv.textContent = '';
-  for (const [k, v] of d.kv) {
+  for (const [k, v] of d.size ? [...d.kv, ['Size (approx.)', d.size]] : d.kv) {
     const dt = document.createElement('dt'), dd = document.createElement('dd');
     dt.textContent = k; dd.textContent = v; kv.append(dt, dd);
   }
@@ -402,18 +404,15 @@ function equip(d, isModel) {
 function select(id) {
   sel = id;
   const isModel = id !== 'rig', d = isModel ? MODELS[id] : RIG;
-  for (const b of document.querySelectorAll('.model')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
+  for (const b of document.querySelectorAll('.cell')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
   $('stage').classList.toggle('split', isModel);
   $('pBp').toggleAttribute('hidden', !isModel);
   for (const k of ['rings', 'tlabels', 'cg']) $(k).toggleAttribute('hidden', isModel);
   $('rig').setAttribute('viewBox', isModel ? '36 -56 228 428' : '0 -56 300 428');
-  $('tag').textContent = isModel ? 'Drag blueprint to rotate' : 'Tethered hover · 0.3 m';
+  $('tag').textContent = isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
+  zoom = 1;
   fillDetail(d); equip(d, isModel);
-  if (isModel) {
-    $('bpTitle').textContent = 'Blueprint · ' + d.id;
-    const dims = $('bpDims'); dims.textContent = '';
-    for (const t of [...d.dims, 'Approx. dimensions']) { const sp = document.createElement('span'); sp.textContent = t; dims.append(sp); }
-  }
+  if (isModel) $('bpTitle').textContent = 'Blueprint · ' + d.id;
 }
 function setSpin(p) { paused = p; $('spin').textContent = p ? 'Rotate' : 'Pause'; }
 function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
@@ -438,9 +437,44 @@ function float() {
 }
 
 /* ---------- blueprint renderer ---------- */
-function size() {
-  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
-  if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+function size(c) {
+  const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+  if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+  return [w, h, dpr];
+}
+function projector(m, S, cx, cy, yw, pt, plume) {
+  const mid = (m.top + m.bottom - plume) / 2;
+  const cY = Math.cos(yw), sY = Math.sin(yw), cP = Math.cos(pt), sP = Math.sin(pt);
+  return p => {
+    const y = p[1] - mid;
+    const x1 = p[0] * cY + p[2] * sY, z1 = -p[0] * sY + p[2] * cY;
+    const y2 = y * cP - z1 * sP, z2 = y * sP + z1 * cP;
+    const k = 4 / (4 - z2);
+    return [cx + x1 * S * k, cy - y2 * S * k, z2];
+  };
+}
+function wire(c, m, proj, lw) {
+  c.lineWidth = lw; c.lineCap = 'round'; c.setLineDash([]);
+  for (const ln of m.lines) {
+    c.strokeStyle = ln.c === 'accent' ? '#ffe6a3' : '#e4f3ff';
+    let a = proj(ln.pts[0]);
+    for (let i = 1; i < ln.pts.length; i++) {
+      const b = proj(ln.pts[i]);
+      c.globalAlpha = Math.max(0.22, Math.min(1, 0.3 + 0.7 * ((a[2] + b[2]) / 2 + 1) / 2));
+      c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.stroke();
+      a = b;
+    }
+  }
+  c.globalAlpha = 1;
+}
+function thumbs() {
+  for (const c of document.querySelectorAll('canvas[data-thumb]')) {
+    const m = MODELS[c.dataset.thumb], [w, h, dpr] = size(c), x = c.getContext('2d');
+    if (!w || !h) continue;
+    x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, w, h);
+    const S = Math.min((h - 12) / (m.top - m.bottom), (w - 12) / (2.3 * m.rad));
+    wire(x, m, projector(m, S, w / 2, h / 2, 0.6, 0.3, 0), 0.8);
+  }
 }
 function frame(t) {
   const dt = last ? Math.min(t - last, 60) : 0; last = t;
@@ -448,38 +482,20 @@ function frame(t) {
   float();
   if (sel !== 'rig') {
     if (!paused && !drag) yaw += dt * 0.0006;
-    size(); draw(t);
+    draw(t);
   }
   requestAnimationFrame(frame);
 }
 function draw(t) {
-  const m = MODELS[sel], dpr = window.devicePixelRatio || 1;
-  const w = cv.clientWidth, h = cv.clientHeight;
+  const m = MODELS[sel], [w, h, dpr] = size(cv);
   if (!w || !h) return;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
-  const plume = 0.5, mid = (m.top + m.bottom - plume) / 2, span = m.top - m.bottom + plume;
-  const S = Math.min(w * 0.3, (h - 150) / span);
-  const cx = w * 0.4, cy = h / 2 + 14;
-  const cY = Math.cos(yaw), sY = Math.sin(yaw), cP = Math.cos(pitch), sP = Math.sin(pitch);
-  const proj = p => {
-    const y = p[1] - mid;
-    const x1 = p[0] * cY + p[2] * sY, z1 = -p[0] * sY + p[2] * cY;
-    const y2 = y * cP - z1 * sP, z2 = y * sP + z1 * cP;
-    const k = 4 / (4 - z2);
-    return [cx + x1 * S * k, cy - y2 * S * k, z2];
-  };
-  ctx.lineWidth = 1.1; ctx.lineCap = 'round'; ctx.setLineDash([]);
-  for (const ln of m.lines) {
-    ctx.strokeStyle = ln.c === 'accent' ? '#ffe6a3' : '#e4f3ff';
-    let a = proj(ln.pts[0]);
-    for (let i = 1; i < ln.pts.length; i++) {
-      const b = proj(ln.pts[i]);
-      ctx.globalAlpha = Math.max(0.22, Math.min(1, 0.3 + 0.7 * ((a[2] + b[2]) / 2 + 1) / 2));
-      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
-      a = b;
-    }
-  }
+  const plume = 0.5, span = m.top - m.bottom + plume;
+  const S = Math.min((w - 200) / (2.2 * m.rad), (h - 120) / span) * zoom;
+  const cx = w / 2, cy = (h - 16) / 2;
+  const proj = projector(m, S, cx, cy, yaw, pitch, plume);
+  wire(ctx, m, proj, 1.2);
   /* exhaust plume */
   ctx.globalAlpha = 0.9; ctx.strokeStyle = m.jet; ctx.setLineDash([6, 5]);
   ctx.lineDashOffset = -(t / 30) % 11;
@@ -490,42 +506,58 @@ function draw(t) {
     const b = proj([jx * m.exitR * 0.9, m.bottom - plume, jz * m.exitR * 0.9]);
     ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
   }
-  /* length dimension */
-  ctx.setLineDash([]); ctx.globalAlpha = 0.9; ctx.strokeStyle = '#ffe6a3'; ctx.fillStyle = '#ffe6a3';
-  const dx = 20, yT = cy - (m.top - mid) * S * cP, yB = cy - (m.bottom - mid) * S * cP;
-  ctx.beginPath(); ctx.moveTo(dx, yT); ctx.lineTo(dx, yB);
-  ctx.moveTo(dx - 5, yT); ctx.lineTo(dx + 5, yT); ctx.moveTo(dx - 5, yB); ctx.lineTo(dx + 5, yB); ctx.stroke();
-  ctx.save(); ctx.translate(dx - 7, (yT + yB) / 2); ctx.rotate(-Math.PI / 2);
-  ctx.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; ctx.textAlign = 'center';
-  ctx.fillText('L ' + m.len, 0, 0); ctx.restore();
-  /* component labels: fixed slots on the right, leaders follow the rotating part */
-  const labs = m.labels.map(([txt, p]) => ({ txt: txt.toUpperCase(), a: proj(p), y: cy - (p[1] - mid) * S })).sort((p, q) => p.y - q.y);
-  let prev = 30;
-  for (const l of labs) { l.y = Math.max(l.y, prev + 16); prev = l.y; }
-  ctx.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  ctx.setLineDash([]);
+  /* component labels: alternate sides top to bottom, spread over the pane height;
+     each leader leaves the part diagonally, then runs level to its label */
+  const labs = m.labels.map(([txt, p]) => ({ txt: txt.toUpperCase(), a: proj(p), my: p[1] })).sort((p, q) => q.my - p.my);
+  labs.forEach((l, i) => { l.side = i % 2 ? 1 : -1; });
+  const y0 = 44, y1 = h - 62, mid = (m.top + m.bottom - plume) / 2;
+  for (const side of [-1, 1]) {
+    const g = labs.filter(l => l.side === side);
+    for (const l of g) {
+      let dy = -(l.my - mid) * S * 1.35;          /* push labels outward so leaders start diagonal */
+      const ay = cy - (l.my - mid) * S;
+      if (Math.abs(cy + dy - ay) < 16) dy = ay - cy - 18;
+      l.y = Math.max(y0, Math.min(y1, cy + dy));
+    }
+    for (let i = 1; i < g.length; i++) g[i].y = Math.max(g[i].y, g[i - 1].y + 24);
+    const over = g.length ? g[g.length - 1].y - y1 : 0;
+    if (over > 0) for (let i = g.length - 1; i >= 0; i--) { g[i].y = Math.min(g[i].y, y1 - (g.length - 1 - i) * 24); }
+  }
+  ctx.font = "700 11px 'JetBrains Mono', ui-monospace, monospace"; ctx.textBaseline = 'middle';
   for (const l of labs) {
-    const tx = w - 10, tw = ctx.measureText(l.txt).width;
-    ctx.globalAlpha = 0.75; ctx.strokeStyle = '#7fdcff'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(tx - tw - 5, l.y); ctx.lineTo(tx - tw - 16, l.y); ctx.lineTo(l.a[0], l.a[1]); ctx.stroke();
+    const tx = l.side > 0 ? w - 10 : 10, tw = ctx.measureText(l.txt).width;
+    const inner = tx - l.side * (tw + 6);
+    let ex = l.a[0] + l.side * Math.abs(l.y - l.a[1]);
+    ex = l.side > 0 ? Math.min(ex, inner - 10) : Math.max(ex, inner + 10);
+    ctx.globalAlpha = 0.8; ctx.strokeStyle = '#7fdcff'; ctx.lineWidth = 1; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(l.a[0], l.a[1]); ctx.lineTo(ex, l.y); ctx.lineTo(inner, l.y); ctx.stroke();
     ctx.globalAlpha = 1; ctx.fillStyle = '#ffe6a3';
-    ctx.beginPath(); ctx.arc(l.a[0], l.a[1], 2.2, 0, TAU); ctx.fill();
-    ctx.fillStyle = '#f0f2ff'; ctx.fillText(l.txt, tx, l.y);
+    ctx.beginPath(); ctx.arc(l.a[0], l.a[1], 2.4, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(6,10,34,0.7)';
+    ctx.fillRect(l.side > 0 ? tx - tw - 4 : tx - 4, l.y - 9, tw + 8, 18);
+    ctx.fillStyle = '#f0f2ff'; ctx.textAlign = l.side > 0 ? 'right' : 'left';
+    ctx.fillText(l.txt, tx, l.y);
   }
   ctx.textBaseline = 'alphabetic';
   /* view readout */
   const deg = ((Math.round(yaw * 180 / Math.PI) % 360) + 360) % 360;
   const side = deg < 45 || deg >= 315 ? 'Front' : deg < 135 ? 'Right' : deg < 225 ? 'Back' : 'Left';
-  $('bpView').textContent = side + ' · ' + String(deg).padStart(3, '0') + '°';
+  $('bpView').textContent = side + ' · ' + String(deg).padStart(3, '0') + '° · ×' + zoom.toFixed(1);
 }
 
 /* ---------- events ---------- */
-$('models').addEventListener('click', e => { const b = e.target.closest('.model'); if (b) select(b.dataset.id); });
+$('cells').addEventListener('click', e => { const b = e.target.closest('.cell'); if (b) select(b.dataset.id); });
 $('spin').addEventListener('click', () => setSpin(!paused));
 $('fly').addEventListener('click', () => setFly(!flying));
 $('bpCtrl').addEventListener('click', e => {
   const b = e.target.closest('[data-yaw]');
   if (b) { yaw = b.dataset.yaw * Math.PI / 180; pitch = 0.3; setSpin(true); }
+  const z = e.target.closest('[data-zoom]');
+  if (z) zoom = Math.max(0.5, Math.min(4, zoom * z.dataset.zoom));
 });
+cv.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.max(0.5, Math.min(4, zoom * Math.exp(-e.deltaY * 0.0015))); }, { passive: false });
+window.addEventListener('resize', thumbs);
 cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
 cv.addEventListener('pointermove', e => {
   if (!drag) return;
@@ -538,6 +570,7 @@ for (const ev of ['pointerup', 'pointercancel']) cv.addEventListener(ev, () => {
 setSpin(paused); setFly(flying);
 if (reduce) ft = PERIOD / 4;
 select('rig');
+thumbs();
 requestAnimationFrame(frame);
 </script>
 </body>
