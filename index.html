@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quad-thruster lift rig — FUI concept</title>
+<title>Avian-ambition lift rig — FUI concept</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;600&family=JetBrains+Mono:wght@400;600;700;800&display=swap">
 <style>
 :root{--bg:#060a22;--cyan:#7fdcff;--gold:#ffe6a3;--mint:#8ff0c0;--pink:#ff94c8;--text:#cfe6ff;--bright:#f0f2ff;--label:#a9b0dc;--line:rgba(160,170,255,.5);--hair:rgba(160,170,255,.22)}
@@ -18,7 +18,7 @@ header{display:flex;align-items:center;gap:14px}
 header p{margin:0;color:var(--label)}
 h1{margin:0;font-size:26px;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);text-shadow:0 0 22px rgba(127,220,255,.75);white-space:nowrap}
 
-main{display:grid;grid-template-columns:minmax(240px,.9fr) minmax(340px,1.6fr) minmax(280px,1fr);gap:22px;min-height:0}
+main{display:grid;grid-template-columns:minmax(270px,.9fr) minmax(420px,1.8fr) minmax(270px,.95fr);gap:22px;min-height:0}
 .col{display:flex;flex-direction:column;gap:12px;min-height:0}
 .tilt-l{transform:perspective(1400px) rotateY(7deg);transform-origin:left center}
 .tilt-r{transform:perspective(1400px) rotateY(-7deg);transform-origin:right center}
@@ -34,21 +34,25 @@ h2 .num{color:var(--label)}
 .meter i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--cyan) 0 calc(5% - 3px),transparent calc(5% - 3px) 5%);clip-path:inset(0 30% 0 0)}
 .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .tile{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:2px 6px;padding:7px;border-radius:10px 3px 10px 3px;background:rgba(120,140,255,.1)}
+.tile .mono{font-size:10px;white-space:nowrap}
 .tile b{text-align:right;font-size:19px;font-weight:300;color:var(--bright)}
 .tile i{grid-column:1/-1;height:3px;background:linear-gradient(90deg,currentColor 70%,var(--hair) 0)}
 
 .viewer{position:relative;flex:1;min-height:0;background:linear-gradient(var(--gold),var(--gold)) 0 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 0 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 100%/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 22px;background-repeat:no-repeat}
-.stage{position:absolute;inset:8px;overflow:hidden}
-.stage.bp{background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(rgba(190,225,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.22) 1px,transparent 1px);background-size:12px 12px,12px 12px,60px 60px,60px 60px;border:1px solid rgba(190,225,255,.45)}
+.stage{position:absolute;inset:8px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.stage.split{grid-template-columns:minmax(0,40fr) minmax(0,60fr)}
+.pane{position:relative;min-width:0;min-height:0;overflow:hidden}
+.pane.bp{background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(rgba(190,225,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.22) 1px,transparent 1px);background-size:12px 12px,12px 12px,60px 60px,60px 60px;border:1px solid rgba(190,225,255,.45)}
 #rig{position:absolute;inset:0;width:100%;height:100%;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.08em}
 #bp{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;filter:drop-shadow(0 0 3px rgba(127,220,255,.55))}
 #bp:active{cursor:grabbing}
 [hidden]{display:none!important}
 .ov{position:absolute;margin:0;color:var(--bright);pointer-events:none}
-.ov.tl{top:10px;left:12px}.ov.tr{top:10px;right:12px;color:var(--gold)}
-.ov.bl{bottom:12px;left:12px;display:grid;gap:2px;color:var(--text)}
-.ctrl{position:absolute;right:10px;bottom:10px;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}
-.btn{min-height:32px;padding:0 10px;border:1px solid var(--cyan);border-radius:999px;background:rgba(6,10,34,.7);color:var(--cyan);cursor:pointer}
+.ov.tl{top:10px;left:12px;max-width:calc(100% - 24px);display:grid;gap:2px}.ov.tr{top:10px;right:12px;color:var(--gold)}
+.ov.sub{top:28px;left:12px;display:grid;gap:2px;color:var(--text);font-size:10px}
+.ctrl{position:absolute;left:8px;right:8px;bottom:8px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+#fly{position:absolute;left:8px;bottom:8px}
+.btn{min-height:32px;padding:0 9px;font-size:10px;border:1px solid var(--cyan);border-radius:999px;background:rgba(6,10,34,.7);color:var(--cyan);cursor:pointer}
 .btn:hover,.btn:focus-visible{background:rgba(127,220,255,.18);outline:none}
 .btn.main{border-color:var(--gold);color:var(--gold)}
 .tag{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);padding:1px 8px;background:var(--bg);white-space:nowrap;color:var(--gold)}
@@ -76,7 +80,7 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
   body{height:auto;min-height:100vh;overflow:auto}
   main,footer{grid-template-columns:1fr}
   .tilt-l,.tilt-r{transform:none}
-  .viewer{flex:none;height:440px}
+  .viewer{flex:none;height:560px}
   .detail{overflow:visible}
 }
 </style>
@@ -85,7 +89,7 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 
 <header>
 <p class="mono"><span class="star" aria-hidden="true">✦</span> Lift concept</p>
-<h1>Quad thruster</h1>
+<h1>Avian Ambition</h1>
 <div class="ruler"></div>
 <p class="mono">ΣT 1,400 N · Mass 100 kg · Concept estimates</p>
 </header>
@@ -102,7 +106,7 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 <div class="meter"><i></i></div>
 </section>
 <section class="panel">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster output<span class="ruler"></span><span class="num">N · 70% to hover</span></h2>
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster output<span class="ruler"></span><span class="num">N</span></h2>
 <div class="tiles">
 <div class="tile" style="color:var(--cyan)"><span class="mono">T1 L-hand</span><b>350</b><i></i></div>
 <div class="tile" style="color:var(--cyan)"><span class="mono">T2 R-hand</span><b>350</b><i></i></div>
@@ -115,9 +119,13 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 <div class="col">
 <div class="viewer">
 <div class="stage" id="stage">
-<svg id="rig" viewBox="0 0 300 370" role="img" aria-label="Schematic of a person with one thruster on each hand and each foot, exhaust pointing down">
-<circle cx="150" cy="150" r="138" fill="none" stroke="rgba(127,220,255,0.35)" stroke-dasharray="3 5"/>
-<circle cx="150" cy="150" r="112" fill="rgba(127,220,255,0.06)" stroke="rgba(127,220,255,0.6)"/>
+<div class="pane" id="pFig">
+<svg id="rig" viewBox="0 -56 300 428" role="img" aria-label="Pilot figure wearing the selected thrusters, rising and descending">
+<g id="rings"><circle cx="150" cy="150" r="138" fill="none" stroke="rgba(127,220,255,0.35)" stroke-dasharray="3 5"/>
+<circle cx="150" cy="150" r="112" fill="rgba(127,220,255,0.06)" stroke="rgba(127,220,255,0.6)"/></g>
+<line x1="20" y1="362" x2="280" y2="362" stroke="rgba(160,170,255,0.6)" stroke-dasharray="6 4"/>
+<path id="supply" fill="none" stroke="#6cb6ff" stroke-width="5" stroke-linecap="round" opacity="0.7" hidden></path>
+<g id="pilot">
 <g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 4px #7fdcff)">
 <circle cx="150" cy="48" r="16"/>
 <polygon points="126,72 174,72 164,172 136,172"/>
@@ -126,36 +134,38 @@ footer .out{border-style:dashed}footer .out b{color:var(--label)}
 <polyline points="142,172 124,288" fill="none"/>
 <polyline points="158,172 176,288" fill="none"/>
 </g>
-<g fill="rgba(127,220,255,0.16)">
-<polygon points="68,198 88,198 96,252 60,252"/>
-<polygon points="212,198 232,198 240,252 204,252"/>
-<polygon points="114,316 134,316 142,352 106,352"/>
-<polygon points="166,316 186,316 194,352 158,352"/>
+<g id="pack" hidden>
+<g stroke="#8ff0c0" stroke-width="1" stroke-dasharray="3 3" fill="none"><line id="f1"/><line id="f2"/><line id="f3"/><line id="f4"/></g>
+<rect id="packBox" x="134" width="32" rx="8" fill="rgba(143,240,192,0.14)" stroke="#8ff0c0" stroke-width="1.5"/>
+<line id="packLead" x1="166" x2="190" y2="24" stroke="#8ff0c0" stroke-width="1"/>
+<text id="packText" x="192" y="22" fill="#8ff0c0"></text>
 </g>
-<g fill="rgba(255,230,163,0.14)" stroke="#ffe6a3" stroke-width="1.5" style="filter:drop-shadow(0 0 4px #ffe6a3)">
-<rect x="66" y="166" width="24" height="30" rx="4"/>
-<rect x="210" y="166" width="24" height="30" rx="4"/>
-<rect x="112" y="288" width="24" height="26" rx="4"/>
-<rect x="164" y="288" width="24" height="26" rx="4"/>
-</g>
-<g stroke="#ffe6a3" stroke-width="1"><line x1="142" y1="128" x2="158" y2="128"/><line x1="150" y1="120" x2="150" y2="136"/></g>
-<text x="162" y="124" fill="#ffe6a3">CG</text>
+<g id="mounts"></g>
+<g id="cg"><g stroke="#ffe6a3" stroke-width="1"><line x1="142" y1="128" x2="158" y2="128"/><line x1="150" y1="120" x2="150" y2="136"/></g>
+<text x="162" y="124" fill="#ffe6a3">CG</text></g>
+<g id="tlabels">
 <text x="8" y="178" fill="#7fdcff">T1</text><text x="8" y="192" fill="#cfe6ff">350 N</text>
 <text x="244" y="178" fill="#7fdcff">T2</text><text x="244" y="192" fill="#cfe6ff">350 N</text>
 <text x="60" y="298" fill="#8ff0c0">T3</text><text x="60" y="312" fill="#cfe6ff">350 N</text>
 <text x="198" y="298" fill="#8ff0c0">T4</text><text x="198" y="312" fill="#cfe6ff">350 N</text>
-<line x1="20" y1="362" x2="280" y2="362" stroke="rgba(160,170,255,0.6)" stroke-dasharray="6 4"/>
+</g>
+</g>
 </svg>
-<canvas id="bp" hidden aria-label="Rotating blueprint of the selected thruster. Drag to rotate."></canvas>
-<p class="ov tl mono" id="bpTitle" hidden></p>
-<p class="ov tr mono" id="bpView" hidden></p>
-<p class="ov bl mono" id="bpDims" hidden></p>
-<div class="ctrl" id="bpCtrl" hidden>
+<p class="ov tl mono" id="flight"><span id="fAlt"></span><span id="fThr"></span><span id="fState" style="color:var(--gold)"></span></p>
+<button class="btn main mono" id="fly" type="button">Hold</button>
+</div>
+<div class="pane bp" id="pBp" hidden>
+<canvas id="bp" aria-label="Rotating blueprint of the selected thruster with component labels. Drag to rotate."></canvas>
+<p class="ov tl mono" id="bpTitle"></p>
+<p class="ov sub mono" id="bpDims"></p>
+<p class="ov tr mono" id="bpView"></p>
+<div class="ctrl" id="bpCtrl">
 <button class="btn main mono" id="spin" type="button">Pause</button>
 <button class="btn mono" type="button" data-yaw="0">Front</button>
 <button class="btn mono" type="button" data-yaw="90">Right</button>
 <button class="btn mono" type="button" data-yaw="180">Back</button>
 <button class="btn mono" type="button" data-yaw="270">Left</button>
+</div>
 </div>
 </div>
 <span class="tag mono" id="tag">Tethered hover · 0.3 m</span>
@@ -257,6 +267,9 @@ function hose(P, r, c = 'main') {
 
 const MODELS = {
   p1: {
+    labels: [['Inlet lip', [0, 0.66, 0]], ['Fan rotor', [0, 0.38, 0]], ['Motor', [0, 0.1, 0]], ['Stator vanes', [0.32, -0.2, 0]], ['Duct', [0.5, -0.42, 0]], ['Tail cone', [0, -0.5, 0]], ['Airflow', [0, -0.9, 0]]],
+    pack: ['Battery', 82, 64], pw: 13, gh: 26,
+    glyph: '<rect x="-14" y="0" width="28" height="26" rx="3"/><ellipse cx="0" cy="6" rx="11" ry="3"/><line x1="0" y1="6" x2="0" y2="20"/>',
     id: 'P1', name: 'Electric ducted fan',
     desc: 'An electric motor spins a fan inside a duct. A cluster of two or three per limb reaches 350 N.',
     kv: [['Energy', 'Battery or cable'], ['Endurance', 'About 1 min'], ['Exhaust', 'Cool air']],
@@ -271,6 +284,9 @@ const MODELS = {
     ]
   },
   p2: {
+    labels: [['Intake', [0, 0.92, 0]], ['Compressor', [0, 0.66, 0]], ['Combustion chamber', [0.4, 0.15, 0]], ['Turbine', [0, -0.37, 0]], ['Exhaust cone', [0, -0.75, 0]], ['Nozzle', [0.24, -0.88, 0]], ['Hot exhaust', [0, -1.2, 0]]],
+    pack: ['Fuel tank', 82, 64], pw: 6, gh: 34,
+    glyph: '<polygon points="-10,0 10,0 10,22 6,34 -6,34 -10,22"/><line x1="-10" y1="7" x2="10" y2="7"/><line x1="-10" y1="14" x2="10" y2="14"/>',
     id: 'P2', name: 'Micro turbojet',
     desc: 'A small jet engine compresses air, burns kerosene and expels hot gas. One engine per limb is enough.',
     kv: [['Energy', 'Kerosene'], ['Endurance', 'Minutes'], ['Exhaust', 'Several hundred °C']],
@@ -281,10 +297,15 @@ const MODELS = {
       ...revolve([[0.9, 0.36], [0.8, 0.4], [0.3, 0.4], [0, 0.4], [-0.3, 0.4], [-0.75, 0.24], [-0.9, 0.24]]),
       ...revolve([[0.92, 0.02], [0.7, 0.16]], 8, 'accent'),
       ...radial(0.68, 0.16, 0.62, 0.38, 11, 0.25),
-      ...revolve([[-0.6, 0.12], [-0.9, 0.02]], 8, 'accent')
+      ...revolve([[-0.6, 0.12], [-0.9, 0.02]], 8, 'accent'),
+      ...radial(-0.34, 0.1, -0.4, 0.36, 9, 0.25),
+      { pts: [[0, 0.7, 0], [0, -0.6, 0]], c: 'accent' }
     ]
   },
   p3: {
+    labels: [['Gas tank', [0, 0.62, 0]], ['Valve', [0, 0.24, 0]], ['Throat', [0, -0.1, 0]], ['Nozzle bell', [0.2, -0.5, 0]], ['Cold gas jet', [0, -1.0, 0]]],
+    pack: ['Air tank', 82, 64], pw: 11, gh: 30,
+    glyph: '<rect x="-4" y="0" width="8" height="8"/><polygon points="-3,8 3,8 11,30 -11,30"/>',
     id: 'P3', name: 'Cold-gas nozzle',
     desc: 'Compressed air or nitrogen from a tank is released through a nozzle. Just a valve, with no moving parts at the limb.',
     kv: [['Energy', 'Compressed gas'], ['Endurance', 'Seconds'], ['Exhaust', 'Cold gas']],
@@ -300,6 +321,9 @@ const MODELS = {
     ]
   },
   p4: {
+    labels: [['Feed line', [0, 0.85, 0]], ['Catalyst screens', [0, 0.42, 0]], ['Chamber', [0.3, 0.2, 0]], ['Throat', [0, -0.05, 0]], ['Bell nozzle', [0.36, -0.55, 0]], ['Steam jet', [0, -1.15, 0]]],
+    pack: ['H2O2 tank', 82, 64], pw: 13, gh: 32,
+    glyph: '<rect x="-7" y="0" width="14" height="12"/><polygon points="-3,12 3,12 13,32 -13,32"/>',
     id: 'P4', name: 'Peroxide rocket',
     desc: 'Hydrogen peroxide decomposes over a catalyst into steam and oxygen. The classic 1960s rocket belt design.',
     kv: [['Energy', 'Peroxide'], ['Endurance', '20 to 30 s'], ['Exhaust', 'Superheated steam']],
@@ -314,6 +338,9 @@ const MODELS = {
     ]
   },
   p5: {
+    labels: [['Supply hose', [-0.49, 0.76, 0]], ['Collar', [0, 0.17, 0]], ['Nozzle', [0.11, -0.15, 0]], ['Water jet', [0, -0.75, 0]]],
+    pack: ['Manifold', 116, 32], pw: 4, gh: 26, straight: true,
+    glyph: '<polygon points="-8,0 8,0 4,26 -4,26"/><line x1="-10" y1="3" x2="10" y2="3"/>',
     id: 'P5', name: 'Water jet',
     desc: 'A pump on the ground or water sends water up a hose to the nozzles. Proven and cheap.',
     kv: [['Energy', 'Remote pump'], ['Endurance', 'Pump fuel'], ['Exhaust', 'Water']],
@@ -329,16 +356,20 @@ const MODELS = {
 };
 const RIG = {
   name: 'Rig overview',
-  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each. Pick a model to open its rotating blueprint.',
+  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each. Pick a model to equip it and open its labelled blueprint.',
   kv: [['Layout', '2 hand · 2 foot'], ['Peak load', '1.4 g'], ['Status', 'Concept']],
-  note: 'All figures are concept estimates, not test data.'
+  note: 'All figures are concept estimates, not test data.',
+  pw: 10, gh: 30, jet: '#7fdcff',
+  glyph: '<rect x="-12" y="0" width="24" height="30" rx="4"/>'
 };
 
 /* ---------- UI state ---------- */
 const $ = id => document.getElementById(id);
 const cv = $('bp'), ctx = cv.getContext('2d');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, drag = null, last = 0, raf = 0;
+const MOUNTS = [[78, 166], [222, 166], [124, 288], [176, 288]];
+const GROUND = 362, RISE = 52, PX_PER_M = 171, PERIOD = 7000;
+let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, plumes = [];
 
 function fillDetail(d) {
   $('dName').textContent = d.name;
@@ -350,40 +381,76 @@ function fillDetail(d) {
     dt.textContent = k; dd.textContent = v; kv.append(dt, dd);
   }
 }
+function equip(d, isModel) {
+  $('mounts').innerHTML = MOUNTS.map(([x, y]) =>
+    '<g transform="translate(' + x + ',' + y + ')"><polygon class="plume" fill="' + d.jet + '" opacity="0.28"/>' +
+    '<g fill="rgba(255,230,163,0.14)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)">' + d.glyph + '</g></g>').join('');
+  plumes = [...document.querySelectorAll('#mounts .plume')];
+  $('pack').toggleAttribute('hidden', !isModel);
+  $('supply').toggleAttribute('hidden', sel !== 'p5');
+  if (isModel) {
+    const [label, py, ph] = d.pack, top = py + 12, bot = py + ph - 4;
+    $('packBox').setAttribute('y', py); $('packBox').setAttribute('height', ph);
+    $('packLead').setAttribute('y1', py + 6); $('packText').textContent = label.toUpperCase();
+    const ends = [[134, top], [166, top], [140, bot], [160, bot]];
+    MOUNTS.forEach(([x, y], i) => {
+      const f = $('f' + (i + 1));
+      f.setAttribute('x1', ends[i][0]); f.setAttribute('y1', ends[i][1]); f.setAttribute('x2', x); f.setAttribute('y2', y);
+    });
+  }
+}
 function select(id) {
   sel = id;
-  const isModel = id !== 'rig';
+  const isModel = id !== 'rig', d = isModel ? MODELS[id] : RIG;
   for (const b of document.querySelectorAll('.model')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
-  $('rig').toggleAttribute('hidden', isModel);
-  for (const k of ['bp', 'bpTitle', 'bpView', 'bpDims', 'bpCtrl']) $(k).toggleAttribute('hidden', !isModel);
-  $('stage').classList.toggle('bp', isModel);
-  $('tag').textContent = isModel ? 'Drag to rotate' : 'Tethered hover · 0.3 m';
+  $('stage').classList.toggle('split', isModel);
+  $('pBp').toggleAttribute('hidden', !isModel);
+  for (const k of ['rings', 'tlabels', 'cg']) $(k).toggleAttribute('hidden', isModel);
+  $('rig').setAttribute('viewBox', isModel ? '36 -56 228 428' : '0 -56 300 428');
+  $('tag').textContent = isModel ? 'Drag blueprint to rotate' : 'Tethered hover · 0.3 m';
+  fillDetail(d); equip(d, isModel);
   if (isModel) {
-    const m = MODELS[id];
-    fillDetail(m);
-    $('bpTitle').textContent = 'Blueprint · ' + m.id + ' ' + m.name;
+    $('bpTitle').textContent = 'Blueprint · ' + d.id;
     const dims = $('bpDims'); dims.textContent = '';
-    for (const t of [...m.dims, 'Approx. dimensions']) { const s = document.createElement('span'); s.textContent = t; dims.append(s); }
-    size(); start();
-  } else {
-    fillDetail(RIG); cancelAnimationFrame(raf); raf = 0;
+    for (const t of [...d.dims, 'Approx. dimensions']) { const sp = document.createElement('span'); sp.textContent = t; dims.append(sp); }
   }
 }
 function setSpin(p) { paused = p; $('spin').textContent = p ? 'Rotate' : 'Pause'; }
+function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
+
+/* ---------- pilot float animation ---------- */
+function float() {
+  const d = sel === 'rig' ? RIG : MODELS[sel];
+  const ph = ft / PERIOD * TAU;
+  const alt = RISE * (1 - Math.cos(ph)) / 2, v = Math.sin(ph);
+  const thr = Math.round(70 + 8 * v);
+  $('pilot').setAttribute('transform', 'translate(0,' + (-alt).toFixed(2) + ')');
+  const L = 24 + (thr - 62) / 16 * 40;
+  plumes.forEach((pl, i) => {
+    const room = GROUND - (MOUNTS[i][1] + d.gh - alt);
+    const len = Math.max(4, Math.min(L, room)), w0 = d.pw, w1 = d.straight ? d.pw : d.pw * 1.6;
+    pl.setAttribute('points', -w0 + ',' + d.gh + ' ' + w0 + ',' + d.gh + ' ' + w1 + ',' + (d.gh + len).toFixed(1) + ' ' + -w1 + ',' + (d.gh + len).toFixed(1));
+  });
+  if (sel === 'p5') $('supply').setAttribute('d', 'M150,' + (150 - alt).toFixed(1) + ' C150,' + (250 - alt).toFixed(1) + ' 96,300 70,' + GROUND);
+  $('fAlt').textContent = 'Alt ' + (alt / PX_PER_M).toFixed(2) + ' m';
+  $('fThr').textContent = 'Thr ' + thr + '%';
+  $('fState').textContent = !flying ? 'Holding' : v > 0.08 ? 'Ascent' : v < -0.08 ? 'Descent' : 'Hover';
+}
 
 /* ---------- blueprint renderer ---------- */
 function size() {
   const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
   if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
 }
-function start() { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
 function frame(t) {
-  raf = 0;
-  if (sel === 'rig') return;
   const dt = last ? Math.min(t - last, 60) : 0; last = t;
-  if (!paused && !drag) yaw += dt * 0.0006;
-  draw(t);
-  raf = requestAnimationFrame(frame);
+  if (flying) ft += dt;
+  float();
+  if (sel !== 'rig') {
+    if (!paused && !drag) yaw += dt * 0.0006;
+    size(); draw(t);
+  }
+  requestAnimationFrame(frame);
 }
 function draw(t) {
   const m = MODELS[sel], dpr = window.devicePixelRatio || 1;
@@ -392,8 +459,8 @@ function draw(t) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
   const plume = 0.5, mid = (m.top + m.bottom - plume) / 2, span = m.top - m.bottom + plume;
-  const S = Math.min(w * 0.36, h * 0.72 / span * 1.0);
-  const cx = w / 2, cy = h / 2;
+  const S = Math.min(w * 0.3, (h - 150) / span);
+  const cx = w * 0.4, cy = h / 2 + 14;
   const cY = Math.cos(yaw), sY = Math.sin(yaw), cP = Math.cos(pitch), sP = Math.sin(pitch);
   const proj = p => {
     const y = p[1] - mid;
@@ -415,7 +482,7 @@ function draw(t) {
   }
   /* exhaust plume */
   ctx.globalAlpha = 0.9; ctx.strokeStyle = m.jet; ctx.setLineDash([6, 5]);
-  ctx.lineDashOffset = paused ? 0 : -(t / 30) % 11;
+  ctx.lineDashOffset = -(t / 30) % 11;
   const jets = [[0, 0]];
   for (let i = 0; i < 4; i++) jets.push([Math.cos(i * TAU / 4 + 0.6), Math.sin(i * TAU / 4 + 0.6)]);
   for (const [jx, jz] of jets) {
@@ -425,13 +492,26 @@ function draw(t) {
   }
   /* length dimension */
   ctx.setLineDash([]); ctx.globalAlpha = 0.9; ctx.strokeStyle = '#ffe6a3'; ctx.fillStyle = '#ffe6a3';
-  const dx = Math.max(22, cx - S * 1.2), yT = cy - (m.top - mid) * S * cP, yB = cy - (m.bottom - mid) * S * cP;
+  const dx = 20, yT = cy - (m.top - mid) * S * cP, yB = cy - (m.bottom - mid) * S * cP;
   ctx.beginPath(); ctx.moveTo(dx, yT); ctx.lineTo(dx, yB);
   ctx.moveTo(dx - 5, yT); ctx.lineTo(dx + 5, yT); ctx.moveTo(dx - 5, yB); ctx.lineTo(dx + 5, yB); ctx.stroke();
-  ctx.save(); ctx.translate(dx - 8, (yT + yB) / 2); ctx.rotate(-Math.PI / 2);
-  ctx.font = "700 11px 'JetBrains Mono', ui-monospace, monospace"; ctx.textAlign = 'center';
+  ctx.save(); ctx.translate(dx - 7, (yT + yB) / 2); ctx.rotate(-Math.PI / 2);
+  ctx.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; ctx.textAlign = 'center';
   ctx.fillText('L ' + m.len, 0, 0); ctx.restore();
-  ctx.globalAlpha = 1;
+  /* component labels: fixed slots on the right, leaders follow the rotating part */
+  const labs = m.labels.map(([txt, p]) => ({ txt: txt.toUpperCase(), a: proj(p), y: cy - (p[1] - mid) * S })).sort((p, q) => p.y - q.y);
+  let prev = 30;
+  for (const l of labs) { l.y = Math.max(l.y, prev + 16); prev = l.y; }
+  ctx.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (const l of labs) {
+    const tx = w - 10, tw = ctx.measureText(l.txt).width;
+    ctx.globalAlpha = 0.75; ctx.strokeStyle = '#7fdcff'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(tx - tw - 5, l.y); ctx.lineTo(tx - tw - 16, l.y); ctx.lineTo(l.a[0], l.a[1]); ctx.stroke();
+    ctx.globalAlpha = 1; ctx.fillStyle = '#ffe6a3';
+    ctx.beginPath(); ctx.arc(l.a[0], l.a[1], 2.2, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#f0f2ff'; ctx.fillText(l.txt, tx, l.y);
+  }
+  ctx.textBaseline = 'alphabetic';
   /* view readout */
   const deg = ((Math.round(yaw * 180 / Math.PI) % 360) + 360) % 360;
   const side = deg < 45 || deg >= 315 ? 'Front' : deg < 135 ? 'Right' : deg < 225 ? 'Back' : 'Left';
@@ -441,6 +521,7 @@ function draw(t) {
 /* ---------- events ---------- */
 $('models').addEventListener('click', e => { const b = e.target.closest('.model'); if (b) select(b.dataset.id); });
 $('spin').addEventListener('click', () => setSpin(!paused));
+$('fly').addEventListener('click', () => setFly(!flying));
 $('bpCtrl').addEventListener('click', e => {
   const b = e.target.closest('[data-yaw]');
   if (b) { yaw = b.dataset.yaw * Math.PI / 180; pitch = 0.3; setSpin(true); }
@@ -453,10 +534,11 @@ cv.addEventListener('pointermove', e => {
   drag = { x: e.clientX, y: e.clientY };
 });
 for (const ev of ['pointerup', 'pointercancel']) cv.addEventListener(ev, () => { drag = null; });
-window.addEventListener('resize', () => { if (sel !== 'rig') size(); });
 
-setSpin(paused);
+setSpin(paused); setFly(flying);
+if (reduce) ft = PERIOD / 4;
 select('rig');
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
