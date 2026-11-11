@@ -8,67 +8,89 @@
 <style>
 :root{--bg:#060a22;--cyan:#7fdcff;--gold:#ffe6a3;--mint:#8ff0c0;--pink:#ff94c8;--text:#cfe6ff;--bright:#f0f2ff;--label:#a9b0dc;--line:rgba(160,170,255,.5);--hair:rgba(160,170,255,.22)}
 *{box-sizing:border-box}
-body{margin:0;padding:40px 32px;font-family:'Exo 2',system-ui,sans-serif;font-size:15px;line-height:1.45;color:var(--text);background-color:var(--bg);background-image:linear-gradient(rgba(140,205,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(140,205,255,.07) 1px,transparent 1px);background-size:24px 24px}
-.wrap{max-width:1216px;margin:0 auto;display:grid;gap:32px}
-.top{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start}
-.col{display:grid;gap:14px}
-.tilt-l{transform:perspective(1400px) rotateY(9deg);transform-origin:left center}
-.tilt-r{transform:perspective(1400px) rotateY(-9deg);transform-origin:right center}
-@media (max-width:1000px){.tilt-l,.tilt-r{transform:none}}
-.panel{padding:18px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 26px rgba(127,220,255,.16),0 0 16px rgba(127,220,255,.16)}
-.panel.gold{border-color:rgba(255,230,163,.7);box-shadow:inset 0 0 26px rgba(255,230,163,.14),0 0 16px rgba(255,230,163,.14)}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-h2{display:flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--cyan)}
-h2 .star,.star{color:var(--gold)}
+html,body{height:100%}
+body{margin:0;padding:18px 24px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:14px;height:100vh;overflow:hidden;font-family:'Exo 2',system-ui,sans-serif;font-size:14px;line-height:1.4;color:var(--text);background-color:var(--bg);background-image:linear-gradient(rgba(140,205,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(140,205,255,.07) 1px,transparent 1px);background-size:24px 24px}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .ruler{flex:1;height:7px;background:linear-gradient(rgba(140,205,255,.5),rgba(140,205,255,.5)) 0 100%/100% 1px no-repeat,repeating-linear-gradient(90deg,rgba(140,205,255,.5) 0 1px,transparent 1px 8px)}
-h2 .num{font-size:11px;color:var(--label)}
-.row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:7px 0;border-bottom:1px solid var(--hair)}
-.row:last-of-type{border-bottom:0}
+.star{color:var(--gold)}
+
+header{display:flex;align-items:center;gap:14px}
+header p{margin:0;color:var(--label)}
+h1{margin:0;font-size:26px;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);text-shadow:0 0 22px rgba(127,220,255,.75);white-space:nowrap}
+
+main{display:grid;grid-template-columns:minmax(240px,.9fr) minmax(340px,1.6fr) minmax(280px,1fr);gap:22px;min-height:0}
+.col{display:flex;flex-direction:column;gap:12px;min-height:0}
+.tilt-l{transform:perspective(1400px) rotateY(7deg);transform-origin:left center}
+.tilt-r{transform:perspective(1400px) rotateY(-7deg);transform-origin:right center}
+.panel{padding:14px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 26px rgba(127,220,255,.16),0 0 16px rgba(127,220,255,.16)}
+.panel.gold{border-color:rgba(255,230,163,.7);box-shadow:inset 0 0 26px rgba(255,230,163,.14),0 0 16px rgba(255,230,163,.14)}
+h2{display:flex;align-items:center;gap:8px;margin:0 0 6px;color:var(--cyan)}
+h2 .num{color:var(--label)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:5px 0;border-bottom:1px solid var(--hair)}
 .row span{color:var(--label)}
-.row b{font-size:20px;font-weight:300;color:var(--bright);text-align:right}
+.row b{font-size:18px;font-weight:300;color:var(--bright);text-align:right}
 .meter-head{display:flex;justify-content:space-between;color:var(--label);margin-top:8px}
-.meter{position:relative;height:14px;margin-top:4px;background:repeating-linear-gradient(90deg,rgba(160,170,255,.25) 0 calc(5% - 3px),transparent calc(5% - 3px) 5%)}
+.meter{position:relative;height:12px;margin-top:4px;background:repeating-linear-gradient(90deg,rgba(160,170,255,.25) 0 calc(5% - 3px),transparent calc(5% - 3px) 5%)}
 .meter i{position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--cyan) 0 calc(5% - 3px),transparent calc(5% - 3px) 5%);clip-path:inset(0 30% 0 0)}
 .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.tile{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:2px 8px;padding:8px;border-radius:10px 3px 10px 3px;background:rgba(120,140,255,.1)}
-.tile b{text-align:right;font-size:21px;font-weight:300;color:var(--bright)}
+.tile{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:2px 6px;padding:7px;border-radius:10px 3px 10px 3px;background:rgba(120,140,255,.1)}
+.tile b{text-align:right;font-size:19px;font-weight:300;color:var(--bright)}
 .tile i{grid-column:1/-1;height:3px;background:linear-gradient(90deg,currentColor 70%,var(--hair) 0)}
-.note{margin:12px 0 0;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.1em;color:var(--label)}
-.centre{display:grid;gap:28px;justify-items:center}
-.title{width:100%;display:grid;gap:10px;text-align:center}
-.title p{margin:0;color:var(--label)}
-h1{margin:0;font-size:40px;font-weight:200;letter-spacing:.2em;text-transform:uppercase;color:var(--bright);text-shadow:0 0 22px rgba(127,220,255,.75)}
-.reticle{position:relative;width:320px;max-width:100%;height:390px;display:grid;place-items:center;background:linear-gradient(var(--gold),var(--gold)) 0 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 0 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 100%/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 22px;background-repeat:no-repeat}
-.reticle svg{width:300px;max-width:94%;height:370px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.08em}
-.tag{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);padding:1px 8px;background:var(--bg);font-size:11px;white-space:nowrap;color:var(--gold)}
-ol{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:14px}
-ol li{display:flex;gap:10px}
-ol b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.1em;color:var(--gold)}
-.risk{margin:0;padding:10px 16px;border:1px solid var(--pink);border-radius:16px 4px 16px 4px;font-size:14px}
-.risk b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.14em;color:var(--pink)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:14px}
-.card{display:grid;gap:10px;align-content:start}
-.card .head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.card .id{color:var(--gold)}
-.card h3{margin:0;font-size:19px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--bright)}
-.card svg{width:100%;height:84px;border-bottom:1px solid var(--hair);background-image:linear-gradient(rgba(140,205,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(140,205,255,.1) 1px,transparent 1px);background-size:12px 12px}
-.card p{margin:0;font-size:14px}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:13px}
+
+.viewer{position:relative;flex:1;min-height:0;background:linear-gradient(var(--gold),var(--gold)) 0 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 0 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 100%/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 22px;background-repeat:no-repeat}
+.stage{position:absolute;inset:8px;overflow:hidden}
+.stage.bp{background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(rgba(190,225,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.22) 1px,transparent 1px);background-size:12px 12px,12px 12px,60px 60px,60px 60px;border:1px solid rgba(190,225,255,.45)}
+#rig{position:absolute;inset:0;width:100%;height:100%;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.08em}
+#bp{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;filter:drop-shadow(0 0 3px rgba(127,220,255,.55))}
+#bp:active{cursor:grabbing}
+[hidden]{display:none!important}
+.ov{position:absolute;margin:0;color:var(--bright);pointer-events:none}
+.ov.tl{top:10px;left:12px}.ov.tr{top:10px;right:12px;color:var(--gold)}
+.ov.bl{bottom:12px;left:12px;display:grid;gap:2px;color:var(--text)}
+.ctrl{position:absolute;right:10px;bottom:10px;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}
+.btn{min-height:32px;padding:0 10px;border:1px solid var(--cyan);border-radius:999px;background:rgba(6,10,34,.7);color:var(--cyan);cursor:pointer}
+.btn:hover,.btn:focus-visible{background:rgba(127,220,255,.18);outline:none}
+.btn.main{border-color:var(--gold);color:var(--gold)}
+.tag{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);padding:1px 8px;background:var(--bg);white-space:nowrap;color:var(--gold)}
+
+.models{display:grid;gap:6px}
+.model{display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:4px 10px;border:1px solid var(--hair);border-radius:10px 3px 10px 3px;background:rgba(120,140,255,.08);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif;font-size:14px}
+.model:hover,.model:focus-visible{border-color:var(--cyan);outline:none}
+.model .id{color:var(--gold);min-width:22px}
+.model .chip{margin-left:auto;font-size:10px;color:var(--label);white-space:nowrap}
+.model[aria-pressed="true"]{border-color:var(--gold);background:rgba(255,230,163,.12);color:var(--bright);box-shadow:0 0 12px rgba(255,230,163,.25)}
+.detail{flex:1;min-height:0;overflow:auto;display:grid;gap:8px;align-content:start}
+.detail h3{margin:0;font-size:18px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.detail p{margin:0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0}
 .kv dt{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--label)}
 .kv dd{margin:0;text-align:right;color:var(--bright)}
-.chip{justify-self:start;padding:2px 10px;border:1px solid currentColor;border-radius:999px;font-size:11px}
-.ruled{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.ruled p{margin:0;padding:10px 16px;border:1px dashed var(--line);border-radius:16px 4px 16px 4px;font-size:14px}
-.ruled b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.14em;color:var(--label)}
-.body{fill:rgba(127,220,255,.1);stroke:var(--cyan);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
-.hot{fill:rgba(255,230,163,.2);stroke:var(--gold);stroke-width:1.2}
-.jet{stroke:var(--cyan);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+
+footer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+footer p{margin:0;padding:8px 14px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;font-size:13px}
+footer b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.14em;color:var(--cyan)}
+footer .risk{border-color:var(--pink)}footer .risk b{color:var(--pink)}
+footer .out{border-style:dashed}footer .out b{color:var(--label)}
+
+@media (max-width:999px),(max-height:599px){
+  body{height:auto;min-height:100vh;overflow:auto}
+  main,footer{grid-template-columns:1fr}
+  .tilt-l,.tilt-r{transform:none}
+  .viewer{flex:none;height:440px}
+  .detail{overflow:visible}
+}
 </style>
 </head>
 <body>
-<main class="wrap">
 
-<div class="top">
+<header>
+<p class="mono"><span class="star" aria-hidden="true">✦</span> Lift concept</p>
+<h1>Quad thruster</h1>
+<div class="ruler"></div>
+<p class="mono">ΣT 1,400 N · Mass 100 kg · Concept estimates</p>
+</header>
+
+<main>
 <div class="col tilt-l">
 <section class="panel">
 <h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thrust budget<span class="ruler"></span><span class="num">01</span></h2>
@@ -80,24 +102,23 @@ ol b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-s
 <div class="meter"><i></i></div>
 </section>
 <section class="panel">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster output<span class="ruler"></span><span class="num">N</span></h2>
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster output<span class="ruler"></span><span class="num">N · 70% to hover</span></h2>
 <div class="tiles">
 <div class="tile" style="color:var(--cyan)"><span class="mono">T1 L-hand</span><b>350</b><i></i></div>
 <div class="tile" style="color:var(--cyan)"><span class="mono">T2 R-hand</span><b>350</b><i></i></div>
 <div class="tile" style="color:var(--mint)"><span class="mono">T3 L-foot</span><b>350</b><i></i></div>
 <div class="tile" style="color:var(--mint)"><span class="mono">T4 R-foot</span><b>350</b><i></i></div>
 </div>
-<p class="note">Bars show the 70% throttle needed to hover.</p>
 </section>
 </div>
 
-<div class="centre">
-<div class="title"><p class="mono">✦ Lift concept</p><h1>Quad thruster</h1><div class="ruler"></div></div>
-<div class="reticle">
-<svg viewBox="0 0 300 370" role="img" aria-label="Schematic of a person with one thruster on each hand and each foot, exhaust pointing down">
+<div class="col">
+<div class="viewer">
+<div class="stage" id="stage">
+<svg id="rig" viewBox="0 0 300 370" role="img" aria-label="Schematic of a person with one thruster on each hand and each foot, exhaust pointing down">
 <circle cx="150" cy="150" r="138" fill="none" stroke="rgba(127,220,255,0.35)" stroke-dasharray="3 5"/>
 <circle cx="150" cy="150" r="112" fill="rgba(127,220,255,0.06)" stroke="rgba(127,220,255,0.6)"/>
-<g class="body" style="filter:drop-shadow(0 0 4px #7fdcff)">
+<g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 4px #7fdcff)">
 <circle cx="150" cy="48" r="16"/>
 <polygon points="126,72 174,72 164,172 136,172"/>
 <polyline points="126,78 78,166" fill="none"/>
@@ -125,112 +146,317 @@ ol b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-s
 <text x="198" y="298" fill="#8ff0c0">T4</text><text x="198" y="312" fill="#cfe6ff">350 N</text>
 <line x1="20" y1="362" x2="280" y2="362" stroke="rgba(160,170,255,0.6)" stroke-dasharray="6 4"/>
 </svg>
-<span class="tag mono">Tethered hover · 0.3 m</span>
+<canvas id="bp" hidden aria-label="Rotating blueprint of the selected thruster. Drag to rotate."></canvas>
+<p class="ov tl mono" id="bpTitle" hidden></p>
+<p class="ov tr mono" id="bpView" hidden></p>
+<p class="ov bl mono" id="bpDims" hidden></p>
+<div class="ctrl" id="bpCtrl" hidden>
+<button class="btn main mono" id="spin" type="button">Pause</button>
+<button class="btn mono" type="button" data-yaw="0">Front</button>
+<button class="btn mono" type="button" data-yaw="90">Right</button>
+<button class="btn mono" type="button" data-yaw="180">Back</button>
+<button class="btn mono" type="button" data-yaw="270">Left</button>
 </div>
-<p class="note" style="margin:0;text-align:center">ΣT 1,400 N · MASS 100 KG · Concept estimates, not test data</p>
+</div>
+<span class="tag mono" id="tag">Tethered hover · 0.3 m</span>
+</div>
 </div>
 
 <div class="col tilt-r">
-<section class="panel gold">
-<div class="row"><span class="mono">Layout:</span><b style="color:var(--gold);text-transform:uppercase;letter-spacing:.08em">2 hand · 2 foot</b></div>
-<div class="row"><span class="mono">Peak load:</span><b>1.4 g</b></div>
-<div class="row"><span class="mono">Prototypes:</span><b>5</b></div>
-<div class="row"><span class="mono">Status:</span><b style="color:var(--mint);text-transform:uppercase;letter-spacing:.08em">Concept</b></div>
-</section>
 <section class="panel">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Test sequence<span class="ruler"></span><span class="num">02</span></h2>
-<ol>
-<li><b>01</b>One thruster on a thrust stand</li>
-<li><b>02</b>Four-thruster rig lifting a dummy</li>
-<li><b>03</b>Pilot on an overhead safety line</li>
-</ol>
-</section>
-<p class="risk"><b>[ RISK ] </b>Uneven thrust flips the pilot. A dead-man switch must cut all four.</p>
-</div>
-</div>
-
-<section style="display:grid;gap:14px">
-<h2 class="mono" style="margin:0"><span class="star" aria-hidden="true">✦</span>Thruster prototypes<span class="ruler"></span><span class="num">03 · 350 N each</span></h2>
-<div class="cards">
-
-<article class="panel gold card">
-<div class="head"><span class="mono id">P1</span><span class="mono chip" style="color:var(--gold)">Prototype pick</span></div>
-<h3>Electric ducted fan</h3>
-<svg viewBox="0 0 120 84" role="img" aria-label="Ducted fan schematic">
-<rect class="body" x="40" y="8" width="40" height="46" rx="4"/>
-<ellipse class="body" cx="60" cy="22" rx="17" ry="5"/>
-<circle cx="60" cy="22" r="3" fill="#ffe6a3"/>
-<line class="body" x1="60" y1="27" x2="60" y2="46"/>
-<path class="jet" d="M48,58V80M60,58V80M72,58V80"/>
-</svg>
-<p>An electric motor spins a fan inside a duct. A cluster of two or three per limb reaches 350 N.</p>
-<dl class="kv"><dt>Energy</dt><dd>Battery or cable</dd><dt>Endurance</dt><dd>About 1 min</dd><dt>Exhaust</dt><dd>Cool air</dd></dl>
-<p style="color:var(--label)">Drawback: batteries can barely lift themselves.</p>
-</article>
-
-<article class="panel card">
-<div class="head"><span class="mono id">P2</span><span class="mono chip" style="color:var(--cyan)">Free flight</span></div>
-<h3>Micro turbojet</h3>
-<svg viewBox="0 0 120 84" role="img" aria-label="Micro turbojet schematic">
-<polygon class="body" points="42,8 78,8 78,40 70,54 50,54 42,40"/>
-<path class="body" d="M48,16H72M48,24H72" fill="none"/>
-<circle cx="60" cy="36" r="4" fill="#ffe6a3"/>
-<polygon class="hot" points="52,56 68,56 60,82"/>
-</svg>
-<p>A small jet engine compresses air, burns kerosene and expels hot gas. One engine per limb is enough.</p>
-<dl class="kv"><dt>Energy</dt><dd>Kerosene</dd><dt>Endurance</dt><dd>Minutes</dd><dt>Exhaust</dt><dd>Several hundred °C</dd></dl>
-<p style="color:var(--label)">Drawback: hot, loud, slow throttle, expensive.</p>
-</article>
-
-<article class="panel card">
-<div class="head"><span class="mono id">P3</span><span class="mono chip" style="color:var(--label)">Burst only</span></div>
-<h3>Cold-gas nozzle</h3>
-<svg viewBox="0 0 120 84" role="img" aria-label="Cold-gas nozzle schematic">
-<rect class="body" x="30" y="6" width="60" height="20" rx="10"/>
-<line class="body" x1="60" y1="26" x2="60" y2="36"/>
-<circle cx="60" cy="31" r="3" fill="#ffe6a3"/>
-<polygon class="body" points="54,36 66,36 74,56 46,56"/>
-<path class="jet" d="M50,60V80M60,60V80M70,60V80"/>
-</svg>
-<p>Compressed air or nitrogen from a tank is released through a nozzle. Just a valve, with no moving parts at the limb.</p>
-<dl class="kv"><dt>Energy</dt><dd>Compressed gas</dd><dt>Endurance</dt><dd>Seconds</dd><dt>Exhaust</dt><dd>Cold gas</dd></dl>
-<p style="color:var(--label)">Drawback: a tank empties almost at once.</p>
-</article>
-
-<article class="panel card">
-<div class="head"><span class="mono id">P4</span><span class="mono chip" style="color:var(--pink)">Hazardous fuel</span></div>
-<h3>Peroxide rocket</h3>
-<svg viewBox="0 0 120 84" role="img" aria-label="Peroxide rocket schematic">
-<rect class="body" x="48" y="6" width="24" height="24"/>
-<path d="M50,12H70M50,18H70M50,24H70" stroke="#ffe6a3" stroke-width="1" stroke-dasharray="2 2" fill="none"/>
-<polygon class="body" points="54,30 66,30 78,56 42,56"/>
-<polygon points="46,58 74,58 66,82 54,82" fill="rgba(240,242,255,0.22)" stroke="#f0f2ff" stroke-width="1"/>
-</svg>
-<p>Hydrogen peroxide decomposes over a catalyst into steam and oxygen. The classic 1960s rocket belt design.</p>
-<dl class="kv"><dt>Energy</dt><dd>Peroxide</dd><dt>Endurance</dt><dd>20 to 30 s</dd><dt>Exhaust</dt><dd>Superheated steam</dd></dl>
-<p style="color:var(--label)">Drawback: concentrated peroxide is dangerous to handle.</p>
-</article>
-
-<article class="panel card">
-<div class="head"><span class="mono id">P5</span><span class="mono chip" style="color:var(--mint)">Tethered</span></div>
-<h3>Water jet</h3>
-<svg viewBox="0 0 120 84" role="img" aria-label="Tethered water jet schematic">
-<path class="body" d="M6,22C36,22 60,8 60,34" fill="none" stroke-width="5"/>
-<polygon class="body" points="52,34 68,34 64,54 56,54"/>
-<g fill="#7fdcff"><circle cx="60" cy="60" r="2"/><circle cx="56" cy="68" r="2"/><circle cx="64" cy="70" r="2"/><circle cx="60" cy="78" r="2"/></g>
-</svg>
-<p>A pump on the ground or water sends water up a hose to the nozzles. Proven and cheap.</p>
-<dl class="kv"><dt>Energy</dt><dd>Remote pump</dd><dt>Endurance</dt><dd>Pump fuel</dd><dt>Exhaust</dt><dd>Water</dd></dl>
-<p style="color:var(--label)">Drawback: not air, and a heavy hose ties you down.</p>
-</article>
-
-</div>
-<div class="ruled">
-<p><b>[ RULED OUT ] </b>Open propellers: efficient, but too large and too dangerous beside a hand or foot.</p>
-<p><b>[ RULED OUT ] </b>Petrol-driven ducted fans: shafts or hoses to four limbs get too complicated.</p>
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster models<span class="ruler"></span><span class="num">Click to open</span></h2>
+<div class="models" id="models">
+<button class="model" type="button" data-id="rig" aria-pressed="true"><span class="mono id">00</span>Rig overview<span class="mono chip">4 × 350 N</span></button>
+<button class="model" type="button" data-id="p1" aria-pressed="false"><span class="mono id">P1</span>Electric ducted fan<span class="mono chip">Prototype pick</span></button>
+<button class="model" type="button" data-id="p2" aria-pressed="false"><span class="mono id">P2</span>Micro turbojet<span class="mono chip">Free flight</span></button>
+<button class="model" type="button" data-id="p3" aria-pressed="false"><span class="mono id">P3</span>Cold-gas nozzle<span class="mono chip">Burst only</span></button>
+<button class="model" type="button" data-id="p4" aria-pressed="false"><span class="mono id">P4</span>Peroxide rocket<span class="mono chip">Hazardous fuel</span></button>
+<button class="model" type="button" data-id="p5" aria-pressed="false"><span class="mono id">P5</span>Water jet<span class="mono chip">Tethered</span></button>
 </div>
 </section>
-
+<section class="panel gold detail" aria-live="polite">
+<h3 id="dName"></h3>
+<p id="dDesc"></p>
+<dl class="kv" id="dKv"></dl>
+<p id="dNote" style="color:var(--label)"></p>
+</section>
+</div>
 </main>
+
+<footer>
+<p><b>[ TEST SEQUENCE ] </b>01 thrust stand · 02 dummy lift · 03 pilot on a safety line</p>
+<p class="risk"><b>[ RISK ] </b>Uneven thrust flips the pilot. A dead-man switch must cut all four.</p>
+<p class="out"><b>[ RULED OUT ] </b>Open propellers · petrol-driven ducted fans</p>
+</footer>
+
+<script>
+/* ---------- wireframe geometry (y is up, exhaust points down) ---------- */
+const TAU = Math.PI * 2;
+function ring(y, r, n = 36) {
+  const p = [];
+  for (let i = 0; i <= n; i++) { const a = i / n * TAU; p.push([r * Math.cos(a), y, r * Math.sin(a)]); }
+  return p;
+}
+function revolve(profile, nLong = 12, c = 'main') {
+  const out = profile.map(([y, r]) => ({ pts: ring(y, r), c }));
+  for (let i = 0; i < nLong; i++) {
+    const a = i / nLong * TAU;
+    out.push({ pts: profile.map(([y, r]) => [r * Math.cos(a), y, r * Math.sin(a)]), c });
+  }
+  return out;
+}
+function radial(y0, r0, y1, r1, n, twist = 0, c = 'accent') {
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const a = i / n * TAU;
+    out.push({ pts: [[r0 * Math.cos(a), y0, r0 * Math.sin(a)], [r1 * Math.cos(a + twist), y1, r1 * Math.sin(a + twist)]], c });
+  }
+  return out;
+}
+function mesh(y, r, c = 'accent') {
+  const out = [{ pts: ring(y, r), c }];
+  for (const t of [-0.6, -0.2, 0.2, 0.6]) {
+    const h = Math.sqrt(1 - t * t) * r;
+    out.push({ pts: [[t * r, y, -h], [t * r, y, h]], c });
+    out.push({ pts: [[-h, y, t * r], [h, y, t * r]], c });
+  }
+  return out;
+}
+function tankX(x0, x1, cy, r, c = 'main') {
+  const prof = [[x0 - 0.2, r * 0.25], [x0 - 0.12, r * 0.7], [x0, r], [x1, r], [x1 + 0.12, r * 0.7], [x1 + 0.2, r * 0.25]];
+  const out = [];
+  for (const [x, rr] of prof) {
+    const p = [];
+    for (let i = 0; i <= 24; i++) { const a = i / 24 * TAU; p.push([x, cy + rr * Math.cos(a), rr * Math.sin(a)]); }
+    out.push({ pts: p, c });
+  }
+  for (let i = 0; i < 8; i++) {
+    const a = i / 8 * TAU;
+    out.push({ pts: prof.map(([x, rr]) => [x, cy + rr * Math.cos(a), rr * Math.sin(a)]), c });
+  }
+  return out;
+}
+function hose(P, r, c = 'main') {
+  const N = 16, cs = [], ns = [], out = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N, u = 1 - t;
+    const b = k => u * u * u * P[0][k] + 3 * u * u * t * P[1][k] + 3 * u * t * t * P[2][k] + t * t * t * P[3][k];
+    const d = k => 3 * u * u * (P[1][k] - P[0][k]) + 6 * u * t * (P[2][k] - P[1][k]) + 3 * t * t * (P[3][k] - P[2][k]);
+    const dx = d(0), dy = d(1), L = Math.hypot(dx, dy) || 1;
+    cs.push([b(0), b(1)]); ns.push([-dy / L, dx / L]);
+  }
+  const at = (i, a) => [cs[i][0] + ns[i][0] * r * Math.cos(a), cs[i][1] + ns[i][1] * r * Math.cos(a), r * Math.sin(a)];
+  for (let i = 0; i <= N; i++) {
+    const p = [];
+    for (let k = 0; k <= 16; k++) p.push(at(i, k / 16 * TAU));
+    out.push({ pts: p, c });
+  }
+  for (const a of [0, Math.PI / 2, Math.PI, 3 * Math.PI / 2]) out.push({ pts: cs.map((q, i) => at(i, a)), c });
+  return out;
+}
+
+const MODELS = {
+  p1: {
+    id: 'P1', name: 'Electric ducted fan',
+    desc: 'An electric motor spins a fan inside a duct. A cluster of two or three per limb reaches 350 N.',
+    kv: [['Energy', 'Battery or cable'], ['Endurance', 'About 1 min'], ['Exhaust', 'Cool air']],
+    note: 'Drawback: batteries can barely lift themselves.',
+    dims: ['Duct Ø 120 mm', 'Length 150 mm'], len: '150 mm', jet: '#7fdcff',
+    top: 0.66, bottom: -0.6, exitR: 0.42,
+    lines: [
+      ...revolve([[0.66, 0.56], [0.56, 0.5], [-0.6, 0.5]]),
+      ...revolve([[0.62, 0.02], [0.45, 0.14], [-0.25, 0.14], [-0.5, 0.02]], 8, 'accent'),
+      ...radial(0.42, 0.14, 0.3, 0.48, 9, 0.3),
+      ...radial(-0.2, 0.14, -0.2, 0.5, 5, 0, 'main')
+    ]
+  },
+  p2: {
+    id: 'P2', name: 'Micro turbojet',
+    desc: 'A small jet engine compresses air, burns kerosene and expels hot gas. One engine per limb is enough.',
+    kv: [['Energy', 'Kerosene'], ['Endurance', 'Minutes'], ['Exhaust', 'Several hundred °C']],
+    note: 'Drawback: hot, loud, slow throttle, expensive.',
+    dims: ['Body Ø 150 mm', 'Length 350 mm'], len: '350 mm', jet: '#ffe6a3',
+    top: 0.92, bottom: -0.9, exitR: 0.2,
+    lines: [
+      ...revolve([[0.9, 0.36], [0.8, 0.4], [0.3, 0.4], [0, 0.4], [-0.3, 0.4], [-0.75, 0.24], [-0.9, 0.24]]),
+      ...revolve([[0.92, 0.02], [0.7, 0.16]], 8, 'accent'),
+      ...radial(0.68, 0.16, 0.62, 0.38, 11, 0.25),
+      ...revolve([[-0.6, 0.12], [-0.9, 0.02]], 8, 'accent')
+    ]
+  },
+  p3: {
+    id: 'P3', name: 'Cold-gas nozzle',
+    desc: 'Compressed air or nitrogen from a tank is released through a nozzle. Just a valve, with no moving parts at the limb.',
+    kv: [['Energy', 'Compressed gas'], ['Endurance', 'Seconds'], ['Exhaust', 'Cold gas']],
+    note: 'Drawback: a tank empties almost at once.',
+    dims: ['Tank Ø 180 × 600 mm', 'Nozzle exit Ø 90 mm'], len: '480 mm', jet: '#7fdcff',
+    top: 0.88, bottom: -0.7, exitR: 0.24,
+    lines: [
+      ...tankX(-0.6, 0.6, 0.62, 0.26),
+      ...revolve([[0.36, 0.07], [0.1, 0.07]], 6),
+      { pts: [[-0.22, 0.24, 0], [0.22, 0.24, 0]], c: 'accent' },
+      { pts: ring(0.24, 0.09, 16), c: 'accent' },
+      ...revolve([[0.1, 0.12], [-0.1, 0.05], [-0.7, 0.28]])
+    ]
+  },
+  p4: {
+    id: 'P4', name: 'Peroxide rocket',
+    desc: 'Hydrogen peroxide decomposes over a catalyst into steam and oxygen. The classic 1960s rocket belt design.',
+    kv: [['Energy', 'Peroxide'], ['Endurance', '20 to 30 s'], ['Exhaust', 'Superheated steam']],
+    note: 'Drawback: concentrated peroxide is dangerous to handle.',
+    dims: ['Chamber Ø 60 mm', 'Bell exit Ø 90 mm', 'Length 200 mm'], len: '200 mm', jet: '#f0f2ff',
+    top: 0.95, bottom: -0.85, exitR: 0.38,
+    lines: [
+      ...revolve([[0.95, 0.05], [0.7, 0.05]], 6),
+      ...radial(0.7, 0.05, 0.7, 0.3, 12, 0, 'main'),
+      ...revolve([[0.7, 0.3], [0.15, 0.3], [-0.05, 0.1], [-0.3, 0.26], [-0.6, 0.38], [-0.85, 0.44]]),
+      ...mesh(0.55, 0.3), ...mesh(0.42, 0.3), ...mesh(0.3, 0.3)
+    ]
+  },
+  p5: {
+    id: 'P5', name: 'Water jet',
+    desc: 'A pump on the ground or water sends water up a hose to the nozzles. Proven and cheap.',
+    kv: [['Energy', 'Remote pump'], ['Endurance', 'Pump fuel'], ['Exhaust', 'Water']],
+    note: 'Drawback: not air, and a heavy hose ties you down.',
+    dims: ['Hose Ø 100 mm', 'Nozzle exit Ø 50 mm'], len: '520 mm', jet: '#6cb6ff',
+    top: 0.9, bottom: -0.45, exitR: 0.06,
+    lines: [
+      ...hose([[-1.05, -0.1], [-0.95, 0.95], [0, 1.05], [0, 0.2]], 0.13),
+      ...revolve([[0.2, 0.16], [-0.45, 0.07]], 10),
+      { pts: ring(0.2, 0.2), c: 'accent' }, { pts: ring(0.14, 0.2), c: 'accent' }
+    ]
+  }
+};
+const RIG = {
+  name: 'Rig overview',
+  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each. Pick a model to open its rotating blueprint.',
+  kv: [['Layout', '2 hand · 2 foot'], ['Peak load', '1.4 g'], ['Status', 'Concept']],
+  note: 'All figures are concept estimates, not test data.'
+};
+
+/* ---------- UI state ---------- */
+const $ = id => document.getElementById(id);
+const cv = $('bp'), ctx = cv.getContext('2d');
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, drag = null, last = 0, raf = 0;
+
+function fillDetail(d) {
+  $('dName').textContent = d.name;
+  $('dDesc').textContent = d.desc;
+  $('dNote').textContent = d.note;
+  const kv = $('dKv'); kv.textContent = '';
+  for (const [k, v] of d.kv) {
+    const dt = document.createElement('dt'), dd = document.createElement('dd');
+    dt.textContent = k; dd.textContent = v; kv.append(dt, dd);
+  }
+}
+function select(id) {
+  sel = id;
+  const isModel = id !== 'rig';
+  for (const b of document.querySelectorAll('.model')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
+  $('rig').toggleAttribute('hidden', isModel);
+  for (const k of ['bp', 'bpTitle', 'bpView', 'bpDims', 'bpCtrl']) $(k).toggleAttribute('hidden', !isModel);
+  $('stage').classList.toggle('bp', isModel);
+  $('tag').textContent = isModel ? 'Drag to rotate' : 'Tethered hover · 0.3 m';
+  if (isModel) {
+    const m = MODELS[id];
+    fillDetail(m);
+    $('bpTitle').textContent = 'Blueprint · ' + m.id + ' ' + m.name;
+    const dims = $('bpDims'); dims.textContent = '';
+    for (const t of [...m.dims, 'Approx. dimensions']) { const s = document.createElement('span'); s.textContent = t; dims.append(s); }
+    size(); start();
+  } else {
+    fillDetail(RIG); cancelAnimationFrame(raf); raf = 0;
+  }
+}
+function setSpin(p) { paused = p; $('spin').textContent = p ? 'Rotate' : 'Pause'; }
+
+/* ---------- blueprint renderer ---------- */
+function size() {
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+  if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+}
+function start() { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
+function frame(t) {
+  raf = 0;
+  if (sel === 'rig') return;
+  const dt = last ? Math.min(t - last, 60) : 0; last = t;
+  if (!paused && !drag) yaw += dt * 0.0006;
+  draw(t);
+  raf = requestAnimationFrame(frame);
+}
+function draw(t) {
+  const m = MODELS[sel], dpr = window.devicePixelRatio || 1;
+  const w = cv.clientWidth, h = cv.clientHeight;
+  if (!w || !h) return;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  const plume = 0.5, mid = (m.top + m.bottom - plume) / 2, span = m.top - m.bottom + plume;
+  const S = Math.min(w * 0.36, h * 0.72 / span * 1.0);
+  const cx = w / 2, cy = h / 2;
+  const cY = Math.cos(yaw), sY = Math.sin(yaw), cP = Math.cos(pitch), sP = Math.sin(pitch);
+  const proj = p => {
+    const y = p[1] - mid;
+    const x1 = p[0] * cY + p[2] * sY, z1 = -p[0] * sY + p[2] * cY;
+    const y2 = y * cP - z1 * sP, z2 = y * sP + z1 * cP;
+    const k = 4 / (4 - z2);
+    return [cx + x1 * S * k, cy - y2 * S * k, z2];
+  };
+  ctx.lineWidth = 1.1; ctx.lineCap = 'round'; ctx.setLineDash([]);
+  for (const ln of m.lines) {
+    ctx.strokeStyle = ln.c === 'accent' ? '#ffe6a3' : '#e4f3ff';
+    let a = proj(ln.pts[0]);
+    for (let i = 1; i < ln.pts.length; i++) {
+      const b = proj(ln.pts[i]);
+      ctx.globalAlpha = Math.max(0.22, Math.min(1, 0.3 + 0.7 * ((a[2] + b[2]) / 2 + 1) / 2));
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      a = b;
+    }
+  }
+  /* exhaust plume */
+  ctx.globalAlpha = 0.9; ctx.strokeStyle = m.jet; ctx.setLineDash([6, 5]);
+  ctx.lineDashOffset = paused ? 0 : -(t / 30) % 11;
+  const jets = [[0, 0]];
+  for (let i = 0; i < 4; i++) jets.push([Math.cos(i * TAU / 4 + 0.6), Math.sin(i * TAU / 4 + 0.6)]);
+  for (const [jx, jz] of jets) {
+    const a = proj([jx * m.exitR * 0.6, m.bottom - 0.05, jz * m.exitR * 0.6]);
+    const b = proj([jx * m.exitR * 0.9, m.bottom - plume, jz * m.exitR * 0.9]);
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+  }
+  /* length dimension */
+  ctx.setLineDash([]); ctx.globalAlpha = 0.9; ctx.strokeStyle = '#ffe6a3'; ctx.fillStyle = '#ffe6a3';
+  const dx = Math.max(22, cx - S * 1.2), yT = cy - (m.top - mid) * S * cP, yB = cy - (m.bottom - mid) * S * cP;
+  ctx.beginPath(); ctx.moveTo(dx, yT); ctx.lineTo(dx, yB);
+  ctx.moveTo(dx - 5, yT); ctx.lineTo(dx + 5, yT); ctx.moveTo(dx - 5, yB); ctx.lineTo(dx + 5, yB); ctx.stroke();
+  ctx.save(); ctx.translate(dx - 8, (yT + yB) / 2); ctx.rotate(-Math.PI / 2);
+  ctx.font = "700 11px 'JetBrains Mono', ui-monospace, monospace"; ctx.textAlign = 'center';
+  ctx.fillText('L ' + m.len, 0, 0); ctx.restore();
+  ctx.globalAlpha = 1;
+  /* view readout */
+  const deg = ((Math.round(yaw * 180 / Math.PI) % 360) + 360) % 360;
+  const side = deg < 45 || deg >= 315 ? 'Front' : deg < 135 ? 'Right' : deg < 225 ? 'Back' : 'Left';
+  $('bpView').textContent = side + ' · ' + String(deg).padStart(3, '0') + '°';
+}
+
+/* ---------- events ---------- */
+$('models').addEventListener('click', e => { const b = e.target.closest('.model'); if (b) select(b.dataset.id); });
+$('spin').addEventListener('click', () => setSpin(!paused));
+$('bpCtrl').addEventListener('click', e => {
+  const b = e.target.closest('[data-yaw]');
+  if (b) { yaw = b.dataset.yaw * Math.PI / 180; pitch = 0.3; setSpin(true); }
+});
+cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
+cv.addEventListener('pointermove', e => {
+  if (!drag) return;
+  yaw += (e.clientX - drag.x) * 0.01;
+  pitch = Math.max(-1.2, Math.min(1.2, pitch + (e.clientY - drag.y) * 0.01));
+  drag = { x: e.clientX, y: e.clientY };
+});
+for (const ev of ['pointerup', 'pointercancel']) cv.addEventListener(ev, () => { drag = null; });
+window.addEventListener('resize', () => { if (sel !== 'rig') size(); });
+
+setSpin(paused);
+select('rig');
+</script>
 </body>
 </html>
