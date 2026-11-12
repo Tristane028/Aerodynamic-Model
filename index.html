@@ -40,10 +40,11 @@ h2 .num{color:var(--label)}
 
 .viewer{position:relative;flex:1;min-height:0;background:linear-gradient(var(--gold),var(--gold)) 0 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 0 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 100%/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 22px;background-repeat:no-repeat}
 .stage{position:absolute;inset:8px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
-.stage.split{grid-template-columns:minmax(0,33fr) minmax(0,67fr)}
+.stage.split{grid-template-columns:minmax(0,42fr) minmax(0,58fr)}
 .pane{position:relative;min-width:0;min-height:0;overflow:hidden}
 .pane.bp{background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.14) 1px,transparent 1px),linear-gradient(rgba(190,225,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.22) 1px,transparent 1px);background-size:12px 12px,12px 12px,60px 60px,60px 60px;border:1px solid rgba(190,225,255,.45)}
-#rig{position:absolute;inset:0;width:100%;height:100%;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:700;letter-spacing:.08em}
+#fig{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;filter:drop-shadow(0 0 3px rgba(127,220,255,.5))}
+#fig:active{cursor:grabbing}
 #bp{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;filter:drop-shadow(0 0 3px rgba(127,220,255,.55))}
 #bp:active{cursor:grabbing}
 [hidden]{display:none!important}
@@ -138,40 +139,7 @@ h2 .num{color:var(--label)}
 <div class="viewer">
 <div class="stage" id="stage">
 <div class="pane" id="pFig">
-<svg id="rig" viewBox="0 -56 300 428" role="img" aria-label="Pilot figure wearing the selected thrusters, rising and descending">
-<g id="rings"><circle cx="150" cy="150" r="138" fill="none" stroke="rgba(127,220,255,0.35)" stroke-dasharray="3 5"/>
-<circle cx="150" cy="150" r="112" fill="rgba(127,220,255,0.06)" stroke="rgba(127,220,255,0.6)"/></g>
-<line id="ground" x1="20" y1="362" x2="280" y2="362" stroke="rgba(160,170,255,0.6)" stroke-dasharray="6 4"/>
-<g id="air" stroke="#7fdcff" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="14 26" hidden><line x1="22" y1="-56" x2="22" y2="372"/><line x1="64" y1="-56" x2="64" y2="372"/><line x1="106" y1="-56" x2="106" y2="372"/><line x1="194" y1="-56" x2="194" y2="372"/><line x1="236" y1="-56" x2="236" y2="372"/><line x1="278" y1="-56" x2="278" y2="372"/></g>
-<path id="supply" fill="none" stroke="#6cb6ff" stroke-width="5" stroke-linecap="round" opacity="0.7" hidden></path>
-<g id="pilot">
-<path id="wing" fill="rgba(255,230,163,0.1)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)" hidden></path>
-<g id="ctl" stroke="#ffe6a3" stroke-width="1" stroke-dasharray="4 3" hidden><line id="c1" x1="78" y1="166"/><line id="c2" x1="222" y1="166"/></g>
-<g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 4px #7fdcff)">
-<circle cx="150" cy="48" r="16"/>
-<polygon points="126,72 174,72 164,172 136,172"/>
-<polyline points="126,78 78,166" fill="none"/>
-<polyline points="174,78 222,166" fill="none"/>
-<polyline points="142,172 124,288" fill="none"/>
-<polyline points="158,172 176,288" fill="none"/>
-</g>
-<g id="pack" hidden>
-<g stroke="#8ff0c0" stroke-width="1" stroke-dasharray="3 3" fill="none"><line id="f1"/><line id="f2"/><line id="f3"/><line id="f4"/></g>
-<rect id="packBox" x="134" width="32" rx="8" fill="rgba(143,240,192,0.14)" stroke="#8ff0c0" stroke-width="1.5"/>
-<line id="packLead" x1="166" x2="190" y2="24" stroke="#8ff0c0" stroke-width="1"/>
-<text id="packText" x="192" y="22" fill="#8ff0c0"></text>
-</g>
-<g id="mounts"></g>
-<g id="cg"><g stroke="#ffe6a3" stroke-width="1"><line x1="142" y1="128" x2="158" y2="128"/><line x1="150" y1="120" x2="150" y2="136"/></g>
-<text x="162" y="124" fill="#ffe6a3">CG</text></g>
-<g id="tlabels">
-<text x="8" y="178" fill="#7fdcff">T1</text><text x="8" y="192" fill="#cfe6ff">350 N</text>
-<text x="244" y="178" fill="#7fdcff">T2</text><text x="244" y="192" fill="#cfe6ff">350 N</text>
-<text x="60" y="298" fill="#8ff0c0">T3</text><text x="60" y="312" fill="#cfe6ff">350 N</text>
-<text x="198" y="298" fill="#8ff0c0">T4</text><text x="198" y="312" fill="#cfe6ff">350 N</text>
-</g>
-</g>
-</svg>
+<canvas id="fig" aria-label="3D mannequin wearing the selected model. Drag to rotate."></canvas>
 <p class="ov tl mono" id="flight"><span id="fAlt"></span><span id="fThr"></span><span id="fState" style="color:var(--gold)"></span></p>
 <button class="btn main mono" id="fly" type="button">Hold</button>
 </div>
@@ -182,9 +150,8 @@ h2 .num{color:var(--label)}
 <div class="ctrl" id="bpCtrl">
 <button class="btn main mono" id="spin" type="button">Pause</button>
 <button class="btn mono" type="button" data-yaw="0">Front</button>
-<button class="btn mono" type="button" data-yaw="90">Right</button>
+<button class="btn mono" type="button" data-yaw="90">Side</button>
 <button class="btn mono" type="button" data-yaw="180">Back</button>
-<button class="btn mono" type="button" data-yaw="270">Left</button>
 <button class="btn mono" type="button" data-zoom="0.8" aria-label="Zoom out">−</button>
 <button class="btn mono" type="button" data-zoom="1.25" aria-label="Zoom in">+</button>
 </div>
@@ -575,7 +542,7 @@ const cv = $('bp'), ctx = cv.getContext('2d');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MOUNTS = [[78, 166], [222, 166], [124, 288], [176, 288]];
 const GROUND = 362, RISE = 52, PX_PER_M = 171, PERIOD = 7000;
-let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, zoom = 1, plumes = [], plumeAt = [];
+let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, zoom = 1, fyaw = -0.55, fpitch = 0.2, fdrag = null, FIG = null;
 
 function fillDetail(d) {
   $('dName').textContent = d.name;
@@ -587,31 +554,169 @@ function fillDetail(d) {
     dt.textContent = k; dd.textContent = v; kv.append(dt, dd);
   }
 }
-function equip(d, isModel) {
-  const use = d.mounts || [0, 1, 2, 3];
-  plumeAt = use;
-  $('wing').toggleAttribute('hidden', !d.wing); $('ctl').toggleAttribute('hidden', !d.wing);
-  if (d.wing) {
-    $('wing').setAttribute('d', d.wingPath);
-    d.ctl.forEach(([x, y], i) => { const c = $('c' + (i + 1)); c.setAttribute('x2', x); c.setAttribute('y2', y); });
-  }
-  $('mounts').innerHTML = use.map(i => MOUNTS[i]).map(([x, y]) =>
-    '<g transform="translate(' + x + ',' + y + ')"><polygon class="plume" fill="' + d.jet + '" opacity="0.28"/>' +
-    '<g fill="rgba(255,230,163,0.14)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)">' + d.glyph + '</g></g>').join('');
-  plumes = [...document.querySelectorAll('#mounts .plume')];
-  $('pack').toggleAttribute('hidden', !isModel);
-  if (isModel) {
-    const [label, py, ph] = d.pack, top = py + 12, bot = py + ph - 4;
-    $('packBox').setAttribute('y', py); $('packBox').setAttribute('height', ph);
-    $('packLead').setAttribute('y1', py + 6); $('packText').textContent = label.toUpperCase();
-    const ends = [[134, top], [166, top], [140, bot], [160, bot]];
-    MOUNTS.forEach(([x, y], i) => {
-      const f = $('f' + (i + 1));
-      f.toggleAttribute('hidden', !use.includes(i));
-      f.setAttribute('x1', ends[i][0]); f.setAttribute('y1', ends[i][1]); f.setAttribute('x2', x); f.setAttribute('y2', y);
-    });
-  }
+/* ---------- 3D mannequin (metres; x right, y up, z forward) ---------- */
+const vadd = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], vsub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const vmul = (a, k) => [a[0] * k, a[1] * k, a[2] * k], vnorm = a => vmul(a, 1 / (Math.hypot(a[0], a[1], a[2]) || 1));
+const vcross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+function tube(a, b, ra, rb, c = 'body', n = 6) {
+  const ax = vnorm(vsub(b, a)), u = vnorm(vcross(ax, Math.abs(ax[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0])), v = vcross(ax, u);
+  const pt = (t, ang) => vadd(vadd(a, vmul(vsub(b, a), t)), vadd(vmul(u, (ra + (rb - ra) * t) * Math.cos(ang)), vmul(v, (ra + (rb - ra) * t) * Math.sin(ang))));
+  const out = [];
+  for (const t of [0, 0.5, 1]) out.push({ pts: Array.from({ length: 17 }, (_, k) => pt(t, k / 16 * TAU)), c });
+  for (let i = 0; i < n; i++) out.push({ pts: [pt(0, i / n * TAU), pt(1, i / n * TAU)], c });
+  return out;
 }
+function ellTube(prof, c = 'body', n = 10) {
+  const out = prof.map(([y, rx, rz]) => ({ pts: Array.from({ length: 25 }, (_, k) => [rx * Math.cos(k / 24 * TAU), y, rz * Math.sin(k / 24 * TAU)]), c }));
+  for (let i = 0; i < n; i++) { const a = i / n * TAU; out.push({ pts: prof.map(([y, rx, rz]) => [rx * Math.cos(a), y, rz * Math.sin(a)]), c }); }
+  return out;
+}
+function ball(ctr, r, c) {
+  return [0, 1, 2].map(ax => ({ pts: Array.from({ length: 17 }, (_, k) => { const a = k / 16 * TAU, q = [0, 0, 0]; q[(ax + 1) % 3] = r * Math.cos(a); q[(ax + 2) % 3] = r * Math.sin(a); return vadd(ctr, q); }), c }));
+}
+const JT = { sh: [0.2, 1.4, 0], el: [0.33, 1.13, 0.02], wr: [0.42, 0.88, 0.06], hd: [0.44, 0.79, 0.07], hip: [0.09, 0.92, 0], kn: [0.11, 0.5, 0.02], an: [0.12, 0.09, 0], toe: [0.12, 0.04, 0.17] };
+const BODY = (() => {
+  const out = [];
+  out.push(...ellTube([-90, -60, -30, 0, 30, 60, 90].map(a => [1.62 + 0.11 * Math.sin(a * D2R), 0.1 * Math.cos(a * D2R) + 0.001, 0.11 * Math.cos(a * D2R) + 0.001]), 'body', 8));
+  out.push(...tube([0, 1.51, 0], [0, 1.44, 0], 0.05, 0.055));
+  out.push(...ellTube([[1.44, 0.2, 0.1], [1.3, 0.19, 0.11], [1.08, 0.15, 0.095], [0.92, 0.17, 0.105], [0.86, 0.12, 0.09]]));
+  for (const sg of [1, -1]) {
+    const m = q => [q[0] * sg, q[1], q[2]];
+    out.push(...tube(m(JT.sh), m(JT.el), 0.05, 0.042), ...tube(m(JT.el), m(JT.wr), 0.04, 0.032), ...tube(m(JT.wr), m(JT.hd), 0.035, 0.03));
+    out.push(...tube(m(JT.hip), m(JT.kn), 0.078, 0.056), ...tube(m(JT.kn), m(JT.an), 0.055, 0.04), ...tube(m(JT.an), m(JT.toe), 0.045, 0.035));
+    for (const k of ['sh', 'el', 'wr', 'hip', 'kn', 'an']) out.push(...ball(m(JT[k]), 0.045, 'joint'));
+  }
+  return out;
+})();
+const PACK = (() => {
+  const x = 0.13, y0 = 1.05, y1 = 1.38, z0 = -0.11, z1 = -0.25, out = [];
+  for (const z of [z0, z1]) out.push({ pts: [[-x, y0, z], [x, y0, z], [x, y1, z], [-x, y1, z], [-x, y0, z]], c: 'pack' });
+  for (const sx of [-x, x]) for (const y of [y0, y1]) out.push({ pts: [[sx, y, z0], [sx, y, z1]], c: 'pack' });
+  return out;
+})();
+const GENERIC = { lines: revolve([[0.3, 0.28], [0, 0.28], [-0.3, 0.28]], 8, 'accent'), top: 0.3, bottom: -0.3 };
+MODELS.p3.mini = { lines: [...revolve([[0.36, 0.07], [0.1, 0.07]], 6), ...revolve([[0.1, 0.12], [-0.1, 0.05], [-0.7, 0.28]])], top: 0.36, bottom: -0.7 };
+const FIT = { p1: { tl: 0.2 }, p2: { tl: 0.32 }, p3: { tl: 0.26 }, p4: { tl: 0.24 },
+  w1: { k: 1.2, wy: 0.4, feet: [-0.12, 0.12] }, w2: { k: 1.2, wy: 0.64, feet: [-0.19, -0.06, 0.06, 0.19] }, w3: { k: 1.5, wy: 0.6, feet: [-0.19, -0.06, 0.06, 0.19] },
+  w4: { k: 1.2, wy: 0.52, feet: [-0.19, -0.06, 0.06, 0.19] }, w5: { k: 1.5, wy: 0.6, feet: [-0.19, -0.06, 0.06, 0.19] } };
+const HAND = [[-0.44, 0.76, 0.07], [0.44, 0.76, 0.07]], FOOT = [[-0.12, 0.02, 0.05], [0.12, 0.02, 0.05]];
+
+function equip(d, isModel) {
+  const f = FIT[sel] || {}, tl = d.wing ? 0.3 : f.tl || 0.24;
+  const src = d.wing ? MODELS.p2 : isModel ? d.mini || d : GENERIC;
+  const k = tl / (src.top - src.bottom);
+  const mounts = d.wing ? f.feet.map(x => [x, 0.02, 0.05]) : [...HAND, ...FOOT];
+  const lines = [...BODY];
+  if (isModel) lines.push(...PACK);
+  for (const m of mounts) for (const ln of src.lines) lines.push({ pts: ln.pts.map(q => [m[0] + q[0] * k, m[1] + (q[1] - src.top) * k, m[2] + q[2] * k]), c: ln.c });
+  const onBack = ls => ls.map(ln => ({ pts: ln.pts.map(q => [q[0] * f.k, q[1] * f.k + f.wy, -q[2] * f.k - 0.29]), c: ln.c }));
+  let wingOpen = [], wingFold = null;
+  if (d.wing) {
+    wingOpen = onBack(sel === 'w5' ? tapered() : d.lines);
+    if (sel === 'w5') wingFold = onBack([...wingMesh({ LE: u => tapLE(0.4 * u), TE: u => tapTE(0.4 * u), half: 0.4, hy: 0.62 }), ...d.lines.slice(-6)]);
+    const e = d.labels.find(l => l[0] === 'Elevon')[1];
+    for (const sg of [1, -1]) lines.push({ pts: [[0.44 * sg, 0.79, 0.07], [Math.abs(e[0]) * sg * f.k, e[1] * f.k + f.wy, -0.29]], c: 'ctl' });
+  }
+  FIG = { lines, wingOpen, wingFold, tl, jet: d.jet, mounts, rig: !isModel, pack: isModel ? d.pack[0].toUpperCase() : '', wing: !!d.wing };
+}
+
+/* ---------- flight pose: hover bob, forward cruise, or the full tail-sitter cycle ---------- */
+function pose() {
+  const d = MODELS[sel] || RIG, ph = ft / PERIOD * TAU;
+  if (d.vtol) {
+    const p = (ft % 14000) / 14000, ease = x => x * x * (3 - 2 * x), clamp = x => Math.max(0, Math.min(1, x));
+    const up = ease(clamp(p / 0.2)), down = ease(clamp((p - 0.8) / 0.2));
+    const fly = ease(clamp((p - 0.2) / 0.1)) - ease(clamp((p - 0.7) / 0.1));
+    const state = p < 0.2 ? 'Lift-off' : p < 0.3 ? 'Transition' : p < 0.7 ? 'Cruise' : p < 0.8 ? 'Flare' : 'Landing';
+    const thr = { 'Lift-off': 78, Transition: 100, Cruise: 28, Flare: 90, Landing: 64 }[state], alt = 0.3 * (up - down);
+    return { alt: alt + 0.15 * fly, pitch: fly * 80 * D2R, roll: fly * 8 * Math.sin((p - 0.3) / 0.4 * TAU) * D2R, fly, thr, state,
+      a: fly > 0.02 ? 'Spd ' + Math.round(150 * fly) + ' km/h' : 'Alt ' + alt.toFixed(2) + ' m' };
+  }
+  if (d.wing) {
+    const bank = 8 * Math.sin(ph);
+    return { alt: 0.3, pitch: 80 * D2R, roll: bank * D2R, fly: 1, thr: 47, state: bank > 2.5 ? 'Bank right' : bank < -2.5 ? 'Bank left' : 'Level', a: 'Spd ' + Math.round(118 + 5 * Math.cos(ph)) + ' km/h' };
+  }
+  const alt = 0.3 * (1 - Math.cos(ph)) / 2, v = Math.sin(ph);
+  return { alt, pitch: 0, roll: 0, fly: 0, thr: Math.round(70 + 8 * v), state: v > 0.08 ? 'Ascent' : v < -0.08 ? 'Descent' : 'Hover', a: 'Alt ' + alt.toFixed(2) + ' m' };
+}
+const FCOL = { body: '#7fdcff', joint: '#ffe6a3', main: '#e4f3ff', accent: '#ffe6a3', pack: '#8ff0c0', ctl: '#ffe6a3' };
+function float(t) {
+  const ps = pose();
+  $('fAlt').textContent = ps.a; $('fThr').textContent = 'Thr ' + ps.thr + '%'; $('fState').textContent = flying ? ps.state : 'Holding';
+  const fg = $('fig'), [w, h, dpr] = size(fg), c = fg.getContext('2d');
+  if (!w || !h || !FIG) return;
+  c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  const S = Math.min((w - 16) / (FIG.wing ? 2.3 + 0.8 * ps.fly : 1.6), (h - 70) / 2.45), cx = w / 2, cy = h / 2 + 6;
+  const cY = Math.cos(fyaw), sY = Math.sin(fyaw), cP = Math.cos(fpitch), sP = Math.sin(fpitch);
+  const cb = Math.cos(ps.pitch), sb = Math.sin(ps.pitch), cr = Math.cos(ps.roll), sr = Math.sin(ps.roll);
+  const cam = q => {
+    const y = q[1] - 0.72 - 0.55 * ps.fly, x1 = q[0] * cY + q[2] * sY, z1 = -q[0] * sY + q[2] * cY, y2 = y * cP - z1 * sP, z2 = y * sP + z1 * cP, k = 8 / (8 - z2);
+    return [cx + x1 * S * k, cy - y2 * S * k, z2];
+  };
+  const P = q => {                                   /* body -> world -> screen */
+    const x = q[0] * cr + q[2] * sr, z = -q[0] * sr + q[2] * cr, y = q[1] - 1;
+    return cam([x, y * cb - z * sb + 1 + ps.alt, y * sb + z * cb + 0.3 * ps.fly]);
+  };
+  c.lineCap = 'round';
+  /* ground grid, fading out in wing flight */
+  if (ps.fly < 0.98) {
+    c.strokeStyle = '#a9b0dc'; c.lineWidth = 1; c.globalAlpha = 0.35 * (1 - ps.fly); c.beginPath();
+    for (let i = -3; i <= 3; i++) {
+      let a = cam([i * 0.4, -0.42, -1.2]), b = cam([i * 0.4, -0.42, 1.2]); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]);
+      a = cam([-1.2, -0.42, i * 0.4]); b = cam([1.2, -0.42, i * 0.4]); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]);
+    }
+    c.stroke();
+  }
+  /* air streaks in wing flight */
+  if (ps.fly > 0.02) {
+    c.strokeStyle = '#7fdcff'; c.lineWidth = 1.3; c.globalAlpha = 0.6 * ps.fly; c.beginPath();
+    for (let i = 0; i < 12; i++) {
+      const x = ((i * 0.37) % 2.2) - 1.1, y = 0.3 + ((i * 0.53) % 1.6), z = 1.8 - ((ft * 0.004 + i * 0.61) % 3.6);
+      const a = cam([x, y, z]), b = cam([x, y, z - 0.45]); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]);
+    }
+    c.stroke();
+  }
+  /* mannequin, thrusters, pack and wing */
+  c.lineWidth = 1.1; c.setLineDash([]);
+  const sets = [FIG.lines, FIG.wingFold && ps.fly < 0.5 ? FIG.wingFold : FIG.wingOpen];
+  for (const set of sets) for (const ln of set) {
+    c.strokeStyle = FCOL[ln.c];
+    let a = P(ln.pts[0]);
+    for (let i = 1; i < ln.pts.length; i++) {
+      const b = P(ln.pts[i]);
+      c.globalAlpha = Math.max(0.25, Math.min(1, 0.4 + 0.6 * ((a[2] + b[2]) / 2 + 0.9) / 1.8));
+      c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.stroke();
+      a = b;
+    }
+  }
+  /* exhaust */
+  const L = 0.1 + ps.thr / 100 * 0.42;
+  c.strokeStyle = FIG.jet; c.globalAlpha = 0.9; c.lineWidth = 1.4; c.setLineDash([5, 4]); c.lineDashOffset = -(t / 25) % 9; c.beginPath();
+  for (const m of FIG.mounts) for (const [ox, oz] of [[0, 0], [0.035, 0.02], [-0.035, -0.02]]) {
+    const a = P([m[0] + ox, m[1] - FIG.tl - 0.02, m[2] + oz]), b = P([m[0] + ox * 2, m[1] - FIG.tl - L, m[2] + oz * 2]);
+    c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]);
+  }
+  c.stroke(); c.setLineDash([]);
+  /* labels */
+  c.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; c.textBaseline = 'middle'; c.globalAlpha = 1;
+  if (FIG.rig) {
+    FIG.mounts.forEach((m, i) => {
+      const a = P([m[0], m[1] - 0.12, m[2]]), sg = m[0] < 0 ? -1 : 1;
+      c.textAlign = sg < 0 ? 'right' : 'left';
+      c.fillStyle = i < 2 ? '#7fdcff' : '#8ff0c0'; c.fillText('T' + (i + 1), a[0] + sg * 26, a[1] - 7);
+      c.fillStyle = '#cfe6ff'; c.fillText('350 N', a[0] + sg * 26, a[1] + 7);
+    });
+    const g = P([0, 1.0, 0.12]);
+    c.strokeStyle = '#ffe6a3'; c.lineWidth = 1; c.beginPath(); c.moveTo(g[0] - 7, g[1]); c.lineTo(g[0] + 7, g[1]); c.moveTo(g[0], g[1] - 7); c.lineTo(g[0], g[1] + 7); c.stroke();
+    c.fillStyle = '#ffe6a3'; c.textAlign = 'left'; c.fillText('CG', g[0] + 11, g[1] - 8);
+  } else if (FIG.pack) {
+    const a = P([0, 1.38, -0.2]), tx = Math.min(w - 8, a[0] + 70), ty = Math.max(64, a[1] - 46);
+    c.strokeStyle = '#8ff0c0'; c.lineWidth = 1; c.globalAlpha = 0.8; c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(tx - 30, ty); c.lineTo(tx - c.measureText(FIG.pack).width - 4, ty); c.stroke();
+    c.globalAlpha = 1; c.fillStyle = '#8ff0c0'; c.textAlign = 'right'; c.fillText(FIG.pack, tx, ty - 8);
+  }
+  c.textBaseline = 'alphabetic';
+}
+
 function select(id) {
   sel = id;
   const isModel = id in MODELS, d = isModel ? MODELS[id] : RIG;
@@ -621,67 +726,14 @@ function select(id) {
   $('outPanel').toggleAttribute('hidden', isModel);
   $('metPanel').toggleAttribute('hidden', !isModel);
   if (isModel) metrics(id);
-  for (const k of ['rings', 'tlabels', 'cg']) $(k).toggleAttribute('hidden', isModel);
-  $('rig').setAttribute('viewBox', isModel && !d.wing ? '36 -56 228 428' : '0 -56 300 428');
-  $('tag').textContent = d.vtol ? 'Front view in hover · top view in cruise' : d.wing ? 'Top view · forward flight' : isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
-  $('air').toggleAttribute('hidden', !d.wing); $('ground').toggleAttribute('hidden', !!d.wing && !d.vtol);
-  $('air').setAttribute('opacity', 1); $('ground').setAttribute('opacity', 1);
+  $('tag').textContent = isModel ? 'Drag either view to rotate · scroll blueprint to zoom' : 'Drag to rotate · tethered hover 0.3 m';
+  fyaw = d.wing ? -1.05 : -0.55; fpitch = 0.2;
   zoom = 1; yaw = 0.35;
   fillDetail(d); equip(d, isModel);
   if (isModel) $('bpTitle').textContent = 'Blueprint · ' + d.id;
 }
 function setSpin(p) { paused = p; $('spin').textContent = p ? 'Rotate' : 'Pause'; }
 function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
-
-/* ---------- pilot float animation ---------- */
-function float() {
-  const d = MODELS[sel] || RIG;
-  const ph = ft / PERIOD * TAU;
-  if (d.vtol) {
-    const p = (ft % 14000) / 14000, ease = x => x * x * (3 - 2 * x), clamp = x => Math.max(0, Math.min(1, x));
-    const up = ease(clamp(p / 0.2)), down = ease(clamp((p - 0.8) / 0.2));
-    const alt = RISE * (up - down);
-    const fly = ease(clamp((p - 0.2) / 0.1)) - ease(clamp((p - 0.7) / 0.1));     /* 0 hover, 1 wing-borne */
-    const bank = fly * 6 * Math.sin((p - 0.3) / 0.4 * TAU);
-    const state = p < 0.2 ? 'Lift-off' : p < 0.3 ? 'Transition' : p < 0.7 ? 'Cruise' : p < 0.8 ? 'Flare' : 'Landing';
-    const thr = { 'Lift-off': 78, Transition: 100, Cruise: 28, Flare: 90, Landing: 64 }[state];
-    $('pilot').setAttribute('transform', 'translate(0,' + (-alt).toFixed(2) + ') rotate(' + bank.toFixed(2) + ',150,170)');
-    if (d.wingPathFold) $('wing').setAttribute('d', fly > 0.5 ? d.wingPath : d.wingPathFold);
-    $('air').setAttribute('opacity', fly.toFixed(2)); $('ground').setAttribute('opacity', (1 - fly).toFixed(2));
-    $('air').setAttribute('stroke-dashoffset', (-(ft / 6) % 40).toFixed(1));
-    plumes.forEach((pl, i) => {
-      const room = fly > 0.5 ? 99 : GROUND - (MOUNTS[plumeAt[i]][1] + d.gh - alt);
-      const len = Math.max(4, Math.min(18 + thr * 0.45, room));
-      pl.setAttribute('points', -d.pw + ',' + d.gh + ' ' + d.pw + ',' + d.gh + ' ' + d.pw * 1.6 + ',' + (d.gh + len).toFixed(1) + ' ' + -d.pw * 1.6 + ',' + (d.gh + len).toFixed(1));
-    });
-    $('fAlt').textContent = fly > 0.02 ? 'Spd ' + Math.round(150 * fly) + ' km/h' : 'Alt ' + (alt / PX_PER_M).toFixed(2) + ' m';
-    $('fThr').textContent = 'Thr ' + thr + '%';
-    $('fState').textContent = flying ? state : 'Holding';
-    return;
-  }
-  if (d.wing) {                       /* top view: head leads, air streams past, arms bank the wing */
-    const bank = 6 * Math.sin(ph);
-    $('pilot').setAttribute('transform', 'rotate(' + bank.toFixed(2) + ',150,170)');
-    for (const pl of plumes) pl.setAttribute('points', -d.pw + ',' + d.gh + ' ' + d.pw + ',' + d.gh + ' ' + d.pw * 1.6 + ',' + (d.gh + 46) + ' ' + -d.pw * 1.6 + ',' + (d.gh + 46));
-    $('air').setAttribute('stroke-dashoffset', (-(ft / 6) % 40).toFixed(1));
-    $('fAlt').textContent = 'Spd ' + Math.round(118 + 5 * Math.cos(ph)) + ' km/h';
-    $('fThr').textContent = 'Thr 47%';
-    $('fState').textContent = !flying ? 'Holding' : bank > 2 ? 'Bank right' : bank < -2 ? 'Bank left' : 'Level';
-    return;
-  }
-  const alt = RISE * (1 - Math.cos(ph)) / 2, v = Math.sin(ph);
-  const thr = Math.round(70 + 8 * v);
-  $('pilot').setAttribute('transform', 'translate(0,' + (-alt).toFixed(2) + ')');
-  const L = 24 + (thr - 62) / 16 * 40;
-  plumes.forEach((pl, i) => {
-    const room = GROUND - (MOUNTS[plumeAt[i]][1] + d.gh - alt);
-    const len = Math.max(4, Math.min(L, room)), w0 = d.pw, w1 = d.straight ? d.pw : d.pw * 1.6;
-    pl.setAttribute('points', -w0 + ',' + d.gh + ' ' + w0 + ',' + d.gh + ' ' + w1 + ',' + (d.gh + len).toFixed(1) + ' ' + -w1 + ',' + (d.gh + len).toFixed(1));
-  });
-  $('fAlt').textContent = 'Alt ' + (alt / PX_PER_M).toFixed(2) + ' m';
-  $('fThr').textContent = 'Thr ' + thr + '%';
-  $('fState').textContent = !flying ? 'Holding' : v > 0.08 ? 'Ascent' : v < -0.08 ? 'Descent' : 'Hover';
-}
 
 /* ---------- blueprint renderer ---------- */
 function size(c) {
@@ -726,7 +778,7 @@ function thumbs() {
 function frame(t) {
   const dt = last ? Math.min(t - last, 60) : 0; last = t;
   if (flying) ft += dt;
-  float();
+  float(t);
   if (MODELS[sel]) {
     if (!paused && !drag) yaw += dt * 0.0006;
     draw(t);
@@ -805,6 +857,15 @@ $('bpCtrl').addEventListener('click', e => {
 });
 cv.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.max(0.5, Math.min(4, zoom * Math.exp(-e.deltaY * 0.0015))); }, { passive: false });
 window.addEventListener('resize', thumbs);
+const fgc = $('fig');
+fgc.addEventListener('pointerdown', e => { fdrag = { x: e.clientX, y: e.clientY }; fgc.setPointerCapture(e.pointerId); });
+fgc.addEventListener('pointermove', e => {
+  if (!fdrag) return;
+  fyaw += (e.clientX - fdrag.x) * 0.01;
+  fpitch = Math.max(-1.2, Math.min(1.2, fpitch + (e.clientY - fdrag.y) * 0.01));
+  fdrag = { x: e.clientX, y: e.clientY };
+});
+for (const ev of ['pointerup', 'pointercancel']) fgc.addEventListener(ev, () => { fdrag = null; });
 cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; cv.setPointerCapture(e.pointerId); });
 cv.addEventListener('pointermove', e => {
   if (!drag) return;
@@ -816,12 +877,6 @@ for (const ev of ['pointerup', 'pointercancel']) cv.addEventListener(ev, () => {
 
 setSpin(paused); setFly(flying);
 if (reduce) ft = PERIOD / 4;
-{
-  let d = '';
-  for (let k = 0; k <= 40; k++) { const o = wingO(k / 40); d += (k ? 'L' : 'M') + (150 + 140 * o[0]).toFixed(1) + ',' + (200 - 140 * o[1]).toFixed(1); }
-  for (let k = 40; k >= 0; k--) { const i = wingI(k / 40); d += 'L' + (150 + 140 * i[0]).toFixed(1) + ',' + (200 - 140 * i[1]).toFixed(1); }
-  MODELS.w1.wingPath = d + 'Z';
-}
 select('rig');
 thumbs();
 requestAnimationFrame(frame);
