@@ -66,16 +66,15 @@ h2 .num{color:var(--label)}
 .tick{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--bright);opacity:.75}
 .tick::after{content:"";position:absolute;inset:-4px -5px}
 .key{margin:6px 0 0;font-size:12px;color:var(--label)}
-.cells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
-.cell{display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px;align-items:center;padding:7px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 20px rgba(127,220,255,.12);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif}
+.cells{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:8px}
+.cell{display:grid;gap:5px;padding:6px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 20px rgba(127,220,255,.12);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif}
 .cell:hover,.cell:focus-visible{border-color:var(--cyan);outline:none}
 .cell[aria-pressed="true"]{border-color:var(--gold);background:rgba(255,230,163,.1);box-shadow:inset 0 0 20px rgba(255,230,163,.14),0 0 14px rgba(255,230,163,.3)}
-.cover{display:block;width:72px;height:72px;border:1px solid rgba(190,225,255,.45);background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.16) 1px,transparent 1px);background-size:12px 12px}
+.cover{display:block;height:52px;border:1px solid rgba(190,225,255,.45);background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.16) 1px,transparent 1px);background-size:12px 12px}
 .cover canvas,.cover svg{display:block;width:100%;height:100%}
-.meta{display:grid;gap:3px;min-width:0}
+.meta{display:flex;align-items:baseline;gap:6px;min-width:0}
 .meta .id{color:var(--gold)}
-.meta .nm{font-size:14px;line-height:1.2;color:var(--bright)}
-.meta .chip{font-size:10px;color:var(--label)}
+.meta .nm{font-size:13px;color:var(--bright);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .detail{flex:1;min-height:0;overflow:auto;display:grid;gap:8px;align-content:start}
 .detail h3{margin:0;font-size:18px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
 .detail p{margin:0}
@@ -92,7 +91,7 @@ h2 .num{color:var(--label)}
 @media (max-width:999px),(max-height:599px){
   body{height:auto;min-height:100vh;overflow:auto}
   main{grid-template-columns:1fr}
-  .cells{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .cells{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
   .tilt-l,.tilt-r{transform:none}
   .viewer{flex:none;height:560px}
   .detail{overflow:visible}
@@ -210,14 +209,17 @@ h2 .num{color:var(--label)}
 </div>
 </main>
 
-<nav class="cells" id="cells" aria-label="Thruster models">
-<button class="cell" type="button" data-id="rig" aria-pressed="true"><span class="cover"><svg viewBox="40 20 220 340" aria-hidden="true"><g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><circle cx="150" cy="48" r="16"/><polygon points="126,72 174,72 164,172 136,172"/><polyline points="126,78 78,166" fill="none"/><polyline points="174,78 222,166" fill="none"/><polyline points="142,172 124,288" fill="none"/><polyline points="158,172 176,288" fill="none"/></g><g fill="rgba(255,230,163,0.2)" stroke="#ffe6a3" stroke-width="3"><rect x="66" y="166" width="24" height="30" rx="4"/><rect x="210" y="166" width="24" height="30" rx="4"/><rect x="112" y="288" width="24" height="26" rx="4"/><rect x="164" y="288" width="24" height="26" rx="4"/></g></svg></span><span class="meta"><span class="mono id">00</span><span class="nm">Rig overview</span><span class="mono chip">4 × 350 N</span></span></button>
-<button class="cell" type="button" data-id="p1" aria-pressed="false"><span class="cover"><canvas data-thumb="p1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P1</span><span class="nm">Electric ducted fan</span><span class="mono chip">Prototype pick</span></span></button>
-<button class="cell" type="button" data-id="p2" aria-pressed="false"><span class="cover"><canvas data-thumb="p2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P2</span><span class="nm">Micro turbojet</span><span class="mono chip">Free flight</span></span></button>
-<button class="cell" type="button" data-id="p3" aria-pressed="false"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold-gas nozzle</span><span class="mono chip">Burst only</span></span></button>
-<button class="cell" type="button" data-id="p4" aria-pressed="false"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide rocket</span><span class="mono chip">Hazardous fuel</span></span></button>
-<button class="cell" type="button" data-id="w1" aria-pressed="false"><span class="cover"><canvas data-thumb="w1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W1</span><span class="nm">Leg thrust + wing</span><span class="mono chip">Layout variant</span></span></button>
-<button class="cell" type="button" data-id="w2" aria-pressed="false"><span class="cover"><canvas data-thumb="w2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W2</span><span class="nm">Tail-sitter delta</span><span class="mono chip">Both modes</span></span></button>
+<nav class="cells" id="cells" aria-label="Thruster and wing models">
+<button class="cell" type="button" data-id="rig" aria-pressed="true" title="Rig overview: four thrusters, 350 N each"><span class="cover"><svg viewBox="40 20 220 340" aria-hidden="true"><g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><circle cx="150" cy="48" r="16"/><polygon points="126,72 174,72 164,172 136,172"/><polyline points="126,78 78,166" fill="none"/><polyline points="174,78 222,166" fill="none"/><polyline points="142,172 124,288" fill="none"/><polyline points="158,172 176,288" fill="none"/></g><g fill="rgba(255,230,163,0.2)" stroke="#ffe6a3" stroke-width="3"><rect x="66" y="166" width="24" height="30" rx="4"/><rect x="210" y="166" width="24" height="30" rx="4"/><rect x="112" y="288" width="24" height="26" rx="4"/><rect x="164" y="288" width="24" height="26" rx="4"/></g></svg></span><span class="meta"><span class="mono id">00</span><span class="nm">Rig</span></span></button>
+<button class="cell" type="button" data-id="p1" aria-pressed="false" title="Electric ducted fan"><span class="cover"><canvas data-thumb="p1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P1</span><span class="nm">Ducted fan</span></span></button>
+<button class="cell" type="button" data-id="p2" aria-pressed="false" title="Micro turbojet"><span class="cover"><canvas data-thumb="p2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P2</span><span class="nm">Turbojet</span></span></button>
+<button class="cell" type="button" data-id="p3" aria-pressed="false" title="Cold-gas nozzle"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold gas</span></span></button>
+<button class="cell" type="button" data-id="p4" aria-pressed="false" title="Peroxide rocket"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide</span></span></button>
+<button class="cell" type="button" data-id="w1" aria-pressed="false" title="Crescent wing, forward flight only"><span class="cover"><canvas data-thumb="w1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W1</span><span class="nm">Crescent</span></span></button>
+<button class="cell" type="button" data-id="w2" aria-pressed="false" title="Tail-sitter delta wing"><span class="cover"><canvas data-thumb="w2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W2</span><span class="nm">Delta</span></span></button>
+<button class="cell" type="button" data-id="w3" aria-pressed="false" title="Tail-sitter tapered wing"><span class="cover"><canvas data-thumb="w3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W3</span><span class="nm">Tapered</span></span></button>
+<button class="cell" type="button" data-id="w4" aria-pressed="false" title="Tail-sitter box wing"><span class="cover"><canvas data-thumb="w4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W4</span><span class="nm">Box wing</span></span></button>
+<button class="cell" type="button" data-id="w5" aria-pressed="false" title="Tail-sitter folding wing"><span class="cover"><canvas data-thumb="w5" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W5</span><span class="nm">Folding</span></span></button>
 </nav>
 
 <script>
@@ -328,6 +330,48 @@ function delta() {
   return out;
 }
 
+function wingMesh({ LE, TE, half = 1, z0 = 0, th = 0.09, spar = 0.35, elev = [], hy = null }) {
+  const N = 24, out = [];
+  const P = (u, s, side) => { const c = LE(u) - TE(u); return [u * half, LE(u) - s * c, z0 + side * th * c * 4 * s * (1 - s) * (1.3 - s)]; };
+  const span = (s, side, c, a = -1, b = 1) => ({ pts: Array.from({ length: N + 1 }, (_, k) => P(a + (b - a) * k / N, s, side)), c });
+  out.push(span(0, 0, 'main'), span(1, 0, 'main'));
+  for (const s of [0.25, 0.5, 0.75]) for (const side of [1, -1]) out.push(span(s, side, 'main'));
+  for (let k = -6; k <= 6; k++) for (const side of [1, -1]) out.push({ pts: Array.from({ length: 9 }, (_, j) => P(k / 6, j / 8, side)), c: 'main' });
+  out.push(span(spar, 0, 'accent'));
+  for (const [a, b] of elev) {
+    out.push(span(0.75, 1, 'accent', a, b));
+    for (const u of [a, b]) out.push({ pts: [P(u, 0.75, 1), P(u, 1, 0)], c: 'accent' });
+  }
+  if (hy !== null) {
+    const zb = z0 - 0.1;
+    out.push({ pts: [[-0.12, hy, zb], [0.12, hy, zb], [0.12, hy - 0.3, zb], [-0.12, hy - 0.3, zb], [-0.12, hy, zb]], c: 'accent' });
+    for (const x of [-0.12, 0.12]) for (const y of [hy, hy - 0.3]) out.push({ pts: [[x, y, zb], [x, y, z0]], c: 'accent' });
+  }
+  return out;
+}
+const tapLE = u => 0.75 - 0.12 * Math.abs(u), tapTE = u => 0.2 + 0.13 * Math.abs(u);
+function tapered() { return wingMesh({ LE: tapLE, TE: tapTE, elev: [[-0.9, -0.45], [0.45, 0.9]], hy: 0.62 }); }
+function folding() {
+  const out = wingMesh({ LE: tapLE, TE: tapTE, elev: [[-0.9, -0.45], [0.45, 0.9]], hy: 0.62 });
+  const c = Math.cos(110 * D2R), sn = Math.sin(110 * D2R);
+  for (const sg of [1, -1]) {
+    out.push({ pts: [[0.4 * sg, tapLE(0.4), 0], [0.4 * sg, tapTE(0.4), 0]], c: 'accent' });
+    const f = (u, y) => [sg * (0.4 + (u - 0.4) * c), y, (u - 0.4) * sn];
+    out.push({ pts: [f(0.4, tapLE(0.4)), f(1, tapLE(1)), f(1, tapTE(1)), f(0.4, tapTE(0.4))], c: 'accent' });
+    out.push({ pts: [f(0.7, tapLE(0.7)), f(0.7, tapTE(0.7))], c: 'accent' });
+  }
+  return out;
+}
+function boxwing() {
+  const fLE = u => 0.95 - 0.25 * Math.abs(u), rLE = u => 0.25 * Math.abs(u);
+  const out = [
+    ...wingMesh({ LE: fLE, TE: u => fLE(u) - 0.5, half: 0.85, z0: 0.14, th: 0.07, elev: [[-0.9, -0.4], [0.4, 0.9]], hy: 0.8 }),
+    ...wingMesh({ LE: rLE, TE: u => rLE(u) - 0.5, half: 0.85, z0: -0.06, th: 0.07 })
+  ];
+  for (const x of [-0.85, 0.85]) out.push({ pts: [[x, 0.7, 0.14], [x, 0.2, 0.14], [x, -0.25, -0.06], [x, 0.25, -0.06], [x, 0.7, 0.14]], c: 'accent' });
+  return out;
+}
+
 const MODELS = {
   p1: {
     labels: [['Inlet lip', [0, 0.66, 0]], ['Fan rotor', [0, 0.38, 0]], ['Motor', [0, 0.1, 0]], ['Stator vanes', [0.32, -0.2, 0]], ['Duct', [0.5, -0.42, 0]], ['Tail cone', [0, -0.5, 0]], ['Airflow', [0, -0.9, 0]]],
@@ -401,7 +445,7 @@ const MODELS = {
     ]
   },
   w1: {
-    id: 'W1', name: 'Leg thrust + wing', rad: 0.85,
+    id: 'W1', name: 'Crescent wing', rad: 0.85,
     desc: 'Forward-flight layout. Leg thrusters push from behind while a crescent wing on a back harness carries the weight, steered with both arms.',
     kv: [['Thrust', '2 × 350 N at the feet'], ['Wing', '2.4 m span, about 2 m²'], ['Steering', 'Arm lines to elevons'], ['Take-off, landing', 'To be decided']],
     note: 'Open issue: it cannot hover, so take-off and landing both need about 80 km/h of airspeed.',
@@ -411,14 +455,14 @@ const MODELS = {
     top: 1, bottom: -0.57, exitR: 0,
     metrics: [
       { t: 'Cruise thrust needed', val: '≈330 N', pct: 34, tick: [100, 'Hover rig: 980 N'] },
-      { t: 'Flight time, 10 kg fuel', val: '≈11 min', pct: 100, tick: [35, 'Hover rig: about 4 min'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈11 min', pct: 85, tick: [31, 'Hover rig: about 4 min'] },
       { t: 'Wing area', val: '2 m²', pct: 8, tick: [100, 'Paraglider: about 25 m²'] },
       { t: 'Minimum flying speed', val: '≈80 km/h', pct: 67, tick: [21, 'Paraglider: about 25 km/h'] }
     ],
     lines: crescent()
   },
   w2: {
-    id: 'W2', name: 'Tail-sitter delta', rad: 0.9,
+    id: 'W2', name: 'Delta wing', rad: 0.9,
     desc: 'Takes off standing on leg thrust, then tips forward so a delta wing on the back carries the weight. Landing reverses the move.',
     kv: [['Thrust', '4 × 350 N at the legs'], ['Wing', '2.4 m span, ≈1.8 m²'], ['Steering', 'Lean, then elevons'], ['Take-off, landing', 'Vertical, on thrust']],
     note: 'Drawback: the switch between hover and wing flight is the riskiest moment, and hovering burns fuel fast.',
@@ -430,10 +474,65 @@ const MODELS = {
     metrics: [
       { t: 'Hover thrust needed', val: '980 N', pct: 70, tick: [100, 'Available: 1,400 N'] },
       { t: 'Cruise thrust needed', val: '≈390 N', pct: 28, tick: [70, 'Hover: 980 N'] },
-      { t: 'Flight time, 10 kg fuel', val: '≈8 min', pct: 73, tick: [36, 'Hover rig: about 4 min'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈8 min', pct: 62, tick: [31, 'Hover rig: about 4 min'] },
       { t: 'Minimum wing-borne speed', val: '≈105 km/h', pct: 88, tick: [21, 'Paraglider: about 25 km/h'] }
     ],
     lines: delta()
+  },
+  w3: {
+    id: 'W3', name: 'Tapered wing', rad: 0.72,
+    desc: 'A long, narrow wing like a glider wing, worn across the back. The most efficient shape in cruise.',
+    kv: [['Thrust', '4 × 350 N at the legs'], ['Wing', '3.0 m span, ≈1.9 m²'], ['Steering', 'Lean, then elevons'], ['Take-off, landing', 'Vertical, on thrust']],
+    note: 'Drawback: it stalls sharply during the switch from hover, and a 3 m span is awkward on the ground.',
+    labels: [['Leading edge', [0, 0.75, 0]], ['Harness mount', [0, 0.5, -0.1]], ['Main spar', [0.5, 0.56, 0]], ['Wingtip', [1, 0.48, 0]], ['Elevon', [-0.7, 0.35, 0.01]], ['Trailing edge', [0, 0.2, 0]]],
+    pack: ['Fuel tank', 82, 64], pw: 9, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, vtol: true, noJet: true,
+    wingPath: 'M10,96.8 L150,80 L290,96.8 L290,138.8 L150,157 L10,138.8 Z', ctl: [[52, 136], [248, 136]],
+    glyph: '<polygon points="-12,0 -1,0 -1,22 -4,34 -9,34 -12,22"/><polygon points="1,0 12,0 12,22 9,34 4,34 1,22"/>',
+    top: 0.75, bottom: 0.2, exitR: 0,
+    metrics: [
+      { t: 'Hover thrust needed', val: '980 N', pct: 70, tick: [100, 'Available: 1,400 N'] },
+      { t: 'Cruise thrust needed', val: '≈245 N', pct: 18, tick: [70, 'Hover: 980 N'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈12 min', pct: 92, tick: [31, 'Hover rig: about 4 min'] },
+      { t: 'Minimum wing-borne speed', val: '≈86 km/h', pct: 72, tick: [21, 'Paraglider: about 25 km/h'] }
+    ],
+    lines: tapered()
+  },
+  w4: {
+    id: 'W4', name: 'Box wing', rad: 0.9,
+    desc: 'Two wings, one at the shoulders and one at the hips, joined at the tips. More wing area in a shorter span, so it flies slower.',
+    kv: [['Thrust', '4 × 350 N at the legs'], ['Wing', '2 × 2.0 m span, ≈2.6 m²'], ['Steering', 'Lean, then elevons'], ['Take-off, landing', 'Vertical, on thrust']],
+    note: 'Drawback: heavier and draggier than a single wing, and bulky to wear.',
+    labels: [['Front wing', [0, 0.95, 0.14]], ['Harness mount', [0, 0.65, 0.04]], ['Elevon', [-0.55, 0.4, 0.15]], ['Tip plate', [0.85, 0.2, 0.05]], ['Rear wing', [0, -0.5, -0.06]]],
+    pack: ['Fuel tank', 82, 64], pw: 9, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, vtol: true, noJet: true,
+    wingPath: 'M31,110 L150,75 L269,110 L269,180 L150,145 L31,180 Z M31,173 L150,208 L269,173 L269,243 L150,278 L31,243 Z', ctl: [[61, 168], [239, 168]],
+    glyph: '<polygon points="-12,0 -1,0 -1,22 -4,34 -9,34 -12,22"/><polygon points="1,0 12,0 12,22 9,34 4,34 1,22"/>',
+    top: 0.95, bottom: -0.5, exitR: 0,
+    metrics: [
+      { t: 'Hover thrust needed', val: '980 N', pct: 70, tick: [100, 'Available: 1,400 N'] },
+      { t: 'Cruise thrust needed', val: '≈306 N', pct: 22, tick: [70, 'Hover: 980 N'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈10 min', pct: 77, tick: [31, 'Hover rig: about 4 min'] },
+      { t: 'Minimum wing-borne speed', val: '≈76 km/h', pct: 63, tick: [21, 'Paraglider: about 25 km/h'] }
+    ],
+    lines: boxwing()
+  },
+  w5: {
+    id: 'W5', name: 'Folding wing', rad: 0.72,
+    desc: 'A tapered wing whose outer panels fold up for take-off and landing, then swing down and lock for cruise.',
+    kv: [['Thrust', '4 × 350 N at the legs'], ['Wing', '3.0 m open, 1.2 m folded'], ['Steering', 'Lean, then elevons'], ['Take-off, landing', 'Vertical, on thrust']],
+    note: 'Drawback: hinges and locks add weight and one more thing that can fail.',
+    labels: [['Leading edge', [0, 0.75, 0]], ['Harness mount', [0, 0.5, -0.1]], ['Fold hinge', [0.4, 0.5, 0]], ['Folded position', [-0.3, 0.5, 0.28]], ['Elevon', [0.7, 0.35, 0.01]], ['Trailing edge', [0, 0.2, 0]]],
+    pack: ['Fuel tank', 82, 64], pw: 9, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, vtol: true, noJet: true,
+    wingPath: 'M10,96.8 L150,80 L290,96.8 L290,138.8 L150,157 L10,138.8 Z', ctl: [[100, 140], [200, 140]],
+    wingPathFold: 'M94,86.7 L150,80 L206,86.7 L206,149.7 L150,157 L94,149.7 Z M94,86.7 L87,86.7 L87,149.7 L94,149.7 Z M206,86.7 L213,86.7 L213,149.7 L206,149.7 Z',
+    glyph: '<polygon points="-12,0 -1,0 -1,22 -4,34 -9,34 -12,22"/><polygon points="1,0 12,0 12,22 9,34 4,34 1,22"/>',
+    top: 0.75, bottom: 0.2, exitR: 0,
+    metrics: [
+      { t: 'Hover thrust needed', val: '980 N', pct: 70, tick: [100, 'Available: 1,400 N'] },
+      { t: 'Cruise thrust needed', val: '≈258 N', pct: 18, tick: [70, 'Hover: 980 N'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈11 min', pct: 85, tick: [31, 'Hover rig: about 4 min'] },
+      { t: 'Minimum wing-borne speed', val: '≈86 km/h', pct: 72, tick: [21, 'Paraglider: about 25 km/h'] }
+    ],
+    lines: folding()
   }
 };
 const RIG = {
@@ -547,6 +646,7 @@ function float() {
     const state = p < 0.2 ? 'Lift-off' : p < 0.3 ? 'Transition' : p < 0.7 ? 'Cruise' : p < 0.8 ? 'Flare' : 'Landing';
     const thr = { 'Lift-off': 78, Transition: 100, Cruise: 28, Flare: 90, Landing: 64 }[state];
     $('pilot').setAttribute('transform', 'translate(0,' + (-alt).toFixed(2) + ') rotate(' + bank.toFixed(2) + ',150,170)');
+    if (d.wingPathFold) $('wing').setAttribute('d', fly > 0.5 ? d.wingPath : d.wingPathFold);
     $('air').setAttribute('opacity', fly.toFixed(2)); $('ground').setAttribute('opacity', (1 - fly).toFixed(2));
     $('air').setAttribute('stroke-dashoffset', (-(ft / 6) % 40).toFixed(1));
     plumes.forEach((pl, i) => {
