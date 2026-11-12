@@ -102,7 +102,7 @@ h2 .num{color:var(--label)}
 <body>
 
 <header>
-<p class="mono"><span class="star" aria-hidden="true">✦</span> Quad-thruster lift concept</p>
+<p class="mono"><span class="star" aria-hidden="true">✦</span> Free Flight Simulation</p>
 <h1>Kestrel Kinematics</h1>
 <div class="ruler"></div>
 <p class="mono">ΣT 1,400 N · Mass 100 kg · Concept estimates</p>
@@ -142,7 +142,8 @@ h2 .num{color:var(--label)}
 <svg id="rig" viewBox="0 -56 300 428" role="img" aria-label="Pilot figure wearing the selected thrusters, rising and descending">
 <g id="rings"><circle cx="150" cy="150" r="138" fill="none" stroke="rgba(127,220,255,0.35)" stroke-dasharray="3 5"/>
 <circle cx="150" cy="150" r="112" fill="rgba(127,220,255,0.06)" stroke="rgba(127,220,255,0.6)"/></g>
-<line x1="20" y1="362" x2="280" y2="362" stroke="rgba(160,170,255,0.6)" stroke-dasharray="6 4"/>
+<line id="ground" x1="20" y1="362" x2="280" y2="362" stroke="rgba(160,170,255,0.6)" stroke-dasharray="6 4"/>
+<g id="air" stroke="#7fdcff" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="14 26" hidden><line x1="22" y1="-56" x2="22" y2="372"/><line x1="64" y1="-56" x2="64" y2="372"/><line x1="106" y1="-56" x2="106" y2="372"/><line x1="194" y1="-56" x2="194" y2="372"/><line x1="236" y1="-56" x2="236" y2="372"/><line x1="278" y1="-56" x2="278" y2="372"/></g>
 <path id="supply" fill="none" stroke="#6cb6ff" stroke-width="5" stroke-linecap="round" opacity="0.7" hidden></path>
 <g id="pilot">
 <path id="wing" fill="rgba(255,230,163,0.1)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)" hidden></path>
@@ -380,17 +381,17 @@ const MODELS = {
     ]
   },
   w1: {
-    id: 'W1', name: 'Leg thrust + wing', rad: 0.85, size: '2.4 m span, about 2 m²',
-    desc: 'Leg thrusters lift and push. A crescent wing on a back harness carries the weight in forward flight, steered with both arms.',
-    kv: [['Thrust', '2 × 700 N at the feet'], ['Steering', 'Arm lines to elevons'], ['Descent', 'Parachute']],
-    note: 'Drawback: the wing does nothing in a hover, and switching between hover and wing flight is the hard part.',
+    id: 'W1', name: 'Leg thrust + wing', rad: 0.85,
+    desc: 'Forward-flight layout. Leg thrusters push from behind while a crescent wing on a back harness carries the weight, steered with both arms.',
+    kv: [['Thrust', '2 × 350 N at the feet'], ['Wing', '2.4 m span, about 2 m²'], ['Steering', 'Arm lines to elevons'], ['Take-off, landing', 'To be decided']],
+    note: 'Open issue: it cannot hover, so take-off and landing both need about 80 km/h of airspeed.',
     labels: [['Leading edge', [0, 1, 0]], ['Harness mount', [0, 0.75, -0.1]], ['Main spar', [0.71, 0.54, 0]], ['Trailing edge', [0, 0.5, 0]], ['Elevon', [-0.85, -0.08, 0.02]], ['Wingtip', [0.82, -0.57, 0]]],
-    pack: ['Fuel + chute', 82, 64], pw: 9, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, noJet: true,
-    glyph: '<polygon points="-12,0 -1,0 -1,22 -4,34 -9,34 -12,22"/><polygon points="1,0 12,0 12,22 9,34 4,34 1,22"/>',
+    pack: ['Fuel tank', 82, 64], pw: 6, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, noJet: true,
+    glyph: '<polygon points="-10,0 10,0 10,22 6,34 -6,34 -10,22"/><line x1="-10" y1="7" x2="10" y2="7"/><line x1="-10" y1="14" x2="10" y2="14"/>',
     top: 1, bottom: -0.57, exitR: 0,
     metrics: [
-      { t: 'Thrust to hover', val: '980 N', pct: 100 },
-      { t: 'Thrust in wing flight', val: '≈330 N', pct: 34, tick: [100, 'Hover: 980 N'] },
+      { t: 'Cruise thrust needed', val: '≈330 N', pct: 34, tick: [100, 'Hover rig: 980 N'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈11 min', pct: 100, tick: [35, 'Hover rig: about 4 min'] },
       { t: 'Wing area', val: '2 m²', pct: 8, tick: [100, 'Paraglider: about 25 m²'] },
       { t: 'Minimum flying speed', val: '≈80 km/h', pct: 80, tick: [25, 'Paraglider: about 25 km/h'] }
     ],
@@ -417,7 +418,7 @@ const METRICS = [
 function metrics(id) {
   const k = IDS.indexOf(id), m = MODELS[id];
   $('metTitle').textContent = m.id + ' metrics';
-  $('metKey').textContent = m.metrics ? 'White ticks: hover thrust, or a typical paraglider, for scale.' : 'Bar or dot: this model. White ticks: the other models.';
+  $('metKey').textContent = m.metrics ? 'White ticks: the hover rig, or a typical paraglider, for scale.' : 'Bar or dot: this model. White ticks: the other models.';
   if (m.metrics) {
     $('metRows').innerHTML = m.metrics.map(r => '<div class="mrow" title="' + r.t + ': ' + r.val + '"><div class="mh mono"><span>' + r.t + '</span><b>' + r.val + '</b></div><div class="track"><span class="bar" style="width:' + r.pct + '%"></span>' + (r.tick ? '<i class="tick" style="left:' + r.tick[0] + '%" title="' + r.tick[1] + '"></i>' : '') + '</div></div>').join('');
     return;
@@ -481,7 +482,8 @@ function select(id) {
   if (isModel) metrics(id);
   for (const k of ['rings', 'tlabels', 'cg']) $(k).toggleAttribute('hidden', isModel);
   $('rig').setAttribute('viewBox', isModel && !d.wing ? '36 -56 228 428' : '0 -56 300 428');
-  $('tag').textContent = isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
+  $('tag').textContent = d.wing ? 'Top view · forward flight' : isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
+  $('air').toggleAttribute('hidden', !d.wing); $('ground').toggleAttribute('hidden', !!d.wing);
   zoom = 1; yaw = 0.35;
   fillDetail(d); equip(d, isModel);
   if (isModel) $('bpTitle').textContent = 'Blueprint · ' + d.id;
@@ -493,6 +495,16 @@ function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
 function float() {
   const d = MODELS[sel] || RIG;
   const ph = ft / PERIOD * TAU;
+  if (d.wing) {                       /* top view: head leads, air streams past, arms bank the wing */
+    const bank = 6 * Math.sin(ph);
+    $('pilot').setAttribute('transform', 'rotate(' + bank.toFixed(2) + ',150,170)');
+    for (const pl of plumes) pl.setAttribute('points', -d.pw + ',' + d.gh + ' ' + d.pw + ',' + d.gh + ' ' + d.pw * 1.6 + ',' + (d.gh + 46) + ' ' + -d.pw * 1.6 + ',' + (d.gh + 46));
+    $('air').setAttribute('stroke-dashoffset', (-(ft / 6) % 40).toFixed(1));
+    $('fAlt').textContent = 'Spd ' + Math.round(118 + 5 * Math.cos(ph)) + ' km/h';
+    $('fThr').textContent = 'Thr 47%';
+    $('fState').textContent = !flying ? 'Holding' : bank > 2 ? 'Bank right' : bank < -2 ? 'Bank left' : 'Level';
+    return;
+  }
   const alt = RISE * (1 - Math.cos(ph)) / 2, v = Math.sin(ph);
   const thr = Math.round(70 + 8 * v);
   $('pilot').setAttribute('transform', 'translate(0,' + (-alt).toFixed(2) + ')');
