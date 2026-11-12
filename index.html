@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avian Ambition</title>
+<title>Kestrel Kinematics — quad-thruster lift rig</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;600&family=JetBrains+Mono:wght@400;600;700;800&display=swap">
 <style>
 :root{--bg:#060a22;--cyan:#7fdcff;--gold:#ffe6a3;--mint:#8ff0c0;--pink:#ff94c8;--text:#cfe6ff;--bright:#f0f2ff;--label:#a9b0dc;--line:rgba(160,170,255,.5);--hair:rgba(160,170,255,.22)}
@@ -56,7 +56,17 @@ h2 .num{color:var(--label)}
 .btn.main{border-color:var(--gold);color:var(--gold)}
 .tag{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);padding:1px 8px;background:var(--bg);white-space:nowrap;color:var(--gold)}
 
-.cells{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.mrow{display:grid;gap:3px;padding:5px 0}
+.mh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;color:var(--label)}
+.mh b{font-family:'Exo 2',system-ui,sans-serif;font-size:16px;font-weight:300;letter-spacing:0;text-transform:none;color:var(--bright)}
+.track{position:relative;height:12px;border-left:1px solid var(--line);background:rgba(160,170,255,.1)}
+.bar{position:absolute;left:0;top:0;bottom:0;min-width:2px;background:var(--cyan);border-radius:0 4px 4px 0}
+.track.log{border-left:0;background:linear-gradient(var(--line),var(--line)) 0 50%/100% 1px no-repeat}
+.dot{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 2px var(--bg)}
+.tick{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--bright);opacity:.75}
+.tick::after{content:"";position:absolute;inset:-4px -5px}
+.key{margin:6px 0 0;font-size:12px;color:var(--label)}
+.cells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .cell{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 20px rgba(127,220,255,.12);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif}
 .cell:hover,.cell:focus-visible{border-color:var(--cyan);outline:none}
 .cell[aria-pressed="true"]{border-color:var(--gold);background:rgba(255,230,163,.1);box-shadow:inset 0 0 20px rgba(255,230,163,.14),0 0 14px rgba(255,230,163,.3)}
@@ -92,8 +102,8 @@ h2 .num{color:var(--label)}
 <body>
 
 <header>
-<p class="mono"><span class="star" aria-hidden="true">✦</span> Lift concept</p>
-<h1>Avian Ambition</h1>
+<p class="mono"><span class="star" aria-hidden="true">✦</span> Quad-thruster lift concept</p>
+<h1>Kestrel Kinematics</h1>
 <div class="ruler"></div>
 <p class="mono">ΣT 1,400 N · Mass 100 kg · Concept estimates</p>
 </header>
@@ -109,7 +119,7 @@ h2 .num{color:var(--label)}
 <div class="meter-head mono"><span>Hover share of thrust</span><b style="color:var(--bright)">70%</b></div>
 <div class="meter"><i></i></div>
 </section>
-<section class="panel">
+<section class="panel" id="outPanel">
 <h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster output<span class="ruler"></span><span class="num">N</span></h2>
 <div class="tiles">
 <div class="tile" style="color:var(--cyan)"><span class="mono">T1 L-hand</span><b>350</b><i></i></div>
@@ -117,6 +127,11 @@ h2 .num{color:var(--label)}
 <div class="tile" style="color:var(--mint)"><span class="mono">T3 L-foot</span><b>350</b><i></i></div>
 <div class="tile" style="color:var(--mint)"><span class="mono">T4 R-foot</span><b>350</b><i></i></div>
 </div>
+</section>
+<section class="panel" id="metPanel" hidden>
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span><span id="metTitle">Metrics</span><span class="ruler"></span><span class="num">Est.</span></h2>
+<div id="metRows"></div>
+<p class="key">Bar or dot: this model. White ticks: the other models.</p>
 </section>
 </div>
 
@@ -187,7 +202,7 @@ h2 .num{color:var(--label)}
 <div class="strip">
 <p><b>[ TEST SEQUENCE ] </b>01 thrust stand · 02 dummy lift · 03 pilot on a safety line</p>
 <p class="risk"><b>[ RISK ] </b>Uneven thrust flips the pilot. A dead-man switch must cut all four.</p>
-<p class="out"><b>[ RULED OUT ] </b>Open propellers · petrol-driven ducted fans</p>
+<p class="out"><b>[ RULED OUT ] </b>Open propellers · petrol-driven ducted fans · water jet (limited by its hose)</p>
 </div>
 </div>
 </main>
@@ -198,7 +213,6 @@ h2 .num{color:var(--label)}
 <button class="cell" type="button" data-id="p2" aria-pressed="false"><span class="cover"><canvas data-thumb="p2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P2</span><span class="nm">Micro turbojet</span><span class="mono chip">Free flight</span></span></button>
 <button class="cell" type="button" data-id="p3" aria-pressed="false"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold-gas nozzle</span><span class="mono chip">Burst only</span></span></button>
 <button class="cell" type="button" data-id="p4" aria-pressed="false"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide rocket</span><span class="mono chip">Hazardous fuel</span></span></button>
-<button class="cell" type="button" data-id="p5" aria-pressed="false"><span class="cover"><canvas data-thumb="p5" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P5</span><span class="nm">Water jet</span><span class="mono chip">Tethered</span></span></button>
 </nav>
 
 <script>
@@ -272,8 +286,8 @@ const MODELS = {
     labels: [['Inlet lip', [0, 0.66, 0]], ['Fan rotor', [0, 0.38, 0]], ['Motor', [0, 0.1, 0]], ['Stator vanes', [0.32, -0.2, 0]], ['Duct', [0.5, -0.42, 0]], ['Tail cone', [0, -0.5, 0]], ['Airflow', [0, -0.9, 0]]],
     pack: ['Battery', 82, 64], pw: 13, gh: 26,
     glyph: '<rect x="-14" y="0" width="28" height="26" rx="3"/><ellipse cx="0" cy="6" rx="11" ry="3"/><line x1="0" y1="6" x2="0" y2="20"/>',
-    id: 'P1', rad: 0.56, size: 'Ø 120 × 150 mm', name: 'Electric ducted fan',
-    desc: 'An electric motor spins a fan inside a duct. A cluster of two or three per limb reaches 350 N.',
+    id: 'P1', rad: 0.56, size: 'Ø 150 × 180 mm per fan', name: 'Electric ducted fan',
+    desc: 'An electric motor spins a fan inside a duct. Two 150 mm fans per limb reach 350 N.',
     kv: [['Energy', 'Battery or cable'], ['Endurance', 'About 1 min'], ['Exhaust', 'Cool air']],
     note: 'Drawback: batteries can barely lift themselves.',
     dims: ['Duct Ø 120 mm', 'Length 150 mm'], len: '150 mm', jet: '#7fdcff',
@@ -338,22 +352,6 @@ const MODELS = {
       ...revolve([[0.7, 0.3], [0.15, 0.3], [-0.05, 0.1], [-0.3, 0.26], [-0.6, 0.38], [-0.85, 0.44]]),
       ...mesh(0.55, 0.3), ...mesh(0.42, 0.3), ...mesh(0.3, 0.3)
     ]
-  },
-  p5: {
-    labels: [['Supply hose', [-0.49, 0.76, 0]], ['Collar', [0, 0.17, 0]], ['Nozzle', [0.11, -0.15, 0]], ['Water jet', [0, -0.75, 0]]],
-    pack: ['Manifold', 116, 32], pw: 4, gh: 26, straight: true,
-    glyph: '<polygon points="-8,0 8,0 4,26 -4,26"/><line x1="-10" y1="3" x2="10" y2="3"/>',
-    id: 'P5', rad: 0.75, size: 'Hose Ø 100 mm', name: 'Water jet',
-    desc: 'A pump on the ground or water sends water up a hose to the nozzles. Proven and cheap.',
-    kv: [['Energy', 'Remote pump'], ['Endurance', 'Pump fuel'], ['Exhaust', 'Water']],
-    note: 'Drawback: not air, and a heavy hose ties you down.',
-    dims: ['Hose Ø 100 mm', 'Nozzle exit Ø 50 mm'], len: '520 mm', jet: '#6cb6ff',
-    top: 0.9, bottom: -0.45, exitR: 0.06,
-    lines: [
-      ...hose([[-1.05, -0.1], [-0.95, 0.95], [0, 1.05], [0, 0.2]], 0.13),
-      ...revolve([[0.2, 0.16], [-0.45, 0.07]], 10),
-      { pts: ring(0.2, 0.2), c: 'accent' }, { pts: ring(0.14, 0.2), c: 'accent' }
-    ]
   }
 };
 const RIG = {
@@ -364,6 +362,26 @@ const RIG = {
   pw: 10, gh: 30, jet: '#7fdcff',
   glyph: '<rect x="-12" y="0" width="24" height="30" rx="4"/>'
 };
+
+const IDS = ['p1', 'p2', 'p3', 'p4'];
+const NAMES = ['P1 Fan', 'P2 Turbojet', 'P3 Cold gas', 'P4 Peroxide'];
+const METRICS = [
+  { t: 'Hover endurance', f: v => v + ' s', v: [60, 240, 2, 21] },
+  { t: 'Hardware cost', f: v => '$' + v + 'k', v: [38, 48, 3, 30] },
+  { t: 'Energy store / min', f: v => v + ' kg', v: [6, 2.6, 120, 50] },
+  { t: 'Running cost / min (log)', f: v => '$' + v, v: [0.3, 5, 400, 500], log: true }
+];
+function metrics(id) {
+  const k = IDS.indexOf(id);
+  $('metTitle').textContent = MODELS[id].id + ' metrics';
+  $('metRows').innerHTML = METRICS.map(c => {
+    const max = Math.max(...c.v);
+    const pos = v => (c.log ? (Math.log10(v) + 1) / 4 : v / max) * 100;
+    const ticks = c.v.map((v, i) => i === k ? '' : '<i class="tick" style="left:' + pos(v).toFixed(1) + '%" title="' + NAMES[i] + ': ' + c.f(v) + '"></i>').join('');
+    const mark = c.log ? '<span class="dot" style="left:' + pos(c.v[k]).toFixed(1) + '%"></span>' : '<span class="bar" style="width:' + pos(c.v[k]).toFixed(1) + '%"></span>';
+    return '<div class="mrow" title="' + NAMES[k] + ': ' + c.f(c.v[k]) + '"><div class="mh mono"><span>' + c.t + '</span><b>' + c.f(c.v[k]) + '</b></div><div class="track' + (c.log ? ' log' : '') + '">' + mark + ticks + '</div></div>';
+  }).join('');
+}
 
 /* ---------- UI state ---------- */
 const $ = id => document.getElementById(id);
@@ -389,7 +407,6 @@ function equip(d, isModel) {
     '<g fill="rgba(255,230,163,0.14)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)">' + d.glyph + '</g></g>').join('');
   plumes = [...document.querySelectorAll('#mounts .plume')];
   $('pack').toggleAttribute('hidden', !isModel);
-  $('supply').toggleAttribute('hidden', sel !== 'p5');
   if (isModel) {
     const [label, py, ph] = d.pack, top = py + 12, bot = py + ph - 4;
     $('packBox').setAttribute('y', py); $('packBox').setAttribute('height', ph);
@@ -403,10 +420,13 @@ function equip(d, isModel) {
 }
 function select(id) {
   sel = id;
-  const isModel = id !== 'rig', d = isModel ? MODELS[id] : RIG;
+  const isModel = id in MODELS, d = isModel ? MODELS[id] : RIG;
   for (const b of document.querySelectorAll('.cell')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
   $('stage').classList.toggle('split', isModel);
   $('pBp').toggleAttribute('hidden', !isModel);
+  $('outPanel').toggleAttribute('hidden', isModel);
+  $('metPanel').toggleAttribute('hidden', !isModel);
+  if (isModel) metrics(id);
   for (const k of ['rings', 'tlabels', 'cg']) $(k).toggleAttribute('hidden', isModel);
   $('rig').setAttribute('viewBox', isModel ? '36 -56 228 428' : '0 -56 300 428');
   $('tag').textContent = isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
@@ -419,7 +439,7 @@ function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
 
 /* ---------- pilot float animation ---------- */
 function float() {
-  const d = sel === 'rig' ? RIG : MODELS[sel];
+  const d = MODELS[sel] || RIG;
   const ph = ft / PERIOD * TAU;
   const alt = RISE * (1 - Math.cos(ph)) / 2, v = Math.sin(ph);
   const thr = Math.round(70 + 8 * v);
@@ -430,7 +450,6 @@ function float() {
     const len = Math.max(4, Math.min(L, room)), w0 = d.pw, w1 = d.straight ? d.pw : d.pw * 1.6;
     pl.setAttribute('points', -w0 + ',' + d.gh + ' ' + w0 + ',' + d.gh + ' ' + w1 + ',' + (d.gh + len).toFixed(1) + ' ' + -w1 + ',' + (d.gh + len).toFixed(1));
   });
-  if (sel === 'p5') $('supply').setAttribute('d', 'M150,' + (150 - alt).toFixed(1) + ' C150,' + (250 - alt).toFixed(1) + ' 96,300 70,' + GROUND);
   $('fAlt').textContent = 'Alt ' + (alt / PX_PER_M).toFixed(2) + ' m';
   $('fThr').textContent = 'Thr ' + thr + '%';
   $('fState').textContent = !flying ? 'Holding' : v > 0.08 ? 'Ascent' : v < -0.08 ? 'Descent' : 'Hover';
@@ -480,7 +499,7 @@ function frame(t) {
   const dt = last ? Math.min(t - last, 60) : 0; last = t;
   if (flying) ft += dt;
   float();
-  if (sel !== 'rig') {
+  if (MODELS[sel]) {
     if (!paused && !drag) yaw += dt * 0.0006;
     draw(t);
   }
