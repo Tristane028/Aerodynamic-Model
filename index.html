@@ -66,15 +66,15 @@ h2 .num{color:var(--label)}
 .tick{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;background:var(--bright);opacity:.75}
 .tick::after{content:"";position:absolute;inset:-4px -5px}
 .key{margin:6px 0 0;font-size:12px;color:var(--label)}
-.cells{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.cell{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 20px rgba(127,220,255,.12);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif}
+.cells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.cell{display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px;align-items:center;padding:7px;border:1px solid var(--line);border-radius:16px 4px 16px 4px;background:rgba(120,140,255,.08);box-shadow:inset 0 0 20px rgba(127,220,255,.12);color:var(--text);cursor:pointer;text-align:left;font-family:'Exo 2',system-ui,sans-serif}
 .cell:hover,.cell:focus-visible{border-color:var(--cyan);outline:none}
 .cell[aria-pressed="true"]{border-color:var(--gold);background:rgba(255,230,163,.1);box-shadow:inset 0 0 20px rgba(255,230,163,.14),0 0 14px rgba(255,230,163,.3)}
-.cover{display:block;width:84px;height:84px;border:1px solid rgba(190,225,255,.45);background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.16) 1px,transparent 1px);background-size:12px 12px}
+.cover{display:block;width:72px;height:72px;border:1px solid rgba(190,225,255,.45);background-color:rgba(24,70,170,.28);background-image:linear-gradient(rgba(190,225,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(190,225,255,.16) 1px,transparent 1px);background-size:12px 12px}
 .cover canvas,.cover svg{display:block;width:100%;height:100%}
 .meta{display:grid;gap:3px;min-width:0}
 .meta .id{color:var(--gold)}
-.meta .nm{font-size:15px;line-height:1.2;color:var(--bright)}
+.meta .nm{font-size:14px;line-height:1.2;color:var(--bright)}
 .meta .chip{font-size:10px;color:var(--label)}
 .detail{flex:1;min-height:0;overflow:auto;display:grid;gap:8px;align-content:start}
 .detail h3{margin:0;font-size:18px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
@@ -147,7 +147,7 @@ h2 .num{color:var(--label)}
 <path id="supply" fill="none" stroke="#6cb6ff" stroke-width="5" stroke-linecap="round" opacity="0.7" hidden></path>
 <g id="pilot">
 <path id="wing" fill="rgba(255,230,163,0.1)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)" hidden></path>
-<g id="ctl" stroke="#ffe6a3" stroke-width="1" stroke-dasharray="4 3" hidden><line x1="78" y1="166" x2="31" y2="211"/><line x1="222" y1="166" x2="269" y2="211"/></g>
+<g id="ctl" stroke="#ffe6a3" stroke-width="1" stroke-dasharray="4 3" hidden><line id="c1" x1="78" y1="166"/><line id="c2" x1="222" y1="166"/></g>
 <g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 4px #7fdcff)">
 <circle cx="150" cy="48" r="16"/>
 <polygon points="126,72 174,72 164,172 136,172"/>
@@ -217,6 +217,7 @@ h2 .num{color:var(--label)}
 <button class="cell" type="button" data-id="p3" aria-pressed="false"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold-gas nozzle</span><span class="mono chip">Burst only</span></span></button>
 <button class="cell" type="button" data-id="p4" aria-pressed="false"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide rocket</span><span class="mono chip">Hazardous fuel</span></span></button>
 <button class="cell" type="button" data-id="w1" aria-pressed="false"><span class="cover"><canvas data-thumb="w1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W1</span><span class="nm">Leg thrust + wing</span><span class="mono chip">Layout variant</span></span></button>
+<button class="cell" type="button" data-id="w2" aria-pressed="false"><span class="cover"><canvas data-thumb="w2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W2</span><span class="nm">Tail-sitter delta</span><span class="mono chip">Both modes</span></span></button>
 </nav>
 
 <script>
@@ -308,6 +309,25 @@ function crescent() {
   return out;
 }
 
+function delta() {
+  const N = 24, out = [];
+  const LE = u => 1 - 1.4 * Math.abs(u), TE = u => -0.25 - 0.15 * Math.abs(u);
+  const P = (u, s, side) => { const c = LE(u) - TE(u); return [u, LE(u) - s * c, side * 0.05 * c * 4 * s * (1 - s) * (1.3 - s)]; };
+  const span = (s, side, c, a = -1, b = 1) => ({ pts: Array.from({ length: N + 1 }, (_, k) => P(a + (b - a) * k / N, s, side)), c });
+  out.push(span(0, 0, 'main'), span(1, 0, 'main'));
+  for (const s of [0.25, 0.5, 0.75]) for (const side of [1, -1]) out.push(span(s, side, 'main'));
+  for (let k = -6; k <= 6; k++) for (const side of [1, -1]) out.push({ pts: Array.from({ length: 9 }, (_, j) => P(k / 6, j / 8, side)), c: 'main' });
+  out.push(span(0.35, 0, 'accent'));
+  for (const [a, b] of [[-0.85, -0.2], [0.2, 0.85]]) {
+    out.push(span(0.75, 1, 'accent', a, b));
+    for (const u of [a, b]) out.push({ pts: [P(u, 0.75, 1), P(u, 1, 0)], c: 'accent' });
+  }
+  for (const x of [-0.95, 0.95]) out.push({ pts: [[x, -0.12, 0], [x, -0.42, 0.26], [x, -0.46, 0], [x, -0.12, 0]], c: 'accent' });
+  out.push({ pts: [[-0.12, 0.75, -0.1], [0.12, 0.75, -0.1], [0.12, 0.35, -0.1], [-0.12, 0.35, -0.1], [-0.12, 0.75, -0.1]], c: 'accent' });
+  for (const x of [-0.12, 0.12]) for (const y of [0.75, 0.35]) out.push({ pts: [[x, y, -0.1], [x, y, 0]], c: 'accent' });
+  return out;
+}
+
 const MODELS = {
   p1: {
     labels: [['Inlet lip', [0, 0.66, 0]], ['Fan rotor', [0, 0.38, 0]], ['Motor', [0, 0.1, 0]], ['Stator vanes', [0.32, -0.2, 0]], ['Duct', [0.5, -0.42, 0]], ['Tail cone', [0, -0.5, 0]], ['Airflow', [0, -0.9, 0]]],
@@ -386,16 +406,34 @@ const MODELS = {
     kv: [['Thrust', '2 × 350 N at the feet'], ['Wing', '2.4 m span, about 2 m²'], ['Steering', 'Arm lines to elevons'], ['Take-off, landing', 'To be decided']],
     note: 'Open issue: it cannot hover, so take-off and landing both need about 80 km/h of airspeed.',
     labels: [['Leading edge', [0, 1, 0]], ['Harness mount', [0, 0.75, -0.1]], ['Main spar', [0.71, 0.54, 0]], ['Trailing edge', [0, 0.5, 0]], ['Elevon', [-0.85, -0.08, 0.02]], ['Wingtip', [0.82, -0.57, 0]]],
-    pack: ['Fuel tank', 82, 64], pw: 6, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, noJet: true,
+    pack: ['Fuel tank', 82, 64], pw: 6, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, noJet: true, ctl: [[31, 211], [269, 211]],
     glyph: '<polygon points="-10,0 10,0 10,22 6,34 -6,34 -10,22"/><line x1="-10" y1="7" x2="10" y2="7"/><line x1="-10" y1="14" x2="10" y2="14"/>',
     top: 1, bottom: -0.57, exitR: 0,
     metrics: [
       { t: 'Cruise thrust needed', val: '≈330 N', pct: 34, tick: [100, 'Hover rig: 980 N'] },
       { t: 'Flight time, 10 kg fuel', val: '≈11 min', pct: 100, tick: [35, 'Hover rig: about 4 min'] },
       { t: 'Wing area', val: '2 m²', pct: 8, tick: [100, 'Paraglider: about 25 m²'] },
-      { t: 'Minimum flying speed', val: '≈80 km/h', pct: 80, tick: [25, 'Paraglider: about 25 km/h'] }
+      { t: 'Minimum flying speed', val: '≈80 km/h', pct: 67, tick: [21, 'Paraglider: about 25 km/h'] }
     ],
     lines: crescent()
+  },
+  w2: {
+    id: 'W2', name: 'Tail-sitter delta', rad: 0.9,
+    desc: 'Takes off standing on leg thrust, then tips forward so a delta wing on the back carries the weight. Landing reverses the move.',
+    kv: [['Thrust', '4 × 350 N at the legs'], ['Wing', '2.4 m span, ≈1.8 m²'], ['Steering', 'Lean, then elevons'], ['Take-off, landing', 'Vertical, on thrust']],
+    note: 'Drawback: the switch between hover and wing flight is the riskiest moment, and hovering burns fuel fast.',
+    labels: [['Nose', [0, 1, 0]], ['Harness mount', [0, 0.55, -0.1]], ['Leading edge', [0.5, 0.3, 0]], ['Main spar', [-0.4, 0.18, 0]], ['Elevon', [0.5, -0.23, 0.01]], ['Tip fin', [-0.95, -0.3, 0.15]]],
+    pack: ['Fuel tank', 82, 64], pw: 9, gh: 34, jet: '#ffe6a3', mounts: [2, 3], wing: true, vtol: true, noJet: true,
+    wingPath: 'M150,60 L280,242 L150,222 L20,242 Z', ctl: [[85, 220], [215, 220]],
+    glyph: '<polygon points="-12,0 -1,0 -1,22 -4,34 -9,34 -12,22"/><polygon points="1,0 12,0 12,22 9,34 4,34 1,22"/>',
+    top: 1, bottom: -0.46, exitR: 0,
+    metrics: [
+      { t: 'Hover thrust needed', val: '980 N', pct: 70, tick: [100, 'Available: 1,400 N'] },
+      { t: 'Cruise thrust needed', val: '≈390 N', pct: 28, tick: [70, 'Hover: 980 N'] },
+      { t: 'Flight time, 10 kg fuel', val: '≈8 min', pct: 73, tick: [36, 'Hover rig: about 4 min'] },
+      { t: 'Minimum wing-borne speed', val: '≈105 km/h', pct: 88, tick: [21, 'Paraglider: about 25 km/h'] }
+    ],
+    lines: delta()
   }
 };
 const RIG = {
@@ -418,7 +456,7 @@ const METRICS = [
 function metrics(id) {
   const k = IDS.indexOf(id), m = MODELS[id];
   $('metTitle').textContent = m.id + ' metrics';
-  $('metKey').textContent = m.metrics ? 'White ticks: the hover rig, or a typical paraglider, for scale.' : 'Bar or dot: this model. White ticks: the other models.';
+  $('metKey').textContent = m.metrics ? 'White ticks are references for scale; hover over one to see it.' : 'Bar or dot: this model. White ticks: the other models.';
   if (m.metrics) {
     $('metRows').innerHTML = m.metrics.map(r => '<div class="mrow" title="' + r.t + ': ' + r.val + '"><div class="mh mono"><span>' + r.t + '</span><b>' + r.val + '</b></div><div class="track"><span class="bar" style="width:' + r.pct + '%"></span>' + (r.tick ? '<i class="tick" style="left:' + r.tick[0] + '%" title="' + r.tick[1] + '"></i>' : '') + '</div></div>').join('');
     return;
@@ -454,6 +492,10 @@ function equip(d, isModel) {
   const use = d.mounts || [0, 1, 2, 3];
   plumeAt = use;
   $('wing').toggleAttribute('hidden', !d.wing); $('ctl').toggleAttribute('hidden', !d.wing);
+  if (d.wing) {
+    $('wing').setAttribute('d', d.wingPath);
+    d.ctl.forEach(([x, y], i) => { const c = $('c' + (i + 1)); c.setAttribute('x2', x); c.setAttribute('y2', y); });
+  }
   $('mounts').innerHTML = use.map(i => MOUNTS[i]).map(([x, y]) =>
     '<g transform="translate(' + x + ',' + y + ')"><polygon class="plume" fill="' + d.jet + '" opacity="0.28"/>' +
     '<g fill="rgba(255,230,163,0.14)" stroke="#ffe6a3" stroke-width="1.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ffe6a3)">' + d.glyph + '</g></g>').join('');
@@ -482,8 +524,9 @@ function select(id) {
   if (isModel) metrics(id);
   for (const k of ['rings', 'tlabels', 'cg']) $(k).toggleAttribute('hidden', isModel);
   $('rig').setAttribute('viewBox', isModel && !d.wing ? '36 -56 228 428' : '0 -56 300 428');
-  $('tag').textContent = d.wing ? 'Top view · forward flight' : isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
-  $('air').toggleAttribute('hidden', !d.wing); $('ground').toggleAttribute('hidden', !!d.wing);
+  $('tag').textContent = d.vtol ? 'Front view in hover · top view in cruise' : d.wing ? 'Top view · forward flight' : isModel ? 'Drag to rotate · scroll to zoom' : 'Tethered hover · 0.3 m';
+  $('air').toggleAttribute('hidden', !d.wing); $('ground').toggleAttribute('hidden', !!d.wing && !d.vtol);
+  $('air').setAttribute('opacity', 1); $('ground').setAttribute('opacity', 1);
   zoom = 1; yaw = 0.35;
   fillDetail(d); equip(d, isModel);
   if (isModel) $('bpTitle').textContent = 'Blueprint · ' + d.id;
@@ -495,6 +538,27 @@ function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
 function float() {
   const d = MODELS[sel] || RIG;
   const ph = ft / PERIOD * TAU;
+  if (d.vtol) {
+    const p = (ft % 14000) / 14000, ease = x => x * x * (3 - 2 * x), clamp = x => Math.max(0, Math.min(1, x));
+    const up = ease(clamp(p / 0.2)), down = ease(clamp((p - 0.8) / 0.2));
+    const alt = RISE * (up - down);
+    const fly = ease(clamp((p - 0.2) / 0.1)) - ease(clamp((p - 0.7) / 0.1));     /* 0 hover, 1 wing-borne */
+    const bank = fly * 6 * Math.sin((p - 0.3) / 0.4 * TAU);
+    const state = p < 0.2 ? 'Lift-off' : p < 0.3 ? 'Transition' : p < 0.7 ? 'Cruise' : p < 0.8 ? 'Flare' : 'Landing';
+    const thr = { 'Lift-off': 78, Transition: 100, Cruise: 28, Flare: 90, Landing: 64 }[state];
+    $('pilot').setAttribute('transform', 'translate(0,' + (-alt).toFixed(2) + ') rotate(' + bank.toFixed(2) + ',150,170)');
+    $('air').setAttribute('opacity', fly.toFixed(2)); $('ground').setAttribute('opacity', (1 - fly).toFixed(2));
+    $('air').setAttribute('stroke-dashoffset', (-(ft / 6) % 40).toFixed(1));
+    plumes.forEach((pl, i) => {
+      const room = fly > 0.5 ? 99 : GROUND - (MOUNTS[plumeAt[i]][1] + d.gh - alt);
+      const len = Math.max(4, Math.min(18 + thr * 0.45, room));
+      pl.setAttribute('points', -d.pw + ',' + d.gh + ' ' + d.pw + ',' + d.gh + ' ' + d.pw * 1.6 + ',' + (d.gh + len).toFixed(1) + ' ' + -d.pw * 1.6 + ',' + (d.gh + len).toFixed(1));
+    });
+    $('fAlt').textContent = fly > 0.02 ? 'Spd ' + Math.round(150 * fly) + ' km/h' : 'Alt ' + (alt / PX_PER_M).toFixed(2) + ' m';
+    $('fThr').textContent = 'Thr ' + thr + '%';
+    $('fState').textContent = flying ? state : 'Holding';
+    return;
+  }
   if (d.wing) {                       /* top view: head leads, air streams past, arms bank the wing */
     const bank = 6 * Math.sin(ph);
     $('pilot').setAttribute('transform', 'rotate(' + bank.toFixed(2) + ',150,170)');
@@ -656,7 +720,7 @@ if (reduce) ft = PERIOD / 4;
   let d = '';
   for (let k = 0; k <= 40; k++) { const o = wingO(k / 40); d += (k ? 'L' : 'M') + (150 + 140 * o[0]).toFixed(1) + ',' + (200 - 140 * o[1]).toFixed(1); }
   for (let k = 40; k >= 0; k--) { const i = wingI(k / 40); d += 'L' + (150 + 140 * i[0]).toFixed(1) + ',' + (200 - 140 * i[1]).toFixed(1); }
-  $('wing').setAttribute('d', d + 'Z');
+  MODELS.w1.wingPath = d + 'Z';
 }
 select('rig');
 thumbs();
