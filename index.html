@@ -139,12 +139,12 @@ h2 .num{color:var(--label)}
 <div class="viewer">
 <div class="stage" id="stage">
 <div class="pane" id="pFig">
-<canvas id="fig" aria-label="3D mannequin wearing the selected model. Drag to rotate."></canvas>
+<canvas id="fig" aria-label="3D mannequin wearing the selected model."></canvas>
 <p class="ov tl mono" id="flight"><span id="fAlt"></span><span id="fThr"></span><span id="fState" style="color:var(--gold)"></span></p>
 <button class="btn main mono" id="fly" type="button">Hold</button>
 </div>
 <div class="pane bp" id="pBp" hidden>
-<canvas id="bp" aria-label="Rotating blueprint of the selected thruster with component labels. Drag to rotate, scroll to zoom."></canvas>
+<canvas id="bp" aria-label="Rotating blueprint of the selected model with component labels."></canvas>
 <p class="ov tl mono" id="bpTitle"></p>
 <p class="ov tr mono" id="bpView"></p>
 <div class="ctrl" id="bpCtrl">
@@ -169,9 +169,7 @@ h2 .num{color:var(--label)}
 <p id="dNote" style="color:var(--label)"></p>
 </section>
 <div class="strip">
-<p><b>[ TEST SEQUENCE ] </b>01 thrust stand · 02 dummy lift · 03 pilot on a safety line</p>
 <p class="risk"><b>[ RISK ] </b>Uneven thrust flips the pilot. A dead-man switch must cut all four.</p>
-<p class="out"><b>[ RULED OUT ] </b>Open propellers · petrol-driven ducted fans · water jet (limited by its hose)</p>
 </div>
 </div>
 </main>
@@ -504,7 +502,7 @@ const MODELS = {
 };
 const RIG = {
   name: 'Rig overview',
-  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each. Pick a model below to equip it and open its labelled blueprint.',
+  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each, lift a 100 kg pilot and rig.',
   kv: [['Layout', '2 hand · 2 foot'], ['Peak load', '1.4 g'], ['Status', 'Concept']],
   note: 'All figures are concept estimates, not test data.',
   pw: 10, gh: 30, jet: '#7fdcff',
@@ -522,7 +520,7 @@ const METRICS = [
 function metrics(id) {
   const k = IDS.indexOf(id), m = MODELS[id];
   $('metTitle').textContent = m.id + ' metrics';
-  $('metKey').textContent = m.metrics ? 'White ticks are references for scale; hover over one to see it.' : 'Bar or dot: this model. White ticks: the other models.';
+  $('metKey').textContent = m.metrics ? 'White ticks: reference values for scale.' : 'Bar or dot: this model. White ticks: the other models.';
   if (m.metrics) {
     $('metRows').innerHTML = m.metrics.map(r => '<div class="mrow" title="' + r.t + ': ' + r.val + '"><div class="mh mono"><span>' + r.t + '</span><b>' + r.val + '</b></div><div class="track"><span class="bar" style="width:' + r.pct + '%"></span>' + (r.tick ? '<i class="tick" style="left:' + r.tick[0] + '%" title="' + r.tick[1] + '"></i>' : '') + '</div></div>').join('');
     return;
@@ -726,7 +724,7 @@ function select(id) {
   $('outPanel').toggleAttribute('hidden', isModel);
   $('metPanel').toggleAttribute('hidden', !isModel);
   if (isModel) metrics(id);
-  $('tag').textContent = isModel ? 'Drag either view to rotate · scroll blueprint to zoom' : 'Drag to rotate · tethered hover 0.3 m';
+  $('tag').textContent = isModel ? d.id + ' · ' + d.name : 'Tethered hover · 0.3 m';
   fyaw = d.wing ? -1.05 : -0.55; fpitch = 0.2;
   zoom = 1; yaw = 0.35;
   fillDetail(d); equip(d, isModel);
