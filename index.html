@@ -18,7 +18,7 @@ header{display:flex;align-items:center;gap:14px}
 header p{margin:0;color:var(--label)}
 h1{margin:0;font-size:26px;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);text-shadow:0 0 22px rgba(127,220,255,.75);white-space:nowrap}
 
-main{display:grid;grid-template-columns:minmax(270px,.9fr) minmax(420px,1.8fr) minmax(270px,.95fr);gap:22px;min-height:0}
+main{display:grid;grid-template-columns:minmax(260px,.82fr) minmax(440px,1.9fr) minmax(260px,.86fr);gap:20px;min-height:0}
 .col{display:flex;flex-direction:column;gap:12px;min-height:0}
 .tilt-l{transform:perspective(1400px) rotateY(7deg);transform-origin:left center}
 .tilt-r{transform:perspective(1400px) rotateY(-7deg);transform-origin:right center}
@@ -36,7 +36,8 @@ h2 .num{color:var(--label)}
 .tile{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:2px 6px;padding:7px;border-radius:10px 3px 10px 3px;background:rgba(120,140,255,.1)}
 .tile .mono{font-size:10px;white-space:nowrap}
 .tile b{text-align:right;font-size:19px;font-weight:300;color:var(--bright)}
-.tile i{grid-column:1/-1;height:3px;background:linear-gradient(90deg,currentColor 70%,var(--hair) 0)}
+.tile i{grid-column:1/-1;height:3px;background:linear-gradient(90deg,currentColor var(--p,0%),var(--hair) 0)}
+.tile .mono{color:var(--label)}
 
 .viewer{position:relative;flex:1;min-height:0;background:linear-gradient(var(--gold),var(--gold)) 0 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 0/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 0/2px 22px,linear-gradient(var(--gold),var(--gold)) 0 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 0 100%/2px 22px,linear-gradient(var(--gold),var(--gold)) 100% 100%/22px 2px,linear-gradient(var(--gold),var(--gold)) 100% 100%/2px 22px;background-repeat:no-repeat}
 .stage{position:absolute;inset:8px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
@@ -89,10 +90,50 @@ h2 .num{color:var(--label)}
 .strip .risk{border-color:var(--pink)}.strip .risk b{color:var(--pink)}
 .strip .out{border-style:dashed}.strip .out b{color:var(--label)}
 
+/* v3 */
+.detail{font-size:13px;gap:6px}
+.detail h3{font-size:16px}
+.kv dt{white-space:nowrap}
+.panel.tight{padding:11px 13px}
+#forcePanel .tiles{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+#forcePanel .tile{grid-template-columns:1fr;gap:1px;padding:5px 6px}
+#forcePanel .tile .mono{font-size:9px}
+#forcePanel .tile b{text-align:left;font-size:16px}
+#forcePanel .meter-head{margin-top:6px}
+#chartPanel{flex:1 1 0;min-height:120px;display:flex;flex-direction:column}
+#tsv{flex:1;min-height:0;width:100%;display:block;cursor:crosshair}
+.read{margin:0 0 4px;font-size:12px;color:var(--text)}
+#metPanel .mrow{padding:2px 0}
+#metPanel .key{margin-top:3px;font-size:11px}
+.col.tilt-l{gap:10px}
+#metPanel .mh b{font-size:15px}
+.stage .pane{position:absolute;inset:0}
+.bpslot{position:relative;flex:1;min-height:0}
+.bpslot > .pane{position:absolute;inset:0}
+.bpslot .ov,.bpslot .att,.bpslot #fly,.bpslot .ctrl{display:none}
+#bpPanel{flex:0 0 190px;display:flex;flex-direction:column;gap:8px}
+.bphead{display:flex;align-items:center;gap:8px}
+.bphead h2{flex:1;margin:0}
+.tabs{display:flex;gap:4px}
+.tab{min-height:28px;padding:0 8px;border:1px solid var(--hair);border-radius:999px;background:none;color:var(--label);cursor:pointer}
+.tab[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+.tab:hover,.tab:focus-visible{border-color:var(--cyan);outline:none}
+.btn.icon{min-width:32px;padding:0;font-size:14px}
+.att{position:absolute;top:10px;right:12px;display:grid;justify-items:center;gap:4px;pointer-events:none}
+.att canvas{width:96px;height:96px;display:block}
+.att p{margin:0;color:var(--text);font-size:10px;text-align:center;line-height:1.5}
+.cells{display:grid;grid-template-columns:4fr 6fr;gap:16px}
+.grp{display:grid;gap:5px;min-width:0}
+.glab{color:var(--label);font-size:10px}
+.gcells{display:grid;gap:8px}
+.gcells.t{grid-template-columns:repeat(4,minmax(0,1fr))}
+.gcells.w{grid-template-columns:repeat(6,minmax(0,1fr))}
 @media (max-width:999px),(max-height:599px){
   body{height:auto;min-height:100vh;overflow:auto}
   main{grid-template-columns:1fr}
-  .cells{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+  .cells{grid-template-columns:1fr}
+  .gcells.t,.gcells.w{grid-template-columns:repeat(auto-fit,minmax(100px,1fr))}
+  #bpPanel{flex-basis:280px}
   .tilt-l,.tilt-r{transform:none}
   .viewer{flex:none;height:560px}
   .detail{overflow:visible}
@@ -105,33 +146,29 @@ h2 .num{color:var(--label)}
 <p class="mono"><span class="star" aria-hidden="true">✦</span> Free Flight Simulation</p>
 <h1>Kestrel Kinematics</h1>
 <div class="ruler"></div>
-<p class="mono">ΣT 1,400 N · Mass 100 kg · Concept estimates</p>
+<p class="mono" id="hdrSum">ΣT 1,400 N · Mass 100 kg · Concept estimates</p>
 </header>
 
 <main>
 <div class="col tilt-l">
-<section class="panel">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thrust budget<span class="ruler"></span><span class="num">01</span></h2>
-<div class="row"><span class="mono">Pilot</span><b>73 kg</b></div>
-<div class="row"><span class="mono">Rig + power</span><b>27 kg</b></div>
-<div class="row"><span class="mono">Hover thrust</span><b>980 N</b></div>
-<div class="row"><span class="mono">Design thrust</span><b style="color:var(--gold)">1,400 N</b></div>
-<div class="meter-head mono"><span>Hover share of thrust</span><b style="color:var(--bright)">70%</b></div>
-<div class="meter"><i></i></div>
-</section>
-<section class="panel" id="outPanel">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thruster output<span class="ruler"></span><span class="num">N</span></h2>
+<section class="panel tight" id="forcePanel">
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Live forces · N<span class="ruler"></span><span class="num">Throttle <b style="color:var(--bright)" id="vThr">–</b></span></h2>
 <div class="tiles">
-<div class="tile" style="color:var(--cyan)"><span class="mono">T1 L-hand</span><b>350</b><i></i></div>
-<div class="tile" style="color:var(--cyan)"><span class="mono">T2 R-hand</span><b>350</b><i></i></div>
-<div class="tile" style="color:var(--mint)"><span class="mono">T3 L-foot</span><b>350</b><i></i></div>
-<div class="tile" style="color:var(--mint)"><span class="mono">T4 R-foot</span><b>350</b><i></i></div>
+<div class="tile" style="color:#ffe6a3"><span class="mono">Thrust</span><b id="vT">–</b><i id="bT"></i></div>
+<div class="tile" style="color:#ff94c8"><span class="mono">Weight</span><b id="vW">–</b><i id="bW"></i></div>
+<div class="tile" style="color:#8ff0c0"><span class="mono">Lift</span><b id="vL">–</b><i id="bL"></i></div>
+<div class="tile" style="color:#ffa24c"><span class="mono">Drag</span><b id="vD">–</b><i id="bD"></i></div>
 </div>
 </section>
-<section class="panel" id="metPanel" hidden>
+<section class="panel tight" id="chartPanel">
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Thrust needed vs speed<span class="ruler"></span><span class="num">Est.</span></h2>
+<p class="read" id="tsvRead"></p>
+<canvas id="tsv" role="img" aria-label="Line chart of thrust needed against airspeed for the selected setup, with the available thrust as a dashed line."></canvas>
+</section>
+<section class="panel tight" id="metPanel">
 <h2 class="mono"><span class="star" aria-hidden="true">✦</span><span id="metTitle">Metrics</span><span class="ruler"></span><span class="num">Est.</span></h2>
 <div id="metRows"></div>
-<p class="key" id="metKey"></p>
+<p class="key" id="metKey" hidden></p>
 </section>
 </div>
 
@@ -139,12 +176,26 @@ h2 .num{color:var(--label)}
 <div class="viewer">
 <div class="stage" id="stage">
 <div class="pane" id="pFig">
-<canvas id="fig" aria-label="3D mannequin wearing the selected model."></canvas>
-<p class="ov tl mono" id="flight"><span id="fAlt"></span><span id="fThr"></span><span id="fState" style="color:var(--gold)"></span></p>
+<canvas id="fig" aria-label="3D mannequin wearing the selected setup, with force arrows."></canvas>
+<p class="ov tl mono" id="flight"><span id="fAlt"></span><span id="fSpd"></span><span id="fThr"></span><span id="fState" style="color:var(--gold)"></span></p>
+<div class="att" id="att"><canvas id="attC" aria-hidden="true"></canvas><p class="mono" id="attTxt"></p></div>
 <button class="btn main mono" id="fly" type="button">Hold</button>
 </div>
-<div class="pane bp" id="pBp" hidden>
-<canvas id="bp" aria-label="Rotating blueprint of the selected model with component labels."></canvas>
+</div>
+<span class="tag mono" id="tag"></span>
+</div>
+</div>
+
+<div class="col tilt-r">
+<section class="panel tight" id="bpPanel">
+<div class="bphead">
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span><span id="bpHead">Blueprint</span></h2>
+<div class="tabs" id="tabs"><button class="tab mono" type="button" data-view="t" aria-pressed="true">Thruster</button><button class="tab mono" type="button" data-view="w" aria-pressed="false">Wing</button></div>
+<button class="btn icon mono" id="swap" type="button" aria-label="Show blueprint in the main view">⤢</button>
+</div>
+<div class="bpslot" id="bpSlot">
+<div class="pane bp" id="pBp">
+<canvas id="bp" aria-label="Rotating blueprint of the selected part with component labels."></canvas>
 <p class="ov tl mono" id="bpTitle"></p>
 <p class="ov tr mono" id="bpView"></p>
 <div class="ctrl" id="bpCtrl">
@@ -157,34 +208,23 @@ h2 .num{color:var(--label)}
 </div>
 </div>
 </div>
-<span class="tag mono" id="tag">Tethered hover · 0.3 m</span>
-</div>
-</div>
-
-<div class="col tilt-r">
+</section>
 <section class="panel gold detail" aria-live="polite">
 <h3 id="dName"></h3>
 <p id="dDesc"></p>
 <dl class="kv" id="dKv"></dl>
 <p id="dNote" style="color:var(--label)"></p>
 </section>
-<div class="strip">
-<p class="risk"><b>[ RISK ] </b>Uneven thrust flips the pilot. A dead-man switch must cut all four.</p>
-</div>
 </div>
 </main>
 
-<nav class="cells" id="cells" aria-label="Thruster and wing models">
-<button class="cell" type="button" data-id="rig" aria-pressed="true" title="Rig overview: four thrusters, 350 N each"><span class="cover"><svg viewBox="40 20 220 340" aria-hidden="true"><g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><circle cx="150" cy="48" r="16"/><polygon points="126,72 174,72 164,172 136,172"/><polyline points="126,78 78,166" fill="none"/><polyline points="174,78 222,166" fill="none"/><polyline points="142,172 124,288" fill="none"/><polyline points="158,172 176,288" fill="none"/></g><g fill="rgba(255,230,163,0.2)" stroke="#ffe6a3" stroke-width="3"><rect x="66" y="166" width="24" height="30" rx="4"/><rect x="210" y="166" width="24" height="30" rx="4"/><rect x="112" y="288" width="24" height="26" rx="4"/><rect x="164" y="288" width="24" height="26" rx="4"/></g></svg></span><span class="meta"><span class="mono id">00</span><span class="nm">Rig</span></span></button>
-<button class="cell" type="button" data-id="p1" aria-pressed="false" title="Electric ducted fan"><span class="cover"><canvas data-thumb="p1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P1</span><span class="nm">Ducted fan</span></span></button>
-<button class="cell" type="button" data-id="p2" aria-pressed="false" title="Micro turbojet"><span class="cover"><canvas data-thumb="p2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P2</span><span class="nm">Turbojet</span></span></button>
-<button class="cell" type="button" data-id="p3" aria-pressed="false" title="Cold-gas nozzle"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold gas</span></span></button>
-<button class="cell" type="button" data-id="p4" aria-pressed="false" title="Peroxide rocket"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide</span></span></button>
-<button class="cell" type="button" data-id="w1" aria-pressed="false" title="Crescent wing, forward flight only"><span class="cover"><canvas data-thumb="w1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W1</span><span class="nm">Crescent</span></span></button>
-<button class="cell" type="button" data-id="w2" aria-pressed="false" title="Tail-sitter delta wing"><span class="cover"><canvas data-thumb="w2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W2</span><span class="nm">Delta</span></span></button>
-<button class="cell" type="button" data-id="w3" aria-pressed="false" title="Tail-sitter tapered wing"><span class="cover"><canvas data-thumb="w3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W3</span><span class="nm">Tapered</span></span></button>
-<button class="cell" type="button" data-id="w4" aria-pressed="false" title="Tail-sitter box wing"><span class="cover"><canvas data-thumb="w4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W4</span><span class="nm">Box wing</span></span></button>
-<button class="cell" type="button" data-id="w5" aria-pressed="false" title="Tail-sitter folding wing"><span class="cover"><canvas data-thumb="w5" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W5</span><span class="nm">Folding</span></span></button>
+<nav class="cells" id="cells" aria-label="Setup">
+<div class="grp"><span class="mono glab">Thrusters</span><div class="gcells t">
+<button class="cell" type="button" data-kind="t" data-id="p1" aria-pressed="false" title="Electric ducted fan"><span class="cover"><canvas data-thumb="p1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P1</span><span class="nm">Ducted fan</span></span></button><button class="cell" type="button" data-kind="t" data-id="p2" aria-pressed="false" title="Micro turbojet"><span class="cover"><canvas data-thumb="p2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P2</span><span class="nm">Turbojet</span></span></button><button class="cell" type="button" data-kind="t" data-id="p3" aria-pressed="false" title="Cold-gas nozzle"><span class="cover"><canvas data-thumb="p3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P3</span><span class="nm">Cold gas</span></span></button><button class="cell" type="button" data-kind="t" data-id="p4" aria-pressed="false" title="Peroxide rocket"><span class="cover"><canvas data-thumb="p4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">P4</span><span class="nm">Peroxide</span></span></button>
+</div></div>
+<div class="grp"><span class="mono glab">Wings</span><div class="gcells w">
+<button class="cell" type="button" data-kind="w" data-id="none" aria-pressed="false" title="Hover rig with no wing"><span class="cover"><svg viewBox="40 20 220 340" aria-hidden="true"><g fill="rgba(127,220,255,0.1)" stroke="#7fdcff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><circle cx="150" cy="48" r="16"/><polygon points="126,72 174,72 164,172 136,172"/><polyline points="126,78 78,166" fill="none"/><polyline points="174,78 222,166" fill="none"/><polyline points="142,172 124,288" fill="none"/><polyline points="158,172 176,288" fill="none"/></g><g fill="rgba(255,230,163,0.2)" stroke="#ffe6a3" stroke-width="3"><rect x="66" y="166" width="24" height="30" rx="4"/><rect x="210" y="166" width="24" height="30" rx="4"/><rect x="112" y="288" width="24" height="26" rx="4"/><rect x="164" y="288" width="24" height="26" rx="4"/></g></svg></span><span class="meta"><span class="mono id">—</span><span class="nm">No wing</span></span></button><button class="cell" type="button" data-kind="w" data-id="w1" aria-pressed="false" title="Crescent wing, forward flight only"><span class="cover"><canvas data-thumb="w1" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W1</span><span class="nm">Crescent</span></span></button><button class="cell" type="button" data-kind="w" data-id="w2" aria-pressed="false" title="Tail-sitter delta wing"><span class="cover"><canvas data-thumb="w2" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W2</span><span class="nm">Delta</span></span></button><button class="cell" type="button" data-kind="w" data-id="w3" aria-pressed="false" title="Tail-sitter tapered wing"><span class="cover"><canvas data-thumb="w3" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W3</span><span class="nm">Tapered</span></span></button><button class="cell" type="button" data-kind="w" data-id="w4" aria-pressed="false" title="Tail-sitter box wing"><span class="cover"><canvas data-thumb="w4" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W4</span><span class="nm">Box wing</span></span></button><button class="cell" type="button" data-kind="w" data-id="w5" aria-pressed="false" title="Tail-sitter folding wing"><span class="cover"><canvas data-thumb="w5" aria-hidden="true"></canvas></span><span class="meta"><span class="mono id">W5</span><span class="nm">Folding</span></span></button>
+</div></div>
 </nav>
 
 <script>
@@ -500,14 +540,35 @@ const MODELS = {
     lines: folding()
   }
 };
-const RIG = {
-  name: 'Rig overview',
-  desc: 'Four thrusters, one on each hand and foot, sized at 350 N each, lift a 100 kg pilot and rig.',
-  kv: [['Layout', '2 hand · 2 foot'], ['Peak load', '1.4 g'], ['Status', 'Concept']],
-  note: 'All figures are concept estimates, not test data.',
-  pw: 10, gh: 30, jet: '#7fdcff',
-  glyph: '<rect x="-12" y="0" width="24" height="30" rx="4"/>'
+/* ---------- flight model (quasi-steady estimates) ---------- */
+const W = 980, SLOT = 350, VMAX = 200, TMAX = 1600;
+const THR = { p1: { store: 6, rate: 6 }, p2: { store: 10.4, rate: 2.6 }, p3: { store: 4, rate: 120 }, p4: { store: 17.5, rate: 50 } };   /* store kg; rate kg/min at 980 N */
+const WING = {
+  none: { slots: 4 },
+  w1: { slots: 2, vmin: 80, vc: 118, Tc: 330 },
+  w2: { slots: 4, vmin: 105, vc: 150, Tc: 390, vtol: true },
+  w3: { slots: 4, vmin: 86, vc: 150, Tc: 245, vtol: true },
+  w4: { slots: 4, vmin: 76, vc: 150, Tc: 306, vtol: true },
+  w5: { slots: 4, vmin: 86, vc: 150, Tc: 258, vtol: true }
 };
+function forces(v, wk) {
+  const g = WING[wk];
+  if (wk === 'none') { const D = 0.5 * 1.2 * 0.7 * (v / 3.6) ** 2; return { T: Math.hypot(W, D), L: 0, D, theta: Math.atan2(D, W) }; }
+  const lf = Math.min(1, (v / g.vmin) ** 2);
+  const Dp = 0.5 * g.Tc * (v / g.vc) ** 2;
+  const Di = v >= g.vmin ? 0.5 * g.Tc * (g.vc / v) ** 2 : 0.5 * g.Tc * g.vc * g.vc * v * v / g.vmin ** 4;
+  const D = Dp + Di, Wv = W * (1 - lf);
+  return { T: Math.hypot(Wv, D), L: W * lf, D, theta: Math.atan2(D, Wv) };
+}
+function flightTime(tk, wk) {                       /* minutes on a full onboard store */
+  const t = THR[tk], g = WING[wk];
+  if (wk === 'none') return t.store / t.rate;
+  let s = t.store, base = 0;
+  if (g.vtol) { const need = t.rate * 0.5; if (s < need) return 0; s -= need; base = 0.5; }
+  return base + s / (t.rate * g.Tc / W);
+}
+const fmtT = x => x <= 0 ? 'Too short to take off' : x < 1 ? Math.round(x * 60) + ' s' : '≈' + x.toFixed(x < 10 ? 1 : 0) + ' min';
+const fmtN = x => Math.round(x).toLocaleString('en-US');
 
 const IDS = ['p1', 'p2', 'p3', 'p4'];
 const NAMES = ['P1 Fan', 'P2 Turbojet', 'P3 Cold gas', 'P4 Peroxide'];
@@ -517,30 +578,37 @@ const METRICS = [
   { t: 'Energy store / min', f: v => v + ' kg', v: [6, 2.6, 120, 50] },
   { t: 'Running cost / min (log)', f: v => '$' + v, v: [0.3, 5, 400, 500], log: true }
 ];
-function metrics(id) {
-  const k = IDS.indexOf(id), m = MODELS[id];
-  $('metTitle').textContent = m.id + ' metrics';
-  $('metKey').textContent = m.metrics ? 'White ticks: reference values for scale.' : 'Bar or dot: this model. White ticks: the other models.';
-  if (m.metrics) {
-    $('metRows').innerHTML = m.metrics.map(r => '<div class="mrow" title="' + r.t + ': ' + r.val + '"><div class="mh mono"><span>' + r.t + '</span><b>' + r.val + '</b></div><div class="track"><span class="bar" style="width:' + r.pct + '%"></span>' + (r.tick ? '<i class="tick" style="left:' + r.tick[0] + '%" title="' + r.tick[1] + '"></i>' : '') + '</div></div>').join('');
+const row = (t, val, pct, ticks, mark) => '<div class="mrow" title="' + t + ': ' + val + '"><div class="mh mono"><span>' + t + '</span><b>' + val + '</b></div><div class="track' + (mark === 'dot' ? ' log' : '') + '">' +
+  (mark === 'dot' ? '<span class="dot" style="left:' + pct.toFixed(1) + '%"></span>' : '<span class="bar" style="width:' + Math.min(100, pct).toFixed(1) + '%"></span>') +
+  ticks.map(([x, tt]) => '<i class="tick" style="left:' + Math.min(100, x).toFixed(1) + '%" title="' + tt + '"></i>').join('') + '</div></div>';
+function metrics() {
+  const k = IDS.indexOf(thr), m = MODELS[thr], g = WING[wng];
+  $('metTitle').textContent = m.id + (wng === 'none' ? '' : ' + ' + MODELS[wng].id) + ' metrics';
+  if (wng === 'none') {
+    $('metKey').textContent = 'Ticks: the other thrusters.';
+    $('metRows').innerHTML = METRICS.map(c => {
+      const max = Math.max(...c.v), pos = v => (c.log ? (Math.log10(v) + 1) / 4 : v / max) * 100;
+      return row(c.t, c.f(c.v[k]), pos(c.v[k]), c.v.map((v, i) => [pos(v), NAMES[i] + ': ' + c.f(v)]).filter((_, i) => i !== k), c.log ? 'dot' : 'bar');
+    }).join('');
     return;
   }
-  $('metRows').innerHTML = METRICS.map(c => {
-    const max = Math.max(...c.v);
-    const pos = v => (c.log ? (Math.log10(v) + 1) / 4 : v / max) * 100;
-    const ticks = c.v.map((v, i) => i === k ? '' : '<i class="tick" style="left:' + pos(v).toFixed(1) + '%" title="' + NAMES[i] + ': ' + c.f(v) + '"></i>').join('');
-    const mark = c.log ? '<span class="dot" style="left:' + pos(c.v[k]).toFixed(1) + '%"></span>' : '<span class="bar" style="width:' + pos(c.v[k]).toFixed(1) + '%"></span>';
-    return '<div class="mrow" title="' + NAMES[k] + ': ' + c.f(c.v[k]) + '"><div class="mh mono"><span>' + c.t + '</span><b>' + c.f(c.v[k]) + '</b></div><div class="track' + (c.log ? ' log' : '') + '">' + mark + ticks + '</div></div>';
-  }).join('');
+  const avail = g.slots * SLOT, ft = IDS.map(id => flightTime(id, wng));
+  $('metKey').textContent = 'Ticks: references, or this wing with other thrusters.';
+  $('metRows').innerHTML = [
+    row('Hover thrust', g.vtol ? '980 N' : '980 N > ' + fmtN(avail) + ' N', 980 / TMAX * 100, [[avail / TMAX * 100, 'Available: ' + fmtN(avail) + ' N']], 'bar'),
+    row('Cruise thrust', '≈' + g.Tc + ' N', g.Tc / TMAX * 100, [[980 / TMAX * 100, 'Hover: 980 N']], 'bar'),
+    row('Flight time', fmtT(ft[k]), ft[k] / 15 * 100, ft.map((v, i) => [v / 15 * 100, NAMES[i] + ': ' + fmtT(v)]).filter((_, i) => i !== k), 'bar'),
+    row('Min. wing speed', '≈' + g.vmin + ' km/h', g.vmin / 1.2, [[25 / 1.2, 'Paraglider: about 25 km/h']], 'bar')
+  ].join('');
 }
 
 /* ---------- UI state ---------- */
 const $ = id => document.getElementById(id);
 const cv = $('bp'), ctx = cv.getContext('2d');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MOUNTS = [[78, 166], [222, 166], [124, 288], [176, 288]];
-const GROUND = 362, RISE = 52, PX_PER_M = 171, PERIOD = 7000;
-let sel = 'rig', yaw = 0.6, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, zoom = 1, fyaw = -0.55, fpitch = 0.2, fdrag = null, FIG = null;
+const PERIOD = 7000, CYCLE = 16000;
+let thr = 'p2', wng = 'none', view = 't', yaw = 0.35, pitch = 0.3, paused = reduce, flying = !reduce, drag = null, last = 0, ft = 0, zoom = 1,
+  fyaw = -0.55, fpitch = 0.2, fdrag = null, FIG = null, hoverV = null, CURVE = [];
 
 function fillDetail(d) {
   $('dName').textContent = d.name;
@@ -599,54 +667,74 @@ const FIT = { p1: { tl: 0.2 }, p2: { tl: 0.32 }, p3: { tl: 0.26 }, p4: { tl: 0.2
   w4: { k: 1.2, wy: 0.52, feet: [-0.19, -0.06, 0.06, 0.19] }, w5: { k: 1.5, wy: 0.6, feet: [-0.19, -0.06, 0.06, 0.19] } };
 const HAND = [[-0.44, 0.76, 0.07], [0.44, 0.76, 0.07]], FOOT = [[-0.12, 0.02, 0.05], [0.12, 0.02, 0.05]];
 
-function equip(d, isModel) {
-  const f = FIT[sel] || {}, tl = d.wing ? 0.3 : f.tl || 0.24;
-  const src = d.wing ? MODELS.p2 : isModel ? d.mini || d : GENERIC;
-  const k = tl / (src.top - src.bottom);
-  const mounts = d.wing ? f.feet.map(x => [x, 0.02, 0.05]) : [...HAND, ...FOOT];
-  const lines = [...BODY];
-  if (isModel) lines.push(...PACK);
+function equip() {
+  const tm = MODELS[thr], wm = MODELS[wng], f = FIT[wng] || {};
+  const src = tm.mini || tm, tl = FIT[thr].tl, k = tl / (src.top - src.bottom);
+  const mounts = wm ? f.feet.map(x => [x, 0.02, 0.05]) : [...HAND, ...FOOT];
+  const lines = [...BODY, ...PACK];
   for (const m of mounts) for (const ln of src.lines) lines.push({ pts: ln.pts.map(q => [m[0] + q[0] * k, m[1] + (q[1] - src.top) * k, m[2] + q[2] * k]), c: ln.c });
   const onBack = ls => ls.map(ln => ({ pts: ln.pts.map(q => [q[0] * f.k, q[1] * f.k + f.wy, -q[2] * f.k - 0.29]), c: ln.c }));
   let wingOpen = [], wingFold = null;
-  if (d.wing) {
-    wingOpen = onBack(sel === 'w5' ? tapered() : d.lines);
-    if (sel === 'w5') wingFold = onBack([...wingMesh({ LE: u => tapLE(0.4 * u), TE: u => tapTE(0.4 * u), half: 0.4, hy: 0.62 }), ...d.lines.slice(-6)]);
-    const e = d.labels.find(l => l[0] === 'Elevon')[1];
+  if (wm) {
+    wingOpen = onBack(wng === 'w5' ? tapered() : wm.lines);
+    if (wng === 'w5') wingFold = onBack([...wingMesh({ LE: u => tapLE(0.4 * u), TE: u => tapTE(0.4 * u), half: 0.4, hy: 0.62 }), ...wm.lines.slice(-6)]);
+    const e = wm.labels.find(l => l[0] === 'Elevon')[1];
     for (const sg of [1, -1]) lines.push({ pts: [[0.44 * sg, 0.79, 0.07], [Math.abs(e[0]) * sg * f.k, e[1] * f.k + f.wy, -0.29]], c: 'ctl' });
   }
-  FIG = { lines, wingOpen, wingFold, tl, jet: d.jet, mounts, rig: !isModel, pack: isModel ? d.pack[0].toUpperCase() : '', wing: !!d.wing };
+  FIG = { lines, wingOpen, wingFold, tl, jet: tm.jet, mounts, wing: !!wm };
 }
 
-/* ---------- flight pose: hover bob, forward cruise, or the full tail-sitter cycle ---------- */
+/* ---------- flight cycle: hover bob, forward cruise, or the tail-sitter cycle ---------- */
 function pose() {
-  const d = MODELS[sel] || RIG, ph = ft / PERIOD * TAU;
-  if (d.vtol) {
-    const p = (ft % 14000) / 14000, ease = x => x * x * (3 - 2 * x), clamp = x => Math.max(0, Math.min(1, x));
-    const up = ease(clamp(p / 0.2)), down = ease(clamp((p - 0.8) / 0.2));
-    const fly = ease(clamp((p - 0.2) / 0.1)) - ease(clamp((p - 0.7) / 0.1));
-    const state = p < 0.2 ? 'Lift-off' : p < 0.3 ? 'Transition' : p < 0.7 ? 'Cruise' : p < 0.8 ? 'Flare' : 'Landing';
-    const thr = { 'Lift-off': 78, Transition: 100, Cruise: 28, Flare: 90, Landing: 64 }[state], alt = 0.3 * (up - down);
-    return { alt: alt + 0.15 * fly, pitch: fly * 80 * D2R, roll: fly * 8 * Math.sin((p - 0.3) / 0.4 * TAU) * D2R, fly, thr, state,
-      a: fly > 0.02 ? 'Spd ' + Math.round(150 * fly) + ' km/h' : 'Alt ' + alt.toFixed(2) + ' m' };
+  const g = WING[wng], ease = x => x * x * (3 - 2 * x), clamp = x => Math.max(0, Math.min(1, x));
+  if (wng === 'none') {
+    const ph = ft / PERIOD * TAU, f = forces(0, wng), vz = Math.sin(ph);
+    f.T = W * (1 + 0.08 * Math.cos(ph));
+    return { ...f, v: 0, alt: 0.3 * (1 - Math.cos(ph)) / 2, roll: 0, fly: 0, state: vz > 0.08 ? 'Ascent' : vz < -0.08 ? 'Descent' : 'Hover' };
   }
-  if (d.wing) {
-    const bank = 8 * Math.sin(ph);
-    return { alt: 0.3, pitch: 80 * D2R, roll: bank * D2R, fly: 1, thr: 47, state: bank > 2.5 ? 'Bank right' : bank < -2.5 ? 'Bank left' : 'Level', a: 'Spd ' + Math.round(118 + 5 * Math.cos(ph)) + ' km/h' };
+  if (!g.vtol) {
+    const ph = ft / PERIOD * TAU, v = g.vc + 5 * Math.cos(ph), bank = 8 * Math.sin(ph);
+    return { ...forces(v, wng), v, alt: 0.3, roll: bank * D2R, fly: 1, state: bank > 2.5 ? 'Bank right' : bank < -2.5 ? 'Bank left' : 'Level' };
   }
-  const alt = 0.3 * (1 - Math.cos(ph)) / 2, v = Math.sin(ph);
-  return { alt, pitch: 0, roll: 0, fly: 0, thr: Math.round(70 + 8 * v), state: v > 0.08 ? 'Ascent' : v < -0.08 ? 'Descent' : 'Hover', a: 'Alt ' + alt.toFixed(2) + ' m' };
+  const p = (ft % CYCLE) / CYCLE;
+  const up = ease(clamp(p / 0.18)), down = ease(clamp((p - 0.82) / 0.18));
+  const v = g.vc * (ease(clamp((p - 0.18) / 0.12)) - ease(clamp((p - 0.7) / 0.12)));
+  const f = forces(v, wng), fly = ease(clamp(v / (0.7 * g.vc)));
+  if (p < 0.18) f.T = W * (1 + 0.05 * Math.cos(p / 0.18 * Math.PI));
+  if (p > 0.82) f.T = W * (1 - 0.05 * Math.cos((p - 0.82) / 0.18 * Math.PI));
+  const state = p < 0.18 ? 'Lift-off' : p < 0.3 ? 'Transition' : p < 0.7 ? 'Cruise' : p < 0.82 ? 'Flare' : 'Landing';
+  return { ...f, v, alt: 0.3 * (up - down) + 0.15 * fly, roll: (p > 0.3 && p < 0.7 ? 8 * Math.sin((p - 0.3) / 0.4 * TAU) : 0) * D2R, fly, state };
 }
+
 const FCOL = { body: '#7fdcff', joint: '#ffe6a3', main: '#e4f3ff', accent: '#ffe6a3', pack: '#8ff0c0', ctl: '#ffe6a3' };
-function float(t) {
-  const ps = pose();
-  $('fAlt').textContent = ps.a; $('fThr').textContent = 'Thr ' + ps.thr + '%'; $('fState').textContent = flying ? ps.state : 'Holding';
+const ARROWS = [['Thrust', '#ffe6a3'], ['Weight', '#ff94c8'], ['Lift', '#8ff0c0'], ['Drag', '#ffa24c']];
+function arrow(c, a, b, col, label) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
+  if (L < 6) return;
+  const ux = dx / L, uy = dy / L;
+  c.strokeStyle = col; c.fillStyle = col; c.lineWidth = 2.2; c.globalAlpha = 0.95;
+  c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0] - ux * 8, b[1] - uy * 8); c.stroke();
+  c.beginPath(); c.moveTo(b[0], b[1]); c.lineTo(b[0] - ux * 11 - uy * 5, b[1] - uy * 11 + ux * 5); c.lineTo(b[0] - ux * 11 + uy * 5, b[1] - uy * 11 - ux * 5); c.closePath(); c.fill();
+  c.globalAlpha = 1; c.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; c.textBaseline = 'middle';
+  const tx = b[0] + ux * 10, ty = b[1] + uy * 12, tw = c.measureText(label).width;
+  c.textAlign = Math.abs(ux) < 0.3 ? 'center' : ux > 0 ? 'left' : 'right';
+  const x0 = c.textAlign === 'center' ? tx - tw / 2 : c.textAlign === 'left' ? tx : tx - tw;
+  c.fillStyle = 'rgba(6,10,34,0.72)'; c.fillRect(x0 - 3, ty - 8, tw + 6, 16);
+  c.fillStyle = '#f0f2ff'; c.fillText(label, tx, ty);
+}
+function float(t, ps) {
+  const avail = WING[wng].slots * SLOT, thrPct = ps.T / avail * 100;
+  $('fAlt').textContent = 'Alt ' + ps.alt.toFixed(2) + ' m';
+  $('fSpd').textContent = 'Spd ' + Math.round(ps.v) + ' km/h';
+  $('fThr').textContent = 'Thr ' + Math.round(thrPct) + '%';
+  $('fState').textContent = flying ? ps.state : 'Holding';
   const fg = $('fig'), [w, h, dpr] = size(fg), c = fg.getContext('2d');
   if (!w || !h || !FIG) return;
+  const big = $('pFig').parentNode === $('stage');
   c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
-  const S = Math.min((w - 16) / (FIG.wing ? 2.3 + 0.8 * ps.fly : 1.6), (h - 70) / 2.45), cx = w / 2, cy = h / 2 + 6;
+  const S = Math.min((w - 16) / (FIG.wing ? 2.3 + 0.8 * ps.fly : 1.9), (h - (big ? 70 : 20)) / 2.6), cx = w / 2, cy = h / 2 + (big ? 10 : 0);
   const cY = Math.cos(fyaw), sY = Math.sin(fyaw), cP = Math.cos(fpitch), sP = Math.sin(fpitch);
-  const cb = Math.cos(ps.pitch), sb = Math.sin(ps.pitch), cr = Math.cos(ps.roll), sr = Math.sin(ps.roll);
+  const cb = Math.cos(ps.theta), sb = Math.sin(ps.theta), cr = Math.cos(ps.roll), sr = Math.sin(ps.roll);
   const cam = q => {
     const y = q[1] - 0.72 - 0.55 * ps.fly, x1 = q[0] * cY + q[2] * sY, z1 = -q[0] * sY + q[2] * cY, y2 = y * cP - z1 * sP, z2 = y * sP + z1 * cP, k = 8 / (8 - z2);
     return [cx + x1 * S * k, cy - y2 * S * k, z2];
@@ -656,8 +744,7 @@ function float(t) {
     return cam([x, y * cb - z * sb + 1 + ps.alt, y * sb + z * cb + 0.3 * ps.fly]);
   };
   c.lineCap = 'round';
-  /* ground grid, fading out in wing flight */
-  if (ps.fly < 0.98) {
+  if (ps.fly < 0.98) {                               /* ground grid, fading out in wing flight */
     c.strokeStyle = '#a9b0dc'; c.lineWidth = 1; c.globalAlpha = 0.35 * (1 - ps.fly); c.beginPath();
     for (let i = -3; i <= 3; i++) {
       let a = cam([i * 0.4, -0.42, -1.2]), b = cam([i * 0.4, -0.42, 1.2]); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]);
@@ -665,8 +752,7 @@ function float(t) {
     }
     c.stroke();
   }
-  /* air streaks in wing flight */
-  if (ps.fly > 0.02) {
+  if (ps.fly > 0.02) {                               /* air streaks in wing flight */
     c.strokeStyle = '#7fdcff'; c.lineWidth = 1.3; c.globalAlpha = 0.6 * ps.fly; c.beginPath();
     for (let i = 0; i < 12; i++) {
       const x = ((i * 0.37) % 2.2) - 1.1, y = 0.3 + ((i * 0.53) % 1.6), z = 1.8 - ((ft * 0.004 + i * 0.61) % 3.6);
@@ -674,10 +760,8 @@ function float(t) {
     }
     c.stroke();
   }
-  /* mannequin, thrusters, pack and wing */
   c.lineWidth = 1.1; c.setLineDash([]);
-  const sets = [FIG.lines, FIG.wingFold && ps.fly < 0.5 ? FIG.wingFold : FIG.wingOpen];
-  for (const set of sets) for (const ln of set) {
+  for (const set of [FIG.lines, FIG.wingFold && ps.fly < 0.5 ? FIG.wingFold : FIG.wingOpen]) for (const ln of set) {
     c.strokeStyle = FCOL[ln.c];
     let a = P(ln.pts[0]);
     for (let i = 1; i < ln.pts.length; i++) {
@@ -687,51 +771,127 @@ function float(t) {
       a = b;
     }
   }
-  /* exhaust */
-  const L = 0.1 + ps.thr / 100 * 0.42;
+  const L = 0.1 + Math.min(1, thrPct / 100) * 0.42;  /* exhaust */
   c.strokeStyle = FIG.jet; c.globalAlpha = 0.9; c.lineWidth = 1.4; c.setLineDash([5, 4]); c.lineDashOffset = -(t / 25) % 9; c.beginPath();
   for (const m of FIG.mounts) for (const [ox, oz] of [[0, 0], [0.035, 0.02], [-0.035, -0.02]]) {
     const a = P([m[0] + ox, m[1] - FIG.tl - 0.02, m[2] + oz]), b = P([m[0] + ox * 2, m[1] - FIG.tl - L, m[2] + oz * 2]);
     c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]);
   }
   c.stroke(); c.setLineDash([]);
-  /* labels */
-  c.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; c.textBaseline = 'middle'; c.globalAlpha = 1;
-  if (FIG.rig) {
-    FIG.mounts.forEach((m, i) => {
-      const a = P([m[0], m[1] - 0.12, m[2]]), sg = m[0] < 0 ? -1 : 1;
-      c.textAlign = sg < 0 ? 'right' : 'left';
-      c.fillStyle = i < 2 ? '#7fdcff' : '#8ff0c0'; c.fillText('T' + (i + 1), a[0] + sg * 26, a[1] - 7);
-      c.fillStyle = '#cfe6ff'; c.fillText('350 N', a[0] + sg * 26, a[1] + 7);
-    });
-    const g = P([0, 1.0, 0.12]);
-    c.strokeStyle = '#ffe6a3'; c.lineWidth = 1; c.beginPath(); c.moveTo(g[0] - 7, g[1]); c.lineTo(g[0] + 7, g[1]); c.moveTo(g[0], g[1] - 7); c.lineTo(g[0], g[1] + 7); c.stroke();
-    c.fillStyle = '#ffe6a3'; c.textAlign = 'left'; c.fillText('CG', g[0] + 11, g[1] - 8);
-  } else if (FIG.pack) {
-    const a = P([0, 1.38, -0.2]), tx = Math.min(w - 8, a[0] + 70), ty = Math.max(64, a[1] - 46);
-    c.strokeStyle = '#8ff0c0'; c.lineWidth = 1; c.globalAlpha = 0.8; c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(tx - 30, ty); c.lineTo(tx - c.measureText(FIG.pack).width - 4, ty); c.stroke();
-    c.globalAlpha = 1; c.fillStyle = '#8ff0c0'; c.textAlign = 'right'; c.fillText(FIG.pack, tx, ty - 8);
+  if (!big) return;
+  /* force arrows from the centre of gravity, 1,000 N = 0.62 m */
+  const o = [0, 1 + ps.alt, 0.3 * ps.fly], K = 0.62 / 1000;
+  const dirs = { Thrust: [0, cb, sb], Weight: [0, -1, 0], Lift: [0, 1, 0], Drag: [0, 0, -1] };
+  const mag = { Thrust: ps.T, Weight: W, Lift: ps.L, Drag: ps.D };
+  const off = { Thrust: -0.07, Lift: 0.07, Weight: 0, Drag: 0 };
+  for (const [name, col] of ARROWS) {
+    if (mag[name] < 20) continue;
+    const a0 = [o[0] + off[name], o[1], o[2]], d = dirs[name];
+    arrow(c, cam(a0), cam([a0[0] + d[0] * mag[name] * K, a0[1] + d[1] * mag[name] * K, a0[2] + d[2] * mag[name] * K]), col, name.toUpperCase() + ' ' + fmtN(mag[name]) + ' N');
   }
+  const g = cam(o);
+  c.globalAlpha = 1; c.fillStyle = '#ffe6a3'; c.strokeStyle = '#060a22'; c.lineWidth = 2;
+  c.beginPath(); c.arc(g[0], g[1], 4, 0, TAU); c.fill(); c.stroke();
   c.textBaseline = 'alphabetic';
 }
 
-function select(id) {
-  sel = id;
-  const isModel = id in MODELS, d = isModel ? MODELS[id] : RIG;
-  for (const b of document.querySelectorAll('.cell')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
-  $('stage').classList.toggle('split', isModel);
-  $('pBp').toggleAttribute('hidden', !isModel);
-  $('outPanel').toggleAttribute('hidden', isModel);
-  $('metPanel').toggleAttribute('hidden', !isModel);
-  if (isModel) metrics(id);
-  $('tag').textContent = isModel ? d.id + ' · ' + d.name : 'Tethered hover · 0.3 m';
-  fyaw = d.wing ? -1.05 : -0.55; fpitch = 0.2;
-  zoom = 1; yaw = 0.35;
-  fillDetail(d); equip(d, isModel);
-  if (isModel) $('bpTitle').textContent = 'Blueprint · ' + d.id;
+/* ---------- attitude indicator ---------- */
+function attitude(ps) {
+  const ac = $('attC'), [w, h, dpr] = size(ac), c = ac.getContext('2d');
+  if (!w) return;
+  const R = w / 2 - 3, pa = 90 - ps.theta / D2R, off = pa / 90 * R * 0.85;
+  c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  c.save(); c.translate(w / 2, h / 2);
+  c.beginPath(); c.arc(0, 0, R, 0, TAU); c.clip();
+  c.rotate(-ps.roll);
+  c.fillStyle = 'rgba(127,220,255,0.22)'; c.fillRect(-2 * R, -2 * R, 4 * R, 2 * R + off);
+  c.fillStyle = 'rgba(255,230,163,0.16)'; c.fillRect(-2 * R, off, 4 * R, 2 * R);
+  c.strokeStyle = '#f0f2ff'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(-2 * R, off); c.lineTo(2 * R, off); c.stroke();
+  c.lineWidth = 1; c.globalAlpha = 0.7;
+  for (const d of [-60, -30, 30, 60]) { const y = off - d / 90 * R * 0.85, hw = R * 0.22; c.beginPath(); c.moveTo(-hw, y); c.lineTo(hw, y); c.stroke(); }
+  c.restore();
+  c.save(); c.translate(w / 2, h / 2);
+  c.strokeStyle = 'rgba(160,170,255,0.6)'; c.lineWidth = 1; c.beginPath(); c.arc(0, 0, R, 0, TAU); c.stroke();
+  c.strokeStyle = '#ffe6a3'; c.lineWidth = 2.5; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(-R * 0.55, 0); c.lineTo(-R * 0.18, 0); c.lineTo(-R * 0.1, 6); c.moveTo(R * 0.55, 0); c.lineTo(R * 0.18, 0); c.lineTo(R * 0.1, 6); c.stroke();
+  c.beginPath(); c.arc(0, 0, 2.5, 0, TAU); c.fillStyle = '#ffe6a3'; c.fill();
+  c.restore();
+  const sg = x => (x >= 0 ? '+' : '−') + Math.abs(Math.round(x));
+  $('attTxt').innerHTML = 'Pitch ' + sg(pa) + '°<br>Bank ' + sg(ps.roll / D2R) + '°';
+}
+
+/* ---------- thrust needed vs speed ---------- */
+function buildCurve() { CURVE = []; for (let v = 0; v <= VMAX; v += 2) CURVE.push([v, forces(v, wng).T]); }
+function chart(ps) {
+  const c = $('tsv'), [w, h, dpr] = size(c), x = c.getContext('2d');
+  if (!w || !h) return;
+  x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, w, h);
+  const g = WING[wng], avail = g.slots * SLOT, L = 34, R = 8, T = 6, B = 16, pw = w - L - R, ph = h - T - B;
+  const X = v => L + v / VMAX * pw, Y = f => T + ph - Math.min(f, TMAX) / TMAX * ph;
+  x.font = "600 9px 'JetBrains Mono', ui-monospace, monospace"; x.lineWidth = 1;
+  for (const f of [0, 500, 1000, 1500]) {
+    x.strokeStyle = f ? 'rgba(160,170,255,0.18)' : 'rgba(160,170,255,0.5)'; x.beginPath(); x.moveTo(L, Y(f)); x.lineTo(w - R, Y(f)); x.stroke();
+    x.fillStyle = '#a9b0dc'; x.textAlign = 'right'; x.textBaseline = 'middle'; x.fillText(f ? f / 1000 + 'k' : '0', L - 5, Y(f));
+  }
+  x.textAlign = 'center'; x.textBaseline = 'top';
+  for (const v of [0, 50, 100, 150, 200]) x.fillText(v, X(v), h - B + 4);
+  x.textAlign = 'right'; x.fillText('km/h', w - R, h - B + 4 - 11);
+  let over = false;                                  /* where the setup cannot make enough thrust */
+  x.fillStyle = 'rgba(255,148,200,0.2)';
+  for (let i = 0; i < CURVE.length - 1; i++) if (CURVE[i][1] > avail) { over = true; x.fillRect(X(CURVE[i][0]), Y(CURVE[i][1]), X(CURVE[i + 1][0]) - X(CURVE[i][0]) + 0.5, Y(avail) - Y(CURVE[i][1])); }
+  x.strokeStyle = '#ffe6a3'; x.setLineDash([4, 4]); x.beginPath(); x.moveTo(L, Y(avail)); x.lineTo(w - R, Y(avail)); x.stroke(); x.setLineDash([]);
+  x.fillStyle = '#f0f2ff'; x.textAlign = 'right'; x.textBaseline = 'bottom'; x.fillText('AVAILABLE ' + fmtN(avail) + ' N', w - R, Y(avail) - 2);
+  if (g.vmin) {
+    x.strokeStyle = 'rgba(160,170,255,0.6)'; x.setLineDash([2, 3]); x.beginPath(); x.moveTo(X(g.vmin), T); x.lineTo(X(g.vmin), T + ph); x.stroke(); x.setLineDash([]);
+    x.fillStyle = '#a9b0dc'; x.textAlign = 'left'; x.textBaseline = 'top'; x.fillText('WING-BORNE', X(g.vmin) + 3, Y(avail) + 4 > T + ph - 12 ? T + 2 : Y(avail) + 4);
+  }
+  if (over) { x.fillStyle = '#ff94c8'; x.textAlign = 'left'; x.textBaseline = 'bottom'; x.fillText('NOT ENOUGH THRUST', X(g.vmin ? 2 : 120), Y(avail) - 2 - (g.vmin ? 0 : 12)); }
+  x.strokeStyle = '#7fdcff'; x.lineWidth = 2; x.lineJoin = 'round'; x.beginPath();
+  CURVE.forEach(([v, f], i) => i ? x.lineTo(X(v), Y(f)) : x.moveTo(X(v), Y(f))); x.stroke();
+  if (hoverV !== null) {
+    const f = forces(hoverV, wng).T;
+    x.strokeStyle = 'rgba(240,242,255,0.5)'; x.lineWidth = 1; x.beginPath(); x.moveTo(X(hoverV), T); x.lineTo(X(hoverV), T + ph); x.stroke();
+    x.fillStyle = '#f0f2ff'; x.beginPath(); x.arc(X(hoverV), Y(f), 3.5, 0, TAU); x.fill();
+    $('tsvRead').textContent = Math.round(hoverV) + ' km/h · ' + fmtN(f) + ' N needed';
+  } else $('tsvRead').textContent = 'Now: ' + Math.round(ps.v) + ' km/h · ' + fmtN(ps.T) + ' N';
+  x.fillStyle = '#7fdcff'; x.strokeStyle = '#060a22'; x.lineWidth = 2;
+  x.beginPath(); x.arc(X(ps.v), Y(ps.T), 5, 0, TAU); x.fill(); x.stroke();
+}
+
+/* ---------- live forces panel ---------- */
+function forcePanel(ps) {
+  const avail = WING[wng].slots * SLOT;
+  for (const [k, v] of [['T', ps.T], ['W', W], ['L', ps.L], ['D', ps.D]]) {
+    $('v' + k).textContent = fmtN(v);
+    $('b' + k).style.setProperty('--p', Math.min(100, v / TMAX * 100).toFixed(1) + '%');
+  }
+  const pct = Math.min(100, ps.T / avail * 100);
+  $('vThr').textContent = Math.round(ps.T / avail * 100) + '%';
+}
+
+/* ---------- selection ---------- */
+function update() {
+  for (const b of document.querySelectorAll('.cell')) b.setAttribute('aria-pressed', String(b.dataset.id === (b.dataset.kind === 't' ? thr : wng)));
+  if (wng === 'none') view = 't';
+  $('tabs').hidden = wng === 'none';
+  for (const b of document.querySelectorAll('.tab')) b.setAttribute('aria-pressed', String(b.dataset.view === view));
+  const part = view === 'w' ? MODELS[wng] : MODELS[thr], other = view === 'w' ? MODELS[thr] : MODELS[wng];
+  const avail = WING[wng].slots * SLOT;
+  $('hdrSum').textContent = 'ΣT ' + fmtN(avail) + ' N · Mass 100 kg · Concept estimates';
+  $('tag').textContent = MODELS[thr].name + ' · ' + (MODELS[wng] ? MODELS[wng].name : 'no wing, hover rig');
+  $('bpTitle').textContent = part.id + ' · ' + part.name;
+  fillDetail(part);
+  fyaw = MODELS[wng] ? -1.05 : -0.55; fpitch = 0.2; zoom = 1; yaw = 0.35;
+  equip(); metrics(); buildCurve();
 }
 function setSpin(p) { paused = p; $('spin').textContent = p ? 'Rotate' : 'Pause'; }
 function setFly(f) { flying = f; $('fly').textContent = f ? 'Hold' : 'Fly'; }
+function swap() {
+  const bpBig = $('pBp').parentNode === $('stage');
+  if (bpBig) { $('stage').append($('pFig')); $('bpSlot').append($('pBp')); }
+  else { $('stage').append($('pBp')); $('bpSlot').append($('pFig')); }
+  $('swap').setAttribute('aria-label', bpBig ? 'Show blueprint in the main view' : 'Show flight in the main view');
+}
 
 /* ---------- blueprint renderer ---------- */
 function size(c) {
@@ -776,24 +936,23 @@ function thumbs() {
 function frame(t) {
   const dt = last ? Math.min(t - last, 60) : 0; last = t;
   if (flying) ft += dt;
-  float(t);
-  if (MODELS[sel]) {
-    if (!paused && !drag) yaw += dt * 0.0006;
-    draw(t);
-  }
+  const ps = pose();
+  float(t, ps); attitude(ps); chart(ps); forcePanel(ps);
+  if (!paused && !drag) yaw += dt * 0.0006;
+  draw(t);
   requestAnimationFrame(frame);
 }
 function draw(t) {
-  const m = MODELS[sel], [w, h, dpr] = size(cv);
+  const m = view === 'w' ? MODELS[wng] : MODELS[thr], [w, h, dpr] = size(cv);
   if (!w || !h) return;
+  const big = $('pBp').parentNode === $('stage');
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
   const plume = m.noJet ? 0 : 0.5, span = m.top - m.bottom + plume;
-  const S = Math.min((w - 200) / (2.2 * m.rad), (h - 120) / span) * zoom;
-  const cx = w / 2, cy = (h - 16) / 2;
+  const S = big ? Math.min((w - 200) / (2.2 * m.rad), (h - 120) / span) * zoom : Math.min((w - 20) / (2.2 * m.rad), (h - 34) / span);
+  const cx = w / 2, cy = big ? (h - 16) / 2 : h / 2 + 8;
   const proj = projector(m, S, cx, cy, yaw, pitch, plume);
-  wire(ctx, m, proj, 1.2);
-  /* exhaust plume */
+  wire(ctx, m, proj, big ? 1.2 : 1);
   ctx.globalAlpha = 0.9; ctx.strokeStyle = m.jet; ctx.setLineDash([6, 5]);
   ctx.lineDashOffset = -(t / 30) % 11;
   const jets = [[0, 0]];
@@ -803,16 +962,15 @@ function draw(t) {
     const b = proj([jx * m.exitR * 0.9, m.bottom - plume, jz * m.exitR * 0.9]);
     ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
   }
-  ctx.setLineDash([]);
-  /* component labels: alternate sides top to bottom, spread over the pane height;
-     each leader leaves the part diagonally, then runs level to its label */
+  ctx.setLineDash([]); ctx.globalAlpha = 1;
+  if (!big) return;
   const labs = m.labels.map(([txt, p]) => ({ txt: txt.toUpperCase(), a: proj(p), my: p[1] })).sort((p, q) => q.my - p.my);
   labs.forEach((l, i) => { l.side = i % 2 ? 1 : -1; });
   const y0 = 44, y1 = h - 62, mid = (m.top + m.bottom - plume) / 2;
   for (const side of [-1, 1]) {
     const g = labs.filter(l => l.side === side);
     for (const l of g) {
-      let dy = -(l.my - mid) * S * 1.35;          /* push labels outward so leaders start diagonal */
+      let dy = -(l.my - mid) * S * 1.35;
       const ay = cy - (l.my - mid) * S;
       if (Math.abs(cy + dy - ay) < 16) dy = ay - cy - 18;
       l.y = Math.max(y0, Math.min(y1, cy + dy));
@@ -837,14 +995,19 @@ function draw(t) {
     ctx.fillText(l.txt, tx, l.y);
   }
   ctx.textBaseline = 'alphabetic';
-  /* view readout */
   const deg = ((Math.round(yaw * 180 / Math.PI) % 360) + 360) % 360;
   const side = deg < 45 || deg >= 315 ? 'Front' : deg < 135 ? 'Right' : deg < 225 ? 'Back' : 'Left';
   $('bpView').textContent = side + ' · ' + String(deg).padStart(3, '0') + '° · ×' + zoom.toFixed(1);
 }
 
 /* ---------- events ---------- */
-$('cells').addEventListener('click', e => { const b = e.target.closest('.cell'); if (b) select(b.dataset.id); });
+$('cells').addEventListener('click', e => {
+  const b = e.target.closest('.cell'); if (!b) return;
+  if (b.dataset.kind === 't') { thr = b.dataset.id; view = 't'; } else { wng = b.dataset.id; view = 'w'; }
+  update();
+});
+$('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) { view = b.dataset.view; update(); } });
+$('swap').addEventListener('click', swap);
 $('spin').addEventListener('click', () => setSpin(!paused));
 $('fly').addEventListener('click', () => setFly(!flying));
 $('bpCtrl').addEventListener('click', e => {
@@ -853,8 +1016,11 @@ $('bpCtrl').addEventListener('click', e => {
   const z = e.target.closest('[data-zoom]');
   if (z) zoom = Math.max(0.5, Math.min(4, zoom * z.dataset.zoom));
 });
-cv.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.max(0.5, Math.min(4, zoom * Math.exp(-e.deltaY * 0.0015))); }, { passive: false });
+cv.addEventListener('wheel', e => { if ($('pBp').parentNode !== $('stage')) return; e.preventDefault(); zoom = Math.max(0.5, Math.min(4, zoom * Math.exp(-e.deltaY * 0.0015))); }, { passive: false });
 window.addEventListener('resize', thumbs);
+const tsv = $('tsv');
+tsv.addEventListener('pointermove', e => { const r = tsv.getBoundingClientRect(); hoverV = Math.max(0, Math.min(VMAX, (e.clientX - r.left - 34) / (r.width - 42) * VMAX)); });
+tsv.addEventListener('pointerleave', () => { hoverV = null; });
 const fgc = $('fig');
 fgc.addEventListener('pointerdown', e => { fdrag = { x: e.clientX, y: e.clientY }; fgc.setPointerCapture(e.pointerId); });
 fgc.addEventListener('pointermove', e => {
@@ -875,7 +1041,7 @@ for (const ev of ['pointerup', 'pointercancel']) cv.addEventListener(ev, () => {
 
 setSpin(paused); setFly(flying);
 if (reduce) ft = PERIOD / 4;
-select('rig');
+update();
 thumbs();
 requestAnimationFrame(frame);
 </script>
