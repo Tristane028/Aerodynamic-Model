@@ -124,6 +124,7 @@ h2 .num{color:var(--label)}
 #zBody .track{height:16px}
 #zBody #metKey{display:block;font-size:14px}
 #metPanel #metKey{display:none}
+.tkey{display:inline-block;width:2px;height:9px;margin:0 2px -1px;background:var(--bright);opacity:.75}
 #zBody .bpslot{flex:1}
 #zBody .bpslot .ov{display:grid}
 #zBody .bpslot .ov.tr{display:block}
@@ -164,6 +165,21 @@ h2 .num{color:var(--label)}
 .tab[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
 .tab:hover,.tab:focus-visible{border-color:var(--cyan);outline:none}
 .btn.icon{min-width:32px;padding:0;font-size:14px}
+.rings{display:flex;justify-content:space-around;gap:6px}.rings figure{margin:0;display:grid;justify-items:center;gap:3px}.rings figcaption{font-size:9px;color:var(--label)}
+.ring{width:76px;height:76px;display:block;overflow:visible}.ring .sg{fill:none;stroke-width:6;stroke:rgba(160,170,255,.16)}.ring .tk{stroke:rgba(127,220,255,.28);stroke-width:1}.ring .tk.big{stroke:rgba(127,220,255,.55)}
+.ring .num{fill:var(--bright);font-family:'Exo 2',sans-serif;font-weight:300;font-size:22px}.ring .unit{font-size:11px}
+#outPanel{flex:none}
+/* alert plate over the viewer */
+.kplate{position:absolute;top:12px;left:120px;right:236px;width:max-content;max-width:calc(100% - 356px);margin:0 auto;z-index:3;display:grid;grid-template-columns:22px minmax(0,auto);border:1px solid rgba(255,230,163,.8);border-radius:9px 2px 9px 2px;overflow:hidden;background:rgba(30,24,10,.75);box-shadow:0 0 16px rgba(255,230,163,.25);pointer-events:none}
+.kplate i{background:repeating-linear-gradient(-45deg,var(--gold) 0 6px,rgba(6,10,36,.9) 6px 12px)}
+.kplate b{padding:6px 12px;font-size:11px;letter-spacing:.14em;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kplate.red{border-color:rgba(255,148,200,.85);box-shadow:0 0 16px rgba(255,148,200,.3)}.kplate.red i{background:repeating-linear-gradient(-45deg,#ff94c8 0 6px,rgba(6,10,36,.9) 6px 12px)}.kplate.red b{color:#ff94c8}
+.kplate::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,230,163,.16),transparent);animation:ksweep 2.6s linear infinite}
+@keyframes ksweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@media (prefers-reduced-motion:reduce){.kplate::after{animation:none;opacity:0}}
+/* heading dial, beside the pitch and bank dial */
+.hdg{position:absolute;top:10px;right:124px;display:grid;justify-items:center;gap:4px;pointer-events:none}.hdg canvas{width:96px;height:96px;display:block}.hdg p{margin:0;color:var(--text);font-size:10px;text-align:center;line-height:1.5}
+.bpslot .hdg,.bpslot .kplate{display:none}
 .att{position:absolute;top:10px;right:12px;display:grid;justify-items:center;gap:4px;pointer-events:none}
 .att canvas{width:96px;height:96px;display:block}
 .att p{margin:0;color:var(--text);font-size:10px;text-align:center;line-height:1.5}
@@ -214,7 +230,7 @@ h2 .num{color:var(--label)}
 <canvas id="tsv" role="img" aria-label="Line chart of thrust needed against airspeed for the selected setup, with the available thrust as a dashed line."></canvas>
 </section>
 <section class="panel tight zcell" id="metPanel" data-name="Metrics">
-<h2 class="mono"><span class="star" aria-hidden="true">✦</span><span id="metTitle">Metrics</span><span class="ruler"></span><span class="num">Est.</span><button class="btn icon zbtn mono" type="button" aria-label="Enlarge metrics">⤢</button></h2>
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span><span id="metTitle">Metrics</span><span class="ruler"></span><span class="num">Est. · <i class="tkey" aria-hidden="true"></i> compare</span><button class="btn icon zbtn mono" type="button" aria-label="Enlarge metrics">⤢</button></h2>
 <div id="metRows"></div>
 <p class="key" id="metKey"></p>
 </section>
@@ -227,6 +243,8 @@ h2 .num{color:var(--label)}
 <canvas id="fig" aria-label="3D mannequin wearing the selected setup, with force arrows."></canvas>
 <p class="ov tl mono" id="flight"><span id="fAlt"></span><span id="fSpd"></span><span id="fThr"></span><span id="fState" style="color:var(--gold)"></span></p>
 <div class="att" id="att"><canvas id="attC" aria-hidden="true"></canvas><p class="mono" id="attTxt"></p></div>
+<div class="hdg" id="hdg"><canvas id="hdgC" aria-hidden="true"></canvas><p class="mono" id="hdgTxt"></p></div>
+<div class="kplate mono" id="kAlert" role="alert" hidden><i></i><b id="kAlertT"></b></div>
 <button class="btn main mono" id="fly" type="button">Hold</button>
 </div>
 </div>
@@ -256,6 +274,10 @@ h2 .num{color:var(--label)}
 </div>
 </div>
 </div>
+</section>
+<section class="panel tight" id="outPanel" aria-label="Output">
+<h2 class="mono"><span class="star" aria-hidden="true">✦</span>Output<span class="ruler"></span><span class="num" id="outTW">–</span></h2>
+<div class="rings"><figure><svg class="ring" id="rThr" viewBox="0 0 96 96" role="img" aria-label="Throttle"></svg><figcaption class="mono">Throttle</figcaption></figure><figure><svg class="ring" id="rLift" viewBox="0 0 96 96" role="img" aria-label="Weight carried by the wing"></svg><figcaption class="mono">Wing lift</figcaption></figure><figure><svg class="ring" id="rTime" viewBox="0 0 96 96" role="img" aria-label="Flight time"></svg><figcaption class="mono">Flight time</figcaption></figure></div>
 </section>
 <section class="panel gold detail zcell" id="info" data-name="Details" aria-live="polite">
 <button class="btn icon zbtn info-z mono" type="button" aria-label="Enlarge details">⤢</button>
@@ -936,6 +958,60 @@ function attitude(ps) {
   $('attTxt').innerHTML = 'Pitch ' + sg(pa) + '°<br>Bank ' + sg(ps.roll / D2R) + '°';
 }
 
+/* ---------- segmented ring gauges (built once, then only recoloured) ---------- */
+function ringInit(svg) {
+  const NS = 'http://www.w3.org/2000/svg', r = 48, rr = 36, mk = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); svg.append(e); return e; };
+  const segs = [];
+  for (let i = 0; i < 40; i++) { const a0 = -Math.PI / 2 + TAU * i / 40 + 0.02, a1 = a0 + TAU / 40 - 0.05;
+    segs.push(mk('path', { class: 'sg', d: `M${(r + rr * Math.cos(a0)).toFixed(1)} ${(r + rr * Math.sin(a0)).toFixed(1)}A${rr} ${rr} 0 0 1 ${(r + rr * Math.cos(a1)).toFixed(1)} ${(r + rr * Math.sin(a1)).toFixed(1)}` })); }
+  for (let i = 0; i < 60; i++) { const a = -Math.PI / 2 + TAU * i / 60, L = i % 5 ? 2.5 : 5, ro = 46.5;
+    mk('line', { class: 'tk' + (i % 5 ? '' : ' big'), x1: r + ro * Math.cos(a), y1: r + ro * Math.sin(a), x2: r + (ro - L) * Math.cos(a), y2: r + (ro - L) * Math.sin(a) }); }
+  const num = mk('text', { class: 'num', x: r, y: r + 8, 'text-anchor': 'middle' });
+  svg._r = { segs, num, key: '' };
+}
+function ringSet(svg, frac, text, unit, col) {
+  if (!svg._r) ringInit(svg);
+  const on = Math.round(40 * Math.max(0, Math.min(1, frac))), key = on + text + col;
+  if (svg._r.key === key) return; svg._r.key = key;
+  svg._r.segs.forEach((p, i) => { p.style.stroke = i < on ? col : ''; p.style.filter = i < on ? `drop-shadow(0 0 2px ${col})` : ''; });
+  svg._r.num.textContent = text; if (unit) { const u = document.createElementNS('http://www.w3.org/2000/svg', 'tspan'); u.setAttribute('class', 'unit'); u.style.fill = col; u.textContent = unit; svg._r.num.append(u); }
+  svg.setAttribute('aria-label', svg.getAttribute('aria-label').split(':')[0] + ': ' + text + (unit || ''));
+}
+function output(ps) {
+  const g = WING[wng], avail = g.slots * SLOT, thrF = ps.T / avail, ftm = flightTime(thr, wng);
+  ringSet($('rThr'), thrF, String(Math.round(thrF * 100)), '%', thrF > 1 ? '#ff94c8' : thrF > 0.9 ? '#ffe6a3' : '#7fdcff');
+  ringSet($('rLift'), ps.L / W, String(Math.round(ps.L / W * 100)), '%', '#8ff0c0');
+  ringSet($('rTime'), ftm / 15, ftm <= 0 ? '0' : ftm < 1 ? String(Math.round(ftm * 60)) : String(Math.round(ftm)), ftm > 0 && ftm < 1 ? 's' : 'm', ftm < 1 ? '#ff94c8' : ftm < 3 ? '#ffe6a3' : '#7fdcff');
+  $('outTW').textContent = 'T/W ' + (avail / W).toFixed(2) + ' : 1';
+  /* the alert plate: problems with the setup first, then live limits */
+  let msg = '', red = false;
+  if (ftm <= 0) { msg = '⚠ Too little fuel to take off'; red = true; }
+  else if (avail < W) { msg = '⚠ No hover · thrust ' + fmtN(avail) + ' < weight ' + fmtN(W) + ' N'; }
+  else if (thrF > 1) { msg = '⚠ Over thrust limit · ' + Math.round(thrF * 100) + '% throttle'; red = true; }
+  else if (thrF > 0.92) { msg = '⚠ Near thrust limit · ' + Math.round(thrF * 100) + '% throttle'; }
+  const pl = $('kAlert'); pl.hidden = !msg; pl.classList.toggle('red', red); if ($('kAlertT').textContent !== msg) $('kAlertT').textContent = msg;
+}
+/* heading: banking turns the flier; turn rate = g · tan(bank) / speed */
+let HDG = 0;
+function heading(ps, dt) {
+  if (flying && ps.v > 5) HDG = (HDG + 9.81 * Math.tan(ps.roll) / (ps.v / 3.6) * dt / 1000 + TAU) % TAU;
+  const hc = $('hdgC'), [w, h, dpr] = size(hc), c = hc.getContext('2d');
+  if (!w) return;
+  const R = w / 2 - 3; c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  c.save(); c.translate(w / 2, h / 2);
+  c.fillStyle = 'rgba(127,220,255,0.06)'; c.beginPath(); c.arc(0, 0, R, 0, TAU); c.fill();
+  c.strokeStyle = 'rgba(160,170,255,0.6)'; c.lineWidth = 1; c.stroke();
+  c.rotate(-HDG);                                     /* the card turns so the heading is always at the top */
+  for (let d = 0; d < 360; d += 10) { const a = d * D2R, L = d % 30 ? 4 : 8; c.strokeStyle = d % 90 ? 'rgba(127,220,255,0.55)' : '#7fdcff'; c.beginPath(); c.moveTo(Math.sin(a) * (R - 2), -Math.cos(a) * (R - 2)); c.lineTo(Math.sin(a) * (R - 2 - L), -Math.cos(a) * (R - 2 - L)); c.stroke(); }
+  c.font = "700 10px 'JetBrains Mono', ui-monospace, monospace"; c.textAlign = 'center'; c.textBaseline = 'middle';
+  for (const [t, d] of [['N', 0], ['E', 90], ['S', 180], ['W', 270]]) { const a = d * D2R; c.fillStyle = t === 'N' ? '#ffe6a3' : '#a9b0dc'; c.fillText(t, Math.sin(a) * (R - 20), -Math.cos(a) * (R - 20)); }
+  c.restore();
+  c.save(); c.translate(w / 2, h / 2); c.fillStyle = '#ffe6a3'; c.beginPath(); c.moveTo(0, -R + 1); c.lineTo(-5, -R + 9); c.lineTo(5, -R + 9); c.closePath(); c.fill();
+  c.strokeStyle = '#ffe6a3'; c.lineWidth = 2; c.beginPath(); c.moveTo(0, -6); c.lineTo(0, 6); c.moveTo(-5, 0); c.lineTo(5, 0); c.stroke(); c.restore();
+  const deg = Math.round(HDG / D2R) % 360, pts = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  $('hdgTxt').innerHTML = 'Heading<br>' + String(deg).padStart(3, '0') + '° ' + pts[Math.round(deg / 45) % 8];
+}
+
 /* ---------- thrust needed vs speed ---------- */
 function buildCurve() { CURVE = []; for (let v = 0; v <= VMAX; v += 2) CURVE.push([v, forces(v, wng).T]); }
 function chart(ps) {
@@ -953,16 +1029,28 @@ function chart(ps) {
   x.textAlign = 'center'; x.textBaseline = 'top';
   for (const v of [0, 50, 100, 150, 200]) x.fillText(v, X(v), h - B + 4);
   x.textAlign = 'right'; x.fillText('km/h', w - R, h - B + 4 - (BIG ? 15 : 11));
+  /* labels go in the first candidate spot that the curve and earlier labels leave free */
+  const boxes = [], hit = (a, b) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3];
+  const curveIn = bx => CURVE.some(([v, f]) => { const px = X(v), py = Y(f); return px >= bx[0] - 2 && px <= bx[2] + 2 && py >= bx[1] - 3 && py <= bx[3] + 3; });
+  const label = (text, col, spots) => {
+    const tw = x.measureText(text).width, th = BIG ? 13 : 10;
+    const boxOf = ([ax, ay, al, ab]) => { const x0 = al === 'right' ? ax - tw : al === 'center' ? ax - tw / 2 : ax, y0 = ab === 'bottom' ? ay - th : ay; return [Math.max(L, x0), y0, Math.min(w - R, x0 + tw), y0 + th]; };
+    const pick = spots.find(sp => { const bx = boxOf(sp); return bx[2] - bx[0] >= tw - 1 && bx[1] >= T && bx[3] <= T + ph && !curveIn(bx) && !boxes.some(o => hit(o, bx)); }) || spots[0];
+    const bx = boxOf(pick); boxes.push(bx); x.fillStyle = col; x.textAlign = 'left'; x.textBaseline = 'top'; x.fillText(text, bx[0], bx[1]);
+  };
   let over = false;                                  /* where the setup cannot make enough thrust */
   x.fillStyle = 'rgba(255,148,200,0.2)';
   for (let i = 0; i < CURVE.length - 1; i++) if (CURVE[i][1] > avail) { over = true; x.fillRect(X(CURVE[i][0]), Y(CURVE[i][1]), X(CURVE[i + 1][0]) - X(CURVE[i][0]) + 0.5, Y(avail) - Y(CURVE[i][1])); }
   x.strokeStyle = '#ffe6a3'; x.setLineDash([4, 4]); x.beginPath(); x.moveTo(L, Y(avail)); x.lineTo(w - R, Y(avail)); x.stroke(); x.setLineDash([]);
-  x.fillStyle = '#f0f2ff'; x.textAlign = 'right'; x.textBaseline = 'bottom'; x.fillText('AVAILABLE ' + fmtN(avail) + ' N', w - R, Y(avail) - 2);
+  const ya = Y(avail); label('AVAILABLE ' + fmtN(avail) + ' N', '#f0f2ff', [[L + 4, ya - 2, 'left', 'bottom'], [w - R, ya - 2, 'right', 'bottom'], [L + 4, ya + 3, 'left', 'top'], [w - R, ya + 3, 'right', 'top'], [L + pw / 2, ya - 2, 'center', 'bottom']]);
   if (g.vmin) {
     x.strokeStyle = 'rgba(160,170,255,0.6)'; x.setLineDash([2, 3]); x.beginPath(); x.moveTo(X(g.vmin), T); x.lineTo(X(g.vmin), T + ph); x.stroke(); x.setLineDash([]);
-    x.fillStyle = '#a9b0dc'; x.textAlign = 'left'; x.textBaseline = 'top'; x.fillText('WING-BORNE', X(g.vmin) + 3, Y(avail) + 4 > T + ph - 12 ? T + 2 : Y(avail) + 4);
+    label('WING-BORNE', '#a9b0dc', [[X(g.vmin) + 3, T + 2, 'left', 'top'], [X(g.vmin) + 3, ya + 4, 'left', 'top'], [X(g.vmin) - 3, T + 2, 'right', 'top'], [X(g.vmin) + 3, T + ph - 2, 'left', 'bottom']]);
   }
-  if (over) { x.fillStyle = '#ff94c8'; x.textAlign = 'left'; x.textBaseline = 'bottom'; x.fillText('NOT ENOUGH THRUST', X(g.vmin ? 2 : 120), Y(avail) - 2 - (g.vmin ? 0 : 12)); }
+  if (over) {                                        /* near the shaded shortfall, wherever there is room */
+    const sv = CURVE.filter(([, f]) => f > avail).map(([v]) => v), mid = X((Math.min(...sv) + Math.max(...sv)) / 2);
+    label('▲ NOT ENOUGH THRUST', '#ff94c8', [[mid, ya + 4, 'center', 'top'], [w - R, ya + 4, 'right', 'top'], [L + 4, ya + 4, 'left', 'top'], [mid, ya + 18, 'center', 'top'], [w - R, ya + 18, 'right', 'top'], [L + 4, ya + 18, 'left', 'top'], [L + pw / 2, T + ph - 2, 'center', 'bottom']]);
+  }
   x.strokeStyle = '#7fdcff'; x.lineWidth = BIG ? 3 : 2; x.lineJoin = 'round'; x.beginPath();
   CURVE.forEach(([v, f], i) => i ? x.lineTo(X(v), Y(f)) : x.moveTo(X(v), Y(f))); x.stroke();
   if (hoverV !== null) {
@@ -1056,7 +1144,7 @@ function frame(t) {
   const dt = last ? Math.min(t - last, 60) : 0; last = t;
   if (flying) ft += dt;
   const ps = pose();
-  float(t, ps); attitude(ps); chart(ps); forcePanel(ps);
+  float(t, ps); attitude(ps); heading(ps, dt); chart(ps); forcePanel(ps); output(ps);
   if (!paused && !drag) yaw += dt * 0.0006;
   draw(t);
   requestAnimationFrame(frame);
